@@ -3,12 +3,82 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontpage</title>
+    <title>GetYourRoute</title>
+    <link rel="stylesheet" href="css/fonts/css/all.css" type="text/css">
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">LOGO</a>
 
+            <section class="navbar">
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-headset"></i></a></li>
+                    <li><a href="#"><i class="fa-solid fa-heart"></i></a></li>
+                    <li><a href="#"><i class="fa-regular fa-circle-user"></i></a></li>
+                </ul>
+            </section>
+        </nav>
+    </header>
+    <main>
+        <header class="main-header">
+            <img src="resources/img-1.jpeg" alt="illustrated picture of a house in norway, with a red roof.">
+            <section class="search-form">
+                <fieldset>
+                    <legend>Hei, hvor vil du utforske?</legend>
+                    <form action="" method="GET">
+                        <section class="options">
+                            <label for="trip"></label>
+                            <select name="trip" id="trip">
+                                <option value="round_trip">Tur/Retur</option>
+                                <option value="one_way">Én vei</option>
+                                <option value="several">Flere tur</option>
+                            </select>
+                            <label for="person"></label>
+                            <select name="person" id="person">
+                                <option value="voksen">Voksen</option>
+                                <option value="barn">Barn</option>
+                                <option value="student">Student</option>
+                                <option value="honnør">Honnør</option>
+                            </select>
+                        </section>
+                        <label for="from">From:</label><br>
+                        <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                        <label for="to">To:</label><br>
+                        <input type="text" id="to" name="to" placeholder="Hvor reiser du til?"><br>
+                        <label for="dato">Dato:</label>
+                        <input type="date" id="dato" name="dato">
+                        <label for="tid">Tid:</label>
+                        <input type="time" id="tid" name="tid">
+                        <button>Fortsett</button>
+                    </form>
+                </fieldset>
+            </section>
+        </header>
+    </main>
+    <footer>
+        <section class="footer-info">
+            <ul>
+                <li><a href="#">Kontakt oss</a></li>
+                <li><a href="#">Vilkår</a></li>
+                <li><a href="#">Personvern</a></li>
+                <li><a href="#">Informasjonskapsler</a></li>
+                <li><a href="#">Tilgjengelighetserklæring</a></li>
+            </ul>
+        </section>
+        <section class="so-me">
+            <ul>
+                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+            </ul>
+        </section>
+    </footer>
 </body>
 
 </html>
