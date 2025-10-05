@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Frontend -> REST_API: GET /api/touristsights?name={query}
+REST_API -> TouristSightService: getTouristSight(name)
+TouristSightService -> TouristSightRepository: findByName(name)
+TouristSightRepository -> MySQL: SELECT * FROM tourist_sights WHERE name = ?
+MySQL --> TouristSightRepository: touristsight record
+TouristSightRepository --> TouristSightService: TouristSight entity
+TouristSightService --> REST_API: TouristSightDTO
+REST_API --> Frontend: 200 OK + TouristSightDTO (JSON)
+@enduml

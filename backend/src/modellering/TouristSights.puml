@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class TouristSight {
+    - name: String
+    - longitude: double
+    - latitude: double
+}
+
+class Turist {
+    - person: Person
+    - touristSight: TouristSight
+}
+
+
+@enduml
