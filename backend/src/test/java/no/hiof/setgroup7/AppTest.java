@@ -1,4 +1,4 @@
-package no.hiof.setgroup7;
+package test.java.no.hiof.setgroup7;
 
 import static org.junit.Assert.assertTrue;
 
