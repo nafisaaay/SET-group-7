@@ -1,0 +1,16 @@
+@startuml
+package "Service" {
+    class TripService {
+        + getTrip(TripRequest request) : TripResponse
+    }
+}
+
+package "DTO" {
+    class TripRequest
+    class TripResponse
+}
+
+TripService ..> TripRequest : uses
+TripService ..> TripResponse : returns
+@enduml
+

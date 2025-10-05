@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Trip {
+    - from: List<map(String, string)>
+    - to: List<map(String, string)>
+    - numTripPatterns: int
+    - dateTime: ZonedDateTime
+}
+
+class TripPattern {
+    - duration: Duration
+    - legs: List<Leg>
+    - startTime: ZonedDateTime
+    - endTime: ZonedDateTime
+}
+
+class Leg {
+    - distance: int
+    - expectedStartTime: ZonedDateTime
+    - expectedEndTime: ZonedDateTime
+    - fromPlace: String
+    - toPlace: String
+    - line: List<Line>
+    - steps: List<Step>
+}
+
+class Line {
+    - transportMode: String
+    - name: String
+}
+
+class Step {
+    - distance: double
+    - heading: String
+    - streetName: String
+    - stayOn: boolean
+    - relativeDirection: String
+}
+
+class TripRequest {
+    - from: List<map(String, string)>
+    - to: List<map(String, string)>
+    - numTripPatterns: int
+    - dateTime: ZonedDateTime
+}
+
+class TripResponse {
+    - tripPatterns: List<TripPattern>
+    - duration: Duration
+    - endTime: ZonedDateTime
+    - startTime: ZonedDateTime
+    - legs: List<Leg>
+}
+
+class Person {
+    - name: String
+    - age: int
+    - alderGruppe: String
+}
+
+class Ticket {
+    - route: Route
+    - typeOfTicket: List<oneWay, roundTrip, several>
+    - person: Person
+}
+
+Trip ..> TripPattern
+TripPattern ..> Leg
+Leg ..> Line
+Leg ..> Step
+
+
+@enduml

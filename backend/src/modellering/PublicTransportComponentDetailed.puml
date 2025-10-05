@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+package "Frontend" {
+    component Frontend_UI
+}
+
+package "Backend" {
+    component REST_API
+
+    package "Server logic" {
+        component TripService
+        component TouristSightService
+        component DTOs
+    }
+
+    package "Persistence" {
+        component Repository
+        database MySQL
+    }
+
+    component EnturClient
+}
+
+Frontend_UI --> REST_API
+REST_API --> TripService
+TripService --> EnturClient
+TripService --> Repository
+Repository --> MySQL
+
+Frontend_UI --> TouristSightService
+TouristSightService --> Repository
+@enduml
