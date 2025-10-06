@@ -1,0 +1,39 @@
+@startsalt
+
+/'Wireframe for innlogging'/
+{
+  Login    | "Email "
+  Password | "****     "
+  [Cancel] | [  OK   ]
+}
+
+@endsalt
+
+/'Wireframe for ruter input-form'/
+@startsalt
+{
+  ^Velg tur-type (eg. tur og retur, en vei tur ...))^
+  ^Velg aldergruppe (eg. voksen, student ...))^
+
+  From: | "Hvor reiser du fra?"
+  To: | "Hvor reiser du til?"
+  Dato: | "dd.mm.åååå <&calendar>"
+  Tid: | "--:-"
+  [Fortsett]
+}
+
+@endsalt
+
+/'Wireframe for visning av ruter'/
+
+@startsalt
+{+
+  Reisevarighet: 2t 30min
+  Fra: Oslo S - 20:30 (Avreisestid)
+  Transportselskap: Vy
+  Transporttype: tog
+  To: Halden Stasjon - 22:20 (Ankomsttid)
+}
+@endsalt
+
+
