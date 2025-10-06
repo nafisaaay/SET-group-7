@@ -1,4 +1,4 @@
-package main.java.no.hiof.setgroup7;
+package no.hiof.setgroup7;
 
 /**
  * Hello world!
