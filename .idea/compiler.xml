@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="kollektivtransport-webapp" />
+        <module name="backend" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kollektivtransport-webapp" target="24" />
+      <module name="SET-group-7" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
