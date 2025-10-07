@@ -1,0 +1,28 @@
+# === IntelliJ & IDE ===
+.idea/
+*.iml
+out/
+
+# === Java / Maven ===
+target/
+*.class
+*.log
+
+# === React / Node frontend ===
+node_modules/
+dist/
+build/
+
+# === OS-spesifikke filer ===
+.DS_Store
+Thumbs.db
+
+# === Environment / API keys ===
+.env
+.env.local
+*.properties
+
+# === Misc ===
+*.jar
+*.war
+*.ear
