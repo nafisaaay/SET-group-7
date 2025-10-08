@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>GetYourRoute</title>
-    <link rel="stylesheet" href="css/fonts/css/all.css" type="text/css">
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    
 </head>
 
 <body>
@@ -27,12 +27,14 @@
     </header>
     <main>
         <header class="main-header">
+<!--
             <img src="resources/img-1.jpeg" alt="illustrated picture of a house in norway, with a red roof.">
+-->
             <section class="search-form">
                 <fieldset>
                     <legend>Hei, hvor vil du utforske?</legend>
-                    <form action="" method="GET">
-                        <section class="options">
+                    <form id="tripForm" action="#" method="POST">
+                    <section class="options">
                             <label for="trip"></label>
                             <select name="trip" id="trip">
                                 <option value="round_trip">Tur/Retur</option>
@@ -51,13 +53,25 @@
                         <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
                         <label for="to">To:</label><br>
                         <input type="text" id="to" name="to" placeholder="Hvor reiser du til?"><br>
-                        <label for="dato">Dato:</label>
-                        <input type="date" id="dato" name="dato">
-                        <label for="tid">Tid:</label>
-                        <input type="time" id="tid" name="tid">
-                        <button>Fortsett</button>
+                        <label for="date">Dato:</label>
+                        <input type="date" id="date" name="date">
+                        <label for="time">Tid:</label>
+                        <input type="time" id="time" name="time">
+                        <button type="submit">Fortsett</button>
                     </form>
                 </fieldset>
+            </section>
+
+            <section class="display">
+                <div class="journey-duration">Reise varigheten</div>
+                <div class="from-result">
+                    <span class="fra">Fra: <span class="stedNavn">Sted navn - <span class="avreisetid">Avreisetid</span></span></span>
+                    <div><span class="name">Name: </span></div>
+                    <div><span class="transportmode">Transportmode:</span></div>
+                </div>
+                <div class="to-result">
+                    <span class="fra">Til: <span class="stedNavn">Sted navn - <span class="avreisetid">Ankomsttid</span></span></span>
+                </div>
             </section>
         </header>
     </main>
@@ -80,5 +94,5 @@
         </section>
     </footer>
 </body>
-
+<script src="script.js" ></script>
 </html>
