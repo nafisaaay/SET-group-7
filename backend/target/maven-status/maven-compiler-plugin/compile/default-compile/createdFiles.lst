@@ -1,0 +1,16 @@
+no\hiof\setgroup7\DTOs\TripInputDTO.class
+no\hiof\setgroup7\App.class
+no\hiof\setgroup7\integration\EnturClient.class
+no\hiof\setgroup7\controller\TripValidator.class
+no\hiof\setgroup7\model\Step.class
+no\hiof\setgroup7\DTOs\TripResponse.class
+no\hiof\setgroup7\service\TripService.class
+no\hiof\setgroup7\DTOs\TripRequest.class
+no\hiof\setgroup7\model\TripPattern.class
+no\hiof\setgroup7\controller\TripController.class
+no\hiof\setgroup7\model\To.class
+no\hiof\setgroup7\model\Trip.class
+no\hiof\setgroup7\model\From.class
+no\hiof\setgroup7\model\Leg.class
+no\hiof\setgroup7\model\Line.class
+no\hiof\setgroup7\repository\TripRepository.class

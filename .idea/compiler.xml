@@ -6,12 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="backend" />
+        <module name="backend (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="kollektivtransport-webapp" target="24" />
-      <module name="SET-group-7" target="21" />
+      <module name="backend" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="main" options="--add-modules jdk.internal.opt --add-exports jdk.internal.opt/jdk.internal.joptsimple.internal=ALL-UNNAMED" />
+    </option>
   </component>
 </project>

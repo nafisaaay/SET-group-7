@@ -1,4 +1,4 @@
-package no.hiof.setgroup7.DTO;
+package no.hiof.setgroup7.DTOs;
 
 import no.hiof.setgroup7.model.Leg;
 import no.hiof.setgroup7.model.TripPattern;
