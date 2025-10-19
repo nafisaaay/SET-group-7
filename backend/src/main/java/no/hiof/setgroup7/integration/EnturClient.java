@@ -94,7 +94,7 @@ public class EnturClient {
        HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.entur.io/journey-planner/v3/graphql"))
                 .header("Content-Type", "application/json")
-                .header("ET-Client-Name", "your-app-name")
+                .header("ET-Client-Name", "grupp7-kollektivtransport-app")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
