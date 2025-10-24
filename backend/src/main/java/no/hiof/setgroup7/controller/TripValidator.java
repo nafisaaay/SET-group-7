@@ -16,32 +16,33 @@ public class TripValidator {
 
     TripInputDTO tripInputDTO;
 
+    /*
+     - Validerer data mottatt fra frontend.
+     - Mapper body til TripInputDTO og sjekker at alle påkrevde felter er utfylt.
+    */
     public boolean isValid(Context context) {
 
-        tripInputDTO = context.bodyAsClass(TripInputDTO.class);
+        tripInputDTO = context.bodyAsClass(TripInputDTO.class);  // Vi mapper dataen fra frontend til tripInputDTO klassen for validering
 
+        // Så sjekker om input-feltene er tomme og returnerer enten false eller true avhengig av verdiene av input-feltene
 
-        if (tripInputDTO.getFrom().isEmpty() || tripInputDTO.getFromPlace().isEmpty() ||
-        tripInputDTO.getTo().isEmpty() || tripInputDTO.getToPlace().isEmpty() ||
-        tripInputDTO.getDate().isEmpty() || tripInputDTO.getTime().isEmpty()) {
-            context.status(HttpStatus.BAD_REQUEST)
-                    .result("Error: missing required parameters (eg. from, fromPlace etc...)");
+        if(isNullOrEmpty(tripInputDTO.getFromPlace()) || isNullOrEmpty(tripInputDTO.getToPlace()) ||
+                isNullOrEmpty(tripInputDTO.getDate()) || isNullOrEmpty(tripInputDTO.getTime())) {
             return false;
         }
 
+
         else {
-            System.out.println("Trip request is valid and ready to process!");
             return true;
         }
     }
 
-    public TripInputDTO valid(Context context) {
-        if (isValid(context)) {
-            tripInputDTO = context.bodyAsClass(TripInputDTO.class);
-            return tripInputDTO;
-        }
-        return null;
-    }
 
+    public Boolean isNullOrEmpty(String value) {
+        if (value == null || value.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 
 }

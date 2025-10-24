@@ -4,74 +4,86 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Leg {
-    private int distance;
-    private ZonedDateTime expectedStartTime;
-    private ZonedDateTime expectedEndTime;
-    private String fromPlace;
-    private String toPlace;
-    private List<Line> lines;
+
+    private String mode;
+    private double distance;
+    private String expectedEndTime;
+    private String expectedStartTime;
+    private FromPlace fromPlace;
+    private ToPlace toPlace;
+    private Line line;
     private List<Step> steps;
+
 
     public Leg() {
 
     }
 
-    public Leg(int distance, ZonedDateTime expectedStartTime, ZonedDateTime expectedEndTime, String fromPlace, String toPlace, List<Line> lines, List<Step> steps) {
+    public Leg(String mode, double distance, String expectedEndTime, String expectedStartTime, FromPlace fromPlace, ToPlace toPlace, Line line, List<Step> steps) {
+        this.mode = mode;
         this.distance = distance;
-        this.expectedStartTime = expectedStartTime;
         this.expectedEndTime = expectedEndTime;
+        this.expectedStartTime = expectedStartTime;
         this.fromPlace = fromPlace;
         this.toPlace = toPlace;
-        this.lines = lines;
+        this.line = line;
         this.steps = steps;
     }
 
-    public int getDistance() {
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public ZonedDateTime getExpectedStartTime() {
-        return expectedStartTime;
-    }
-
-    public void setExpectedStartTime(ZonedDateTime expectedStartTime) {
-        this.expectedStartTime = expectedStartTime;
-    }
-
-    public ZonedDateTime getExpectedEndTime() {
+    public String getExpectedEndTime() {
         return expectedEndTime;
     }
 
-    public void setExpectedEndTime(ZonedDateTime expectedEndTime) {
+    public void setExpectedEndTime(String expectedEndTime) {
         this.expectedEndTime = expectedEndTime;
     }
 
-    public String getFromPlace() {
+    public String getExpectedStartTime() {
+        return expectedStartTime;
+    }
+
+    public void setExpectedStartTime(String expectedStartTime) {
+        this.expectedStartTime = expectedStartTime;
+    }
+
+    public FromPlace getFromPlace() {
         return fromPlace;
     }
 
-    public void setFromPlace(String fromPlace) {
+    public void setFromPlace(FromPlace fromPlace) {
         this.fromPlace = fromPlace;
     }
 
-    public String getToPlace() {
+    public ToPlace getToPlace() {
         return toPlace;
     }
 
-    public void setToPlace(String toPlace) {
+    public void setToPlace(ToPlace toPlace) {
         this.toPlace = toPlace;
     }
 
-    public List<Line> getLines() {
-        return lines;
+    public Line getLine() {
+        return line;
     }
 
-    public void setLines(List<Line> lines) {
-        this.lines = lines;
+    public void setLine(Line line) {
+        this.line = line;
     }
 
     public List<Step> getSteps() {
@@ -81,5 +93,4 @@ public class Leg {
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
-
 }

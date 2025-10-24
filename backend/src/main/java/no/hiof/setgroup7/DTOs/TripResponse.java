@@ -9,56 +9,29 @@ import java.util.List;
 
 public class TripResponse {
     private List<TripPattern> tripPatterns;
-    private Duration duration;
-    private ZonedDateTime startTime;
-    private ZonedDateTime endTime;
-    private List<Leg> legs;
 
-    public TripResponse(List<TripPattern> tripPatterns, Duration duration, ZonedDateTime startTime, ZonedDateTime endTime, List<Leg> legs) {
+    public TripResponse(List<TripPattern> tripPatterns) {
         this.tripPatterns = tripPatterns;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.legs = legs;
     }
 
     public List<TripPattern> getTripPatterns() {
         return tripPatterns;
     }
 
-    public void setTripPatterns(List<TripPattern> tripPatterns) {
-        this.tripPatterns = tripPatterns;
+    public TripPattern getTrips() {
+        for (TripPattern trip : tripPatterns) {
+            if (tripPatterns.size() > 0) {
+                return trip;
+            }
+        }
+        return null;
     }
 
-    public Duration getDuration() {
-        return duration;
-    }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    public ZonedDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ZonedDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(ZonedDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public List<Leg> getLegs() {
-        return legs;
-    }
-
-    public void setLegs(List<Leg> legs) {
-        this.legs = legs;
+    @Override
+    public String toString() {
+        return "TripResponse{" +
+                "tripPatterns=" + tripPatterns +
+                '}';
     }
 }

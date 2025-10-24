@@ -4,15 +4,23 @@ import com.google.gson.Gson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.json.JavalinGson;
+import no.hiof.setgroup7.DTOs.DataWrapper;
+import no.hiof.setgroup7.DTOs.EnturResponse;
 import no.hiof.setgroup7.DTOs.TripRequest;
 import no.hiof.setgroup7.DTOs.TripResponse;
+import no.hiof.setgroup7.controller.TripController;
+import no.hiof.setgroup7.controller.TripValidator;
+import no.hiof.setgroup7.model.TripPattern;
+import no.hiof.setgroup7.repository.TripRepository;
 import no.hiof.setgroup7.service.TripService;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,13 +33,24 @@ public class EnturClient {
 
     }
 
+    /*
+     Tar imot TripRequest fra service-laget slik at vi har tilgang til brukerens reisedata.
+    */
     public void getDataFromService(TripRequest tripRequest) {
         this.tripRequest = tripRequest;
     }
 
-    public void sendRequest(Context ctx) {
+    /*
+     - Bygger GraphQL-query med variabler og sender request til Entur API.
+     - Returnerer deretter responsen som TripResponse.
+    */
+
+    public TripResponse sendRequest() {
+
         TripRequest userRequest = tripRequest;
 
+
+        // Henter verdier fra TripRequest-objektet slik at vi har dem klar for bruk i entur query'en.
         String fromPlace = userRequest.getFrom().getPlace();
         String fromName = userRequest.getFrom().getName();
         String toPlace = userRequest.getTo().getPlace();
@@ -39,6 +58,7 @@ public class EnturClient {
         int numTripPatterns = userRequest.getNumTripPatterns();
         String dateTime = userRequest.getDateTime();
 
+        // Bygger query til entur
         query = """
                       query Trip($fromPlace: String!, $toPlace: String!, $numTripPatterns: Int!, $dateTime: DateTime!) {
                         trip(
@@ -53,15 +73,17 @@ public class EnturClient {
                               distance
                               expectedEndTime
                               expectedStartTime
-                              fromPlace { name }
-                              toPlace { name }
-                              line { name transportMode }
+                              fromPlace { name latitude longitude vertexType }
+                              toPlace { name latitude longitude vertexType }
+                              line { id name transportMode }
                               steps {
                                 distance
                                 heading
                                 streetName
                                 stayOn
                                 relativeDirection
+                                latitude
+                                longitude
                               }
                             }
                             startTime
@@ -73,41 +95,58 @@ public class EnturClient {
 
 
 
+        // Lagrer variabelene i key og value slik at vi kan sette de inn GraphQL-spørringen
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("fromPlace", fromPlace);
+        //variables.put("name", fromName);
+        variables.put("toPlace", toPlace);
+        //variables.put("name", toName);
+        variables.put("numTripPatterns", numTripPatterns);
+        variables.put("dateTime", dateTime);
 
-        Map<String, Object> variables = Map.of(
-                "fromPlace", fromPlace,
-                "toPlace", toPlace,
-                "numTripPatterns", numTripPatterns,
-                "dateTime", dateTime
-        );
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("query", query);
+        requestBody.put("variables", variables);
 
-
-        Map<String, Object> requestBody = Map.of(
-                "query", query,
-                "variables", variables
-        );
 
        Gson gson = new Gson();
-       String jsonBody = gson.toJson(requestBody);
+       String jsonBody = gson.toJson(requestBody);  // Konverterer request til JSON
 
+        // Oppretter HTTP-request til Entur API
        HttpClient client = HttpClient.newHttpClient();
        HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.entur.io/journey-planner/v3/graphql"))
                 .header("Content-Type", "application/json")
-                .header("ET-Client-Name", "grupp7-kollektivtransport-app")
+                .header("ET-Client-Name", "gruppe7-kollektivtransport-app")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
         try {
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-            ctx.contentType("application/json");
-            System.out.println(ctx.result(response.body()));
+
+            // Konverterer JSON-respons fra Entur til Java-objekter
+            EnturResponse enturResponse = gson.fromJson(response.body(), EnturResponse.class);
+
+            if (enturResponse.getData() == null || enturResponse.getData().getTrip() == null) {
+                tripResponse = null;
+            }
+
+            else {
+                tripResponse = enturResponse.getData().getTrip();
+            }
+
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            ctx.status(500).result("Feil ved henting av data fra Entur API");
         }
 
+        return tripResponse;
 
     }
+
+
+
+
+
 
 }
