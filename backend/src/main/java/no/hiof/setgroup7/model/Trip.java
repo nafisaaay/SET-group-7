@@ -5,30 +5,30 @@ import java.util.List;
 import java.util.Map;
 
 public class Trip {
-    private List<Map<String, String>> from;
-    private List<Map<String, String>> to;
+    private From from;
+    private To to;
     private final int numTripPatterns = 3;
     private ZonedDateTime dateTime;
 
-    public Trip(List<Map<String, String>> from, List<Map<String, String>> to, ZonedDateTime dateTime) {
+    public Trip(From from, To to, ZonedDateTime dateTime) {
         this.from = from;
         this.to = to;
         this.dateTime = dateTime;
     }
 
-    public List<Map<String, String>> getFrom() {
+    public From getFrom() {
         return from;
     }
 
-    public void setFrom(List<Map<String, String>> from) {
+    public void setFrom(From from) {
         this.from = from;
     }
 
-    public List<Map<String, String>> getTo() {
+    public To getTo() {
         return to;
     }
 
-    public void setTo(List<Map<String, String>> to) {
+    public void setTo(To to) {
         this.to = to;
     }
 

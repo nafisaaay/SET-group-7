@@ -5,51 +5,54 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public class TripPattern {
-    private Duration duration;
+    private int duration;
     private List<Leg> legs;
-    private ZonedDateTime startTime;
-    private ZonedDateTime endTime;
+    private String endTime;
+    private String startTime;
 
     public TripPattern() {
 
     }
 
-    public TripPattern(Duration duration, List<Leg> legs, ZonedDateTime startTime, ZonedDateTime endTime) {
+    public TripPattern(int duration, List<Leg> legs, String startTime, String endTime) {
         this.duration = duration;
         this.legs = legs;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public Duration getDuration() {
+    public int getDuration() {
         return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
     }
 
     public List<Leg> getLegs() {
         return legs;
     }
 
-    public void setLegs(List<Leg> legs) {
-        this.legs = legs;
+    public Leg getLeg() {
+        for (Leg leg : getLegs()) {
+            if (getLegs().size() >= 0) {
+                return leg;
+            }
+        }
+        return null;
     }
 
-    public ZonedDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ZonedDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(ZonedDateTime endTime) {
-        this.endTime = endTime;
+    @Override
+    public String toString() {
+        return "TripPattern{" +
+                "duration=" + duration +
+                ", legs=" + legs +
+                ", endTime='" + endTime + '\'' +
+                ", startTime='" + startTime + '\'' +
+                '}';
     }
 }
