@@ -90,7 +90,6 @@ public class TripController {
             }
         } catch (NullPointerException npe) {
             System.out.println(npe);
-            context.status(500).result("Uventet feil på serveren");
         }
 
 

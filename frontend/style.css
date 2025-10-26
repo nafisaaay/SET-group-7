@@ -447,3 +447,19 @@ footer {
         text-align: center;
     }
 }
+
+.display {
+    visibility: hidden;
+    border: 3px solid rgba(199, 197, 197, 0.45);;
+    border-radius: 10px;
+    width: 400px;
+    position: absolute;
+    top: 120px;
+    left: 800px;
+    background-color: rgba(246, 243, 243, 0.58);
+    background: rgba(255, 255, 255, 0.84);
+}
+
+.journey-duration {
+    text-align: center;
+}

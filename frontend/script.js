@@ -172,7 +172,8 @@ form.addEventListener("submit", async (e) => {
     console.log(formData);
     const formFieldset = document.querySelector(".form-fieldset");
     formFieldset.style.marginLeft = "-200px";
-
+    const displaySection = document.querySelector(".display");
+    displaySection.style.visibility = "visible";
 
     try {
         const response = await fetch("http://localhost:5000/api/trip", {
@@ -192,7 +193,20 @@ form.addEventListener("submit", async (e) => {
 
         // Lagrer responsen fra backend som json format for å enklere jobbe med det
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
+        //console.log(data.tripPatterns);
+        const duration = secondsToHourMin(data.tripPatterns[0].duration);
+        journeyDuration.textContent = "Reisevarigheten: " + duration;
+        //console.log(duration);
+        fromPlace.textContent = data.tripPatterns[0].legs[0].fromPlace.name;
+        toPlace.textContent = data.tripPatterns[0].legs[0].toPlace.name;
+        departureTime.textContent = new Date(data.tripPatterns[0].startTime);
+        arrivalTime.textContent = new Date(data.tripPatterns[0].endTime);
+        transportId.textContent = "Id: " + data.tripPatterns[0].legs[0].line.id;
+        name.textContent = "Name: " + data.tripPatterns[0].legs[0].line.name;
+        if ((data.tripPatterns[0].legs[0].line.transportMode) === "rail") {
+            transportMode.textContent = "Transporttype: Tog"
+        }
 
 
     } catch (error) {

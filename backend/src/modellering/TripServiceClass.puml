@@ -1,6 +1,8 @@
 @startuml
 package "Service" {
     class TripService {
+        - enturClient: EnturClient
+        + TripService(EnturClient enturClient)
         + getTrip(TripRequest request) : TripResponse
     }
 }
