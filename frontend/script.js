@@ -6,115 +6,143 @@ let fromStopPlaceId;
 let toStopPlaceId;
 let placeInfo = [
     {
-        "from": from.value,
-        "fromStopPlaceId": fromStopPlaceId
+        "from": "",
+        "fromStopPlaceId": ""
     },
     {
-        "to": to.value,
-        "toStopPlaceId": toStopPlaceId
+        "to": "",
+        "toStopPlaceId": ""
     }
 ]
 
 
 let searchTimer;
 const fromSelect = document.createElement("select");
-fromSelect.innerHTML = '';
 fromSelect.id = "from-suggestion-select";
 fromSelect.name = "from-field";
+fromSelect.size = 4;
+
+
 const toSelect = document.createElement("select");
-toSelect.innerHTML = '';
 toSelect.id = "to-suggestion-select";
 toSelect.name = "to-field";
+toSelect.size = 4;
+
+function removeSuggestionSelect(selectElement) {
+    if(selectElement.parentNode) {
+        selectElement.parentNode.removeChild(selectElement);
+    }
+}
+
+function setUpSuggestionSelect(inputElement, selectElement) {
+    selectElement.innerHTML = "";   // Sletter tidligere valgmuligheter
+    inputElement.parentNode.insertBefore(selectElement, inputElement.nextSibling); // Legger dropdown elementet nær den input elementet som den hører til
+
+    selectElement.classList.add('suggestion-select');
+    selectElement.style.display = "block";
+}
 
 function placeInfoFinder() {
     from.addEventListener("input",  (e) => {
-        // const option = document.createElement("option");
-        const ul = document.createElement("ul");
+        const value = e.target.value.trim();
+
+        if(value.length < 2) {
+            removeSuggestionSelect(fromSelect);
+            clearTimeout(searchTimer);
+            return;
+        }
+
         clearTimeout(searchTimer);
         searchTimer = setTimeout( async () => {
             try {
-                const req = await fetch(`https://api.entur.io/geocoder/v1/autocomplete?lang=no&text=${from.value}`);
+                const req = await fetch(`https://api.entur.io/geocoder/v1/autocomplete?lang=no&text=${value}`);
                 const reqData = await req.json();
-                formSection.appendChild(fromSelect);
-                fromSelect.style.position = "absolute";
-                fromSelect.style.top = "220px";
-                fromSelect.style.width = "86%";
-                fromSelect.style.height = "45px";
-                fromSelect.style.marginTop = "15px";
 
-                reqData.features.map((item) => {
-                    const option = document.createElement("option");
-                    option.value = item.properties.id;
-                    option.text = item.properties.label;
-                    fromSelect.appendChild(option);
+                if (reqData.features.length > 0) {
+                    setUpSuggestionSelect(from, fromSelect);
 
-                    fromSelect.addEventListener("change", (e) => {
-                        const selectedIndex = e.target.selectedIndex;
-                        const selectedOption = e.target.options[selectedIndex];
-                        from.value = selectedOption.text;
-                        // console.log(selectedOption.value);
-                        placeInfo[0].from = from.value;
-                        placeInfo[0].fromStopPlaceId = selectedOption.value;
+                    reqData.features.map((item) => {
+                        const option = document.createElement("option");
+                        option.value = item.properties.id;
+                        option.text = item.properties.label;
+                        fromSelect.appendChild(option);
+                    });
+                }
 
-                    })
-                })
-
+                else {
+                    removeSuggestionSelect(fromSelect);
+                }
             }
 
             catch (e) {
-                console.error(e);
+                console.error("Error ved henting av from suggestions: " + e);
+                removeSuggestionSelect(fromSelect)
             }
 
-            }, 1000)
+            }, 300)
 
         })
 
-    to.addEventListener("input",  (e) => {
-        const ul = document.createElement("ul");
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout( async () => {
-            try {
-                const req = await fetch(`https://api.entur.io/geocoder/v1/autocomplete?lang=no&text=${to.value}`);
-                const reqData = await req.json();
-                formSection.appendChild(toSelect);
-                toSelect.style.position = "absolute";
-                toSelect.style.top = "350px";
-                toSelect.style.width = "86%";
-                toSelect.style.height = "45px";
-                toSelect.style.marginTop = "15px";
+    fromSelect.addEventListener("change", (e) => {
+        const selectedIndex = e.target.selectedIndex;
+        const selectedOption = e.target.options[selectedIndex];
 
-                reqData.features.map((item) => {
-                    const option = document.createElement("option");
-                    option.value = item.properties.id;
-                    option.text = item.properties.label;
-                    toSelect.appendChild(option);
-
-                    toSelect.addEventListener("change", (e) => {
-                        const selectedIndex = e.target.selectedIndex;
-                        const selectedOption = e.target.options[selectedIndex];
-                        to.value = selectedOption.text;
-                        // console.log(selectedOption.value);
-                        placeInfo[1].to = to.value;
-                        placeInfo[1].toStopPlaceId = selectedOption.value;
-
-                    })
-                })
-
-            }
-
-            catch (e) {
-                console.error(e);
-            }
-
-        }, 1000)
-
+        from.value = selectedOption.text;
+        placeInfo[0].from = from.value;
+        placeInfo[0].fromStopPlaceId = selectedOption.value;
+        removeSuggestionSelect(fromSelect);
     })
+
+    to.addEventListener("input", async (e) => {
+        const value = e.target.value.trim();
+        if (value.length < 2) {
+            removeSuggestionSelect(toSelect);
+            clearTimeout(searchTimer);
+            return;
+        }
+
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(async () => {
+            try {
+                const req = await fetch(`https://api.entur.io/geocoder/v1/autocomplete?lang=no&text=${value}`);
+                const reqData = await req.json();
+
+                if (reqData.features.length  > 0) {
+                    setUpSuggestionSelect(to, toSelect);
+                    reqData.features.map((item) => {
+                        const option = document.createElement("option");
+                        option.value = item.properties.id;
+                        option.text = item.properties.label;
+                        toSelect.appendChild(option);
+                    });
+                } else {
+                    removeSuggestionSelect(toSelect);
+                }
+
+            } catch (e) {
+                console.error("Error ved henting av to suggestions: " + e);
+                removeSuggestionSelect(toSelect);
+            }
+        }, 300);
+    });
+
+
+    toSelect.addEventListener("change", (e) => {
+        const selectedIndex = e.target.selectedIndex;
+        const selectedOption = e.target.options[selectedIndex];
+
+        to.value = selectedOption.text;
+        placeInfo[1].to = to.value;
+        placeInfo[1].toStopPlaceId = selectedOption.value;
+
+        removeSuggestionSelect(toSelect);
+    });
 
 }
 
 
 placeInfoFinder();
-
+console.log(placeInfo);
 
 
 form.addEventListener("submit", async (e) => {
@@ -132,8 +160,8 @@ form.addEventListener("submit", async (e) => {
         time: document.getElementById("time").value
     };
     console.log(formData);
-    /*console.log(placeInfo[0]);*/
-
+    const formFieldset = document.querySelector(".form-fieldset");
+    formFieldset.style.marginLeft = "-200px";
 
 
     try {
@@ -142,8 +170,12 @@ form.addEventListener("submit", async (e) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         });
-        console.log(await response.text());
+        //console.log(await response.text());
     } catch (error) {
         console.error(error);
     }
+
+
 });
+
+

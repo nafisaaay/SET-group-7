@@ -5,38 +5,37 @@
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="script.js" defer></script>
     <title>GetYourRoute</title>
 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">LOGO</a>
-
-            <section class="navbar">
-                <ul>
-                    <li><a href="#"><i class="fa-solid fa-headset"></i></a></li>
-                    <li><a href="#"><i class="fa-solid fa-heart"></i></a></li>
-                    <li><a href="#"><i class="fa-regular fa-circle-user"></i></a></li>
-                </ul>
-            </section>
-        </nav>
-    </header>
-    <main>
-        <header class="main-header">
-
-<!--
+<header>
+    <nav>
+        <a href="index.html" class="logo">LOGO</a>
+        <section class="navbar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-headset"></i>KUNDESERVICE</a></li>
+                <li><a href="#"><i class="fa-solid fa-heart"></i>LAGREDE RUTER</a></li>
+                <li><a href="#"><i class="fa-regular fa-circle-user"></i>MIN SIDE</a></li>
+            </ul>
+        </section>
+    </nav>
+</header>
+<main>
+    <header class="main-header">
+        <div class="container">
             <img src="resources/img-1.jpeg" alt="illustrated picture of a house in norway, with a red roof.">
--->
-
             <section class="search-form">
-                <fieldset>
-                    <legend>Hei, hvor vil du utforske?</legend>
+                <fieldset class="form-fieldset">
+                    <legend>
+                        <h1>Hei, hvor vil du utforske?</h1>
+                    </legend>
                     <form id="tripForm" action="#" method="POST">
-                    <section class="options">
+                        <section class="options">
                             <label for="trip"></label>
                             <select name="trip" id="trip">
                                 <option value="round_trip">Tur/Retur</option>
@@ -51,50 +50,138 @@
                                 <option value="honnør">Honnør</option>
                             </select>
                         </section>
-                        <label for="from">From:</label><br>
+                        <label for="from">Fra:</label><br>
                         <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
-                        <label for="to">To:</label><br>
-                        <input type="text" id="to" name="to" placeholder="Hvor reiser du til?"><br>
+                        <label for="to">Til:</label><br>
+                        <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
                         <label for="date">Dato:</label>
                         <input type="date" id="date" name="date">
                         <label for="time">Tid:</label>
                         <input type="time" id="time" name="time">
-                        <button type="submit">Fortsett</button>
+                        <button type="submit" id="tripSearchButton">Fortsett</button>
                     </form>
                 </fieldset>
+                <!--
+                <section class="display">
+                    <div class="journey-duration">Reise varigheten</div>
+                    <div class="from-result">
+                        <span class="fra">Fra: <span class="stedNavn">Sted navn - <span
+                                    class="avreisetid">Avreisetid</span></span></span>
+                        <div><span class="name">Name: </span></div>
+                        <div><span class="transportmode">Transportmode:</span></div>
+                    </div>
+                    <div class="to-result">
+                        <span class="fra">Til: <span class="stedNavn">Sted navn - <span
+                                    class="avreisetid">Ankomsttid</span></span></span>
+                    </div>
+                </section>
+                -->
             </section>
-
-            <section class="display">
-                <div class="journey-duration">Reise varigheten</div>
-                <div class="from-result">
-                    <span class="fra">Fra: <span class="stedNavn">Sted navn - <span class="avreisetid">Avreisetid</span></span></span>
-                    <div><span class="name">Name: </span></div>
-                    <div><span class="transportmode">Transportmode:</span></div>
-                </div>
-                <div class="to-result">
-                    <span class="fra">Til: <span class="stedNavn">Sted navn - <span class="avreisetid">Ankomsttid</span></span></span>
-                </div>
-            </section>
-        </header>
-    </main>
-    <footer>
-        <section class="footer-info">
-            <ul>
-                <li><a href="#">Kontakt oss</a></li>
-                <li><a href="#">Vilkår</a></li>
-                <li><a href="#">Personvern</a></li>
-                <li><a href="#">Informasjonskapsler</a></li>
-                <li><a href="#">Tilgjengelighetserklæring</a></li>
-            </ul>
+        </div>
+    </header>
+    <section class="main-section">
+        <img src="resources/img3.jpeg" alt="" id="main-section-img">
+        <article>
+            <h1>Utforsk Norge med buss, tog og båt!</h1>
+            <p>Sed euismod vehicula neque, in aliquam felis consequat at.
+                Duis quis diam sed ligula vehicula lacinia non et elit.
+                Duis et libero at arcu vestibulum aliquet.
+                Nulla cursus eros et urna congue dignissim.
+                Vestibulum leo erat, egestas quis euismod volutpat, consectetur in nibh.
+            </p>
+            <a href="#">Les mer om turen her</a>
+        </article>
+    </section>
+    <div class="main-slider">
+        <h2>Usikker? Sjekk ut disse rutene:</h2>
+        <section id="route-tips">
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>MATELSKEREN</h4>
+                <details open>
+                    <summary>MATELSKEREN</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>EVENTYREREN</h4>
+                <details open>
+                    <summary>EVENTYREREN</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>HISTORIKEREN</h4>
+                <details open>
+                    <summary>HISTORIKEREN</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>FAMILIETUR</h4>
+                <details open>
+                    <summary>FAMILIETUR</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>NATURELSKEREN</h4>
+                <details open>
+                    <summary>NATURELSKEREN</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
+            <article>
+                <img src="resources/img3.jpeg" alt="">
+                <h4>FESTLØVEN</h4>
+                <details open>
+                    <summary>FESTLØVEN</summary>
+                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                        sed.
+                    </p>
+                    <a href="#">Les mer her</a>
+                </details>
+            </article>
         </section>
-        <section class="so-me">
-            <ul>
-                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-            </ul>
-        </section>
-    </footer>
+    </div>
+</main>
+<footer>
+    <section class="footer-info">
+        <ul>
+            <li><a href="#">Kontakt oss</a></li>
+            <li><a href="#">Vilkår</a></li>
+            <li><a href="#">Personvern</a></li>
+            <li><a href="#">Informasjonskapsler</a></li>
+            <li><a href="#">Tilgjengelighetserklæring</a></li>
+        </ul>
+    </section>
+    <section class="so-me">
+        <ul>
+            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+        </ul>
+    </section>
+</footer>
 </body>
-<script src="script.js" ></script>
+
 </html>
