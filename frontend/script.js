@@ -4,6 +4,16 @@ const from = document.getElementById("from");
 const to = document.getElementById("to");
 let fromStopPlaceId;
 let toStopPlaceId;
+
+const journeyDuration = document.querySelector(".journey-duration");
+const fromPlace = document.querySelector(".fraStedNavn");
+const departureTime = document.querySelector(".avreisetid");
+const transportId = document.querySelector(".transport-id");
+const name = document.querySelector(".name");
+const transportMode = document.querySelector(".transportmode");
+const toPlace = document.querySelector(".tilStedNavn");
+const arrivalTime = document.querySelector(".ankomsttid");
+
 let placeInfo = [
     {
         "from": "",
@@ -165,17 +175,42 @@ form.addEventListener("submit", async (e) => {
 
 
     try {
-        const response = await fetch("http://localhost:5000/form", {
+        const response = await fetch("http://localhost:5000/api/trip", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         });
-        //console.log(await response.text());
+
+        if (!response.ok) {
+            const text = await response.text();
+            console.log("Error: " + text);
+        }
+
+        if (response.ok) {
+            console.log("Vellykket request og response");
+        }
+
+        // Lagrer responsen fra backend som json format for å enklere jobbe med det
+        const data = await response.json();
+        console.log(data);
+
+
     } catch (error) {
-        console.error(error);
+        console.error("Kunne ikke få data fra backend!");
     }
 
 
+
 });
+
+
+function secondsToHourMin(durationInSeconds) {
+    const seconds = Math.floor(Math.max(0, durationInSeconds));
+    const hours = Math.floor(seconds / 3600);
+    const remainingSecondsAfterHours = (seconds % 3600);
+    const minutes = Math.floor(remainingSecondsAfterHours / 60);
+
+    return hours + " time " + minutes + " min";
+}
 
 
