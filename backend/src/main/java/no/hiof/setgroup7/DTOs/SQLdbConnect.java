@@ -7,7 +7,7 @@ public class SQLdbConnect {
     public void SQLdbConnectMethod() {
 
 
-        String url = "itstud.hiof.no"; // The url for the database, should adjust it for actual one
+        String url = "jdbc:mysql://itstud.hiof.no:3306/se25_G7"; // The url for the database, should adjust it for actual one
         String username = "gruppe7"; //username should be abstracted
         String password = "Summer26"; //should be abstracted again
         Connection connection = null;
