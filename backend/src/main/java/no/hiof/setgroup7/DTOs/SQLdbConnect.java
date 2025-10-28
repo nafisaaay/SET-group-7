@@ -18,6 +18,24 @@ public class SQLdbConnect {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successful connection to the database.");
 
+            String selectView = "SELECT * FROM allPoIData;";
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectView);
+            System.out.println(resultSet);
+
+            while (resultSet.next()) {
+                // Replace 'field1', 'field2', etc., with actual column names from the view
+                String field1 = resultSet.getString("cLat");
+                String field2 = resultSet.getString("cLon");
+                String field3 = resultSet.getString("pName");
+                String field4 = resultSet.getString("Location_Type");
+                String field5 = resultSet.getString("city");
+                String field6 = resultSet.getString("area");
+
+                System.out.println("Latitude: " + field1 + ", Longtitude: " + field2 + ", Name: " + field3 + ", Type: " + field4 + ", Town: " + field5 + ", Area: " + field6);
+            }
+
             /* tested successfully the following query to see if the connection worked
             String createTableSQL = "CREATE TABLE Car ("
                     + "brand VARCHAR(50), "
@@ -25,14 +43,12 @@ public class SQLdbConnect {
 
              */
 
-            Statement statement = connection.createStatement();
-            statement.execute(createTableSQL);
-            System.out.println("Table 'Car' created successfully.");
+            statement.execute(selectView);
 
             //CallableStatement cs=connection.prepareCall("{call <procedureName(?)>}");
 
-        } catch(SQLException e) {
-            System.err.println("Failed to connect to the database " +e);
+        } catch (SQLException e) {
+            System.err.println("Failed to connect to the database " + e);
 
 
         } finally {
@@ -42,11 +58,13 @@ public class SQLdbConnect {
                     System.out.println("Disconnected successfully.");
                 }
             } catch (SQLException e) {
-                System.err.println("Error closing connection: " +e); }
+                System.err.println("Error closing connection: " + e);
+            }
         }
     }
 
-    public static void main(String[] args) {
+
+        public static void main(String[] args) {
         SQLdbConnect sqLdbConnect = new SQLdbConnect();
 
         sqLdbConnect.SQLdbConnectMethod();
