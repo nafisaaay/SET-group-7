@@ -1,6 +1,6 @@
 # Reiseplanlegger
 
-_GetYourRoute_ er en webapplikasjon som lar brukeren søke etter kollektivreiser i Norge.  
+En webapplikasjon som lar brukeren søke etter kollektivreiser i Norge.  
 Frontend er laget i **HTML, CSS og JavaScript**, og backend er implementert i **Java (Javalin)** med integrasjon mot **Entur GraphQL API** for rutetider.
 
 ---
