@@ -43,7 +43,7 @@ public class TripController {
         if (!tripValidator.isValid(context)) {
             System.out.println("Tomme input-felter!");
             context.status(400)
-                    .result("vennligst fyll ut skjemaen først: (eg. from, to, date osv...)");
+                    .result("Vennligst fyll ut skjemaet først: (eg. from, to, date osv...)");
             return;
         }
 
