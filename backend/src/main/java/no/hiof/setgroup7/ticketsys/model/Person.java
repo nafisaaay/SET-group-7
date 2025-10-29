@@ -1,30 +1,17 @@
 package no.hiof.setgroup7.ticketsys.model;
 import no.hiof.setgroup7.controller.TripController;
+import no.hiof.setgroup7.ticketsys.TicketPrice;
 
-public class Person {
-    protected int age;
-    protected int price;
+public abstract class Person implements TicketPrice {
+    protected final Integer age;
     public TripController tripController;
 
-    public Person(int age, int price) {
-        this.age = age;
-        this.price = price;
-    }
+protected Person(Integer age) {
+    this.age = age;
+}
 
-    public Person(int age) {
-        this.age = age;
-    }
-
-    public int getAge() {
+    public Integer getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getPrice() {
-        return price;
     }
 
     public TripController getTripController() {

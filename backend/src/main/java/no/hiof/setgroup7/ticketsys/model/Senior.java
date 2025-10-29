@@ -1,23 +1,19 @@
 package no.hiof.setgroup7.ticketsys.model;
 import no.hiof.setgroup7.ticketsys.TicketPrice;
 
-public class Senior extends Person implements TicketPrice {
-
-    public Senior(int age, int price) {
-        super(age, price);
-    }
+public final class Senior extends Person {
+    public static final int MIN_AGE = 67;
 
     public Senior(int age) {
         super(age);
+        if (age < MIN_AGE) {
+            throw new IllegalArgumentException("Senior age must be greater than or equal to "+ MIN_AGE);
+        }
     }
 
     @Override
-    public int basePrice() {
-        if(age > 67){
-            price = 18;
-        } else {
-            System.err.println("Error! Age is not over 66.");
-        }
+    public double basePrice() {
+        int price = 20;
         return price;
     }
 }
