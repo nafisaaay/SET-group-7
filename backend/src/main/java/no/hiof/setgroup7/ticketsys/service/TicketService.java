@@ -1,16 +1,22 @@
 package no.hiof.setgroup7.ticketsys.service;
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.model.Leg;
-import no.hiof.setgroup7.ticketsys.TicketPrice;
+import no.hiof.setgroup7.ticketsys.model.Customer;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TicketService {
 
+    private TripResponse tripResponse;
+    private Customer customer;
+
+    public void setTripResponse(TripResponse tripResponse){
+        this.tripResponse = tripResponse;
+    }
+
     // Beregning av distanse (uten gangavstand)
-    public int getResponse(TripResponse tripResponse){
+    public int calculateDistance(){
         List<Leg> listOfLegs = tripResponse.getTrips().getLegs();
         int distance = 0;
         for (Leg leg : listOfLegs) {
@@ -21,21 +27,24 @@ public class TicketService {
         return distanceKm;
     }
 
-    public double calculateDistancePrice(TripResponse tripResponse, TicketPrice customer) {
-        int distanceKm = getResponse(tripResponse);
+    public double calculateDistancePrice() {
+        int distanceKm = calculateDistance();
+        double finalPrice;
 
-        // Hent basePrice via interfacet
-        double basePrice = customer.basePrice();
+        double basePrice = customer.calculateBasePrice();
 
         double pricePerKm = 0.95;
         int thresholdKm = 20;
 
         if (distanceKm < thresholdKm) {
-            return basePrice;
+            finalPrice = basePrice;
         } else {
             double distancePrice = pricePerKm * distanceKm;
-            return basePrice + distancePrice;
+            finalPrice =  basePrice + distancePrice;
         }
+        tripResponse.setCustomerPrice(finalPrice);
+
+        return finalPrice;
     }
 
 }

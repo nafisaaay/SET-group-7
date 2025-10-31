@@ -8,6 +8,8 @@ import no.hiof.setgroup7.model.From;
 import no.hiof.setgroup7.model.To;
 import no.hiof.setgroup7.repository.TripRepository;
 import no.hiof.setgroup7.service.TripService;
+import no.hiof.setgroup7.ticketsys.model.Customer;
+import no.hiof.setgroup7.ticketsys.service.TicketService;
 
 
 import java.time.LocalDate;
@@ -24,13 +26,16 @@ public class TripController {
     TripValidator tripValidator = new TripValidator();
     TripService tripService;
     TripResponse tripResponse;
+    Customer customer;
+    TicketService ticketService;
 
     public TripController(TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 
-    public TripController(TripService tripService) {
+    public TripController(TripService tripService, Customer customer) {
         this.tripService = tripService;
+        this.customer = customer;
     }
 
     /*
@@ -52,6 +57,7 @@ public class TripController {
                 tripInputDTO = context.bodyAsClass(TripInputDTO.class);
                 From fromObj = new From(tripInputDTO.getFromPlace(), tripInputDTO.getFrom());
                 To toObj = new To(tripInputDTO.getToPlace(), tripInputDTO.getTo());
+                customer.getBasePrice(tripInputDTO.getPerson());
 
                 LocalDate localDate = LocalDate.parse(tripInputDTO.getDate());
                 ZoneId zoneId = ZoneId.of("Europe/Oslo");
@@ -85,6 +91,7 @@ public class TripController {
 
             else {
                 context.status(200);
+                System.out.println(tripResponse);
                 context.json(tripResponse);
                 return;
             }

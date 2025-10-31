@@ -9,6 +9,11 @@ import java.util.List;
 
 public class TripResponse {
     private List<TripPattern> tripPatterns;
+    private double customerPrice;
+
+    public void setCustomerPrice(double customerPrice) {
+        this.customerPrice = customerPrice;
+    }
 
     public TripResponse(List<TripPattern> tripPatterns) {
         this.tripPatterns = tripPatterns;
@@ -31,7 +36,7 @@ public class TripResponse {
     @Override
     public String toString() {
         return "TripResponse{" +
-                "tripPatterns=" + tripPatterns +
+                "tripPatterns=" + tripPatterns + "Price= " + customerPrice +
                 '}';
     }
 }
