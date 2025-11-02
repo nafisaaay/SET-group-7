@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nb">
+<html lang="nb" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
     <title>GetYourRoute</title>
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -62,23 +63,74 @@
                     </form>
                 </fieldset>
 
-                <section class="display">
-                    <div class="journey-duration">Reise varigheten</div>
-                    <div class="from-result">
-                        <span class="fra">Fra: <span class="fraStedNavn">Sted navn </span></span>
-                        <span class="avreisetid">Avreisetid</span>
-                        <div><span class="transport-id">Id: </span></div>
-                        <div><span class="name">Name: </span></div>
-                        <div><span class="transportmode">Transportmode:</span></div>
-                    </div>
-                    <div class="to-result">
-                        <span class="fra">Til: <span class="tilStedNavn">Sted navn </span></span>
-                        <span class="ankomsttid">Ankomsttid</span>
-                    </div>
+                <section class="trip-results-display">
+                    <template class="summary-header-template">
+                        <div class="summary-header">
+                            <h2 class="result-title">Reiserute funnet</h2>
+                            <div class="journey-duration">
+                                <i class="fa-solid fa-clock"></i>
+                                Total varighet: <span class="duration-value"></span>
+                            </div>
+                        </div>
+                    </template>
+
+
+                    <template class="trip-details-template">
+                        <div class="trip-details">
+
+                            <div class="from-result result-point">
+                                <span class="label">Fra:</span>
+                                <span class="location-name fraStedNavn">Sted navn</span>
+                                <span class="time departure-time avreisetid">--:--</span>
+                            </div>
+
+                            <div class="transport-leg-details">
+                                <div class="transportmode-line-info">
+                                    <div class="transport-mode transportmode">Transporttype:</div>
+                                    <span class="line-id name">Linjeid: </span> </br>
+                                    <span class="line-name name">Linjenavn: </span>
+                                </div>
+                            </div>
+
+                            <div class="to-result result-point">
+                                <span class="label">Til:</span>
+                                <span class="location-name tilStedNavn">Sted navn</span>
+                                <span class="time arrival-time ankomsttid">--:--</span>
+                            </div>
+
+
+
+                        </div>
+                    </template>
+
+                    <template class="trip-kart-template">
+                        <div class="steps-details-display">
+                            <div class="steps-result-from ">
+                                <span class="label">Fra:</span>
+                                <span class="location-name fraStedNavn">Sted navn</span>
+                            </div>
+
+                            <div class="steps-details">
+                                <span class="avstand">Avstand</span>
+                            </div>
+
+                            <div class="steps-result-to">
+                                <span class="label">Til:</span>
+                                <span class="location-name tilStedNavn">Sted navn</span>
+                            </div>
+                        </div>
+                    </template>
                 </section>
                 </section>
         </div>
     </header>
+
+    <div class="map-section">
+        <h2>🗺️ Reiseinstruksjoner</h2>
+        <div id="map"></div>
+    </div>
+
+
     <section class="main-section">
         <img src="resources/img3.jpeg" alt="" id="main-section-img">
         <article>

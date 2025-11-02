@@ -448,18 +448,67 @@ footer {
     }
 }
 
-.display {
-    visibility: hidden;
-    border: 3px solid rgba(199, 197, 197, 0.45);;
+
+
+.trip-results-display {
+    border: 3px solid tomato;
     border-radius: 10px;
+    padding: 10px;
     width: 400px;
     position: absolute;
-    top: 120px;
-    left: 800px;
-    background-color: rgba(246, 243, 243, 0.58);
-    background: rgba(255, 255, 255, 0.84);
+    top: 190px;
+    left: 750px;
+    background-color: rgba(255, 255, 255, 0.49);
+    visibility: hidden;
+}
+
+
+.result-title {
+    text-align: center;
 }
 
 .journey-duration {
-    text-align: center;
+    border: 3px solid salmon;
+    border-radius: 10px;
+    padding-left: 7px;
+}
+
+.transportmode-line-info {
+    border: 3px #01dd3c;
+    border-radius: 0px;
+    padding: 20px;
+    margin-left: 2px;
+    border-left-style: dashed;
+
+}
+
+.line-name {
+    margin-left: 0.5px;
+}
+
+
+.steps-details {
+    border: 3px #0168dd;
+    border-radius: 0px;
+    padding: 20px;
+    margin-left: 2px;
+    border-left-style: dashed;
+}
+
+.steps-details-display {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+#map {
+    height: 350px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.map-section {
+    border: 3px solid aquamarine;
+
 }

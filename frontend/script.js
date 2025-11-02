@@ -5,14 +5,12 @@ const to = document.getElementById("to");
 let fromStopPlaceId;
 let toStopPlaceId;
 
-const journeyDuration = document.querySelector(".journey-duration");
-const fromPlace = document.querySelector(".fraStedNavn");
-const departureTime = document.querySelector(".avreisetid");
-const transportId = document.querySelector(".transport-id");
-const name = document.querySelector(".name");
-const transportMode = document.querySelector(".transportmode");
-const toPlace = document.querySelector(".tilStedNavn");
-const arrivalTime = document.querySelector(".ankomsttid");
+const journeyDuration = document.querySelector(".duration-value");
+const tripDetailsTemplate = document.querySelector(".trip-details-template");
+const tripMapTemplate = document.querySelector(".trip-kart-template");
+const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
+const tripResultsDisplay = document.querySelector(".trip-results-display");
+
 
 let placeInfo = [
     {
@@ -157,6 +155,8 @@ console.log(placeInfo);
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
+    tripResultsDisplay.innerHTML = "";
+
 
     console.log("Skjemaet ble sendt!");
     const formData = {
@@ -170,10 +170,6 @@ form.addEventListener("submit", async (e) => {
         time: document.getElementById("time").value
     };
     console.log(formData);
-    const formFieldset = document.querySelector(".form-fieldset");
-    formFieldset.style.marginLeft = "-200px";
-    const displaySection = document.querySelector(".display");
-    displaySection.style.visibility = "visible";
 
     try {
         const response = await fetch("http://localhost:5000/api/trip", {
@@ -189,28 +185,97 @@ form.addEventListener("submit", async (e) => {
 
         if (response.ok) {
             console.log("Vellykket request og response");
+            const formFieldset = document.querySelector(".form-fieldset");
+            formFieldset.style.marginLeft = "-200px";
+            tripResultsDisplay.style.visibility = "visible";
         }
 
         // Lagrer responsen fra backend som json format for å enklere jobbe med det
         const data = await response.json();
-        //console.log(data);
-        //console.log(data.tripPatterns);
-        const duration = secondsToHourMin(data.tripPatterns[0].duration);
-        journeyDuration.textContent = "Reisevarigheten: " + duration;
-        //console.log(duration);
-        fromPlace.textContent = data.tripPatterns[0].legs[0].fromPlace.name;
-        toPlace.textContent = data.tripPatterns[0].legs[0].toPlace.name;
-        departureTime.textContent = new Date(data.tripPatterns[0].startTime);
-        arrivalTime.textContent = new Date(data.tripPatterns[0].endTime);
-        transportId.textContent = "Id: " + data.tripPatterns[0].legs[0].line.id;
-        name.textContent = "Name: " + data.tripPatterns[0].legs[0].line.name;
-        if ((data.tripPatterns[0].legs[0].line.transportMode) === "rail") {
-            transportMode.textContent = "Transporttype: Tog"
+        console.log(data);
+
+        //console.log(data.tripPatterns[0].legs[1].steps.length);
+
+        if((data.tripPatterns.length) > 0) {
+            const tripSummaryHeaderClone = tripSummaryHeaderTemplate.content.cloneNode(true);
+            const duration = secondsToHourMin(data.tripPatterns[0].duration);
+            tripSummaryHeaderClone.querySelector(".duration-value").textContent = duration;
+            tripResultsDisplay.appendChild(tripSummaryHeaderClone);
+
+
+            for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
+                const tripDetailsClone = tripDetailsTemplate.content.cloneNode(true);
+                const tripStepsMapClone = tripMapTemplate.content.cloneNode(true);
+
+
+                if ((data.tripPatterns[0].legs[i].steps.length) === 0) {
+                    tripDetailsClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
+                    tripDetailsClone.querySelector(".departure-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
+                    tripDetailsClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
+                    tripDetailsClone.querySelector(".arrival-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+
+                    if ((data.tripPatterns[0].legs[i].line.transportMode) === "rail") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + "Tog";
+                    }
+
+                    else {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + data.tripPatterns[0].legs[i].line.transportMode;
+                    }
+
+                    tripDetailsClone.querySelector(".line-id").textContent = "Linjeid: " + data.tripPatterns[0].legs[i].line.id;
+                    tripDetailsClone.querySelector(".line-name").textContent = "Linjenavn: " + data.tripPatterns[0].legs[i].line.name;
+                    tripResultsDisplay.appendChild(tripDetailsClone);
+                }
+
+                else {
+                    tripStepsMapClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
+                    tripStepsMapClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
+                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + "m (se på kartet nedenfor)";
+                    tripResultsDisplay.appendChild(tripStepsMapClone);
+
+                    if (L.DomUtil.get('map') !== null) {
+                        L.DomUtil.get('map')._leaflet_id = null;
+                    }
+
+                    const map = L.map('map').setView([data.tripPatterns[0].legs[i].steps[0].latitude, data.tripPatterns[0].legs[i].steps[0].longitude], 17);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap',
+                        maxZoom: 19
+                    }).addTo(map);
+
+                    const latlngs = data.tripPatterns[0].legs[i].steps.map(s => [s.latitude, s.longitude]);
+                    const routeLine = L.polyline(latlngs, { color: 'blue', weight: 4 }).addTo(map);
+
+                    data.tripPatterns[0].legs[i].steps.forEach((s, index) => {
+                        const popupText = `
+                                <b>Steg ${index + 1}</b><br>
+                                ${s.relativeDirection === "depart" ? "Start" : s.relativeDirection === "right" ? "Ta til høyre" : "Hold til venstre"}<br>
+                                ${Math.round(s.distance)} m på ${s.streetName}<br>
+                                Retning: ${s.heading}
+                              `;
+                        L.circleMarker([s.latitude, s.longitude], {
+                            radius: 6,
+                            fillColor: index === 0 ? "green" : (index === data.tripPatterns[0].legs[i].steps.length - 1 ? "red" : "blue"),
+                            color: "#fff",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.9
+                        }).addTo(map).bindPopup(popupText);
+                    })
+
+                    map.fitBounds(routeLine.getBounds());
+                }
+
+            }
+
         }
+
 
 
     } catch (error) {
         console.error("Kunne ikke få data fra backend!");
+        console.error(error);
     }
 
 
@@ -226,5 +291,7 @@ function secondsToHourMin(durationInSeconds) {
 
     return hours + " time " + minutes + " min";
 }
+
+
 
 
