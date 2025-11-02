@@ -33,9 +33,10 @@ public class TripController {
         this.tripRepository = tripRepository;
     }
 
-    public TripController(TripService tripService, Customer customer) {
+    public TripController(TripService tripService, Customer customer, TicketService ticketService) {
         this.tripService = tripService;
         this.customer = customer;
+        this.ticketService = ticketService;
     }
 
     /*
@@ -57,7 +58,8 @@ public class TripController {
                 tripInputDTO = context.bodyAsClass(TripInputDTO.class);
                 From fromObj = new From(tripInputDTO.getFromPlace(), tripInputDTO.getFrom());
                 To toObj = new To(tripInputDTO.getToPlace(), tripInputDTO.getTo());
-                customer.getBasePrice(tripInputDTO.getPerson());
+                customer.setAgeGroup(tripInputDTO.getPerson());
+                ticketService.setCustomer(customer);
 
                 LocalDate localDate = LocalDate.parse(tripInputDTO.getDate());
                 ZoneId zoneId = ZoneId.of("Europe/Oslo");
@@ -91,8 +93,13 @@ public class TripController {
 
             else {
                 context.status(200);
-                System.out.println(tripResponse);
+
+                ticketService.setTripResponse(tripResponse);
+                System.out.println(ticketService.calculateDistance());
+                System.out.println(ticketService.calculateDistancePrice());
+                System.out.println(tripResponse.toString());
                 context.json(tripResponse);
+
                 return;
             }
         } catch (NullPointerException npe) {

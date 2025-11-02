@@ -1,10 +1,21 @@
 package no.hiof.setgroup7.ticketsys.model;
 
+import no.hiof.setgroup7.ticketsys.service.TicketService;
+
 public class Customer {
     private Adult adult;
     private Child child;
     private Senior senior;
-    private int calculateBasePrice;
+    private int basePrice = 0;
+    private String ageGroup;
+
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
+    }
+
+    public String getAgeGroup() {
+        return ageGroup;
+    }
 
     public Customer() {
         this.adult = new Adult();
@@ -24,22 +35,20 @@ public class Customer {
         return senior;
     }
 
-    public void getBasePrice(String ageGroup) {
-        int basePrice = 0;
-        if(ageGroup.equals("voksen")){
+    public int getBasePrice() {
+        if (ageGroup.equals("voksen")){
              basePrice = adult.getPrice();
         }
-        if(ageGroup.equals("barn")){
+        else if(ageGroup.equals("barn")){
             basePrice = child.getPrice();
         }
-        if(ageGroup.equals("honnør")) {
+        else if (ageGroup.equals("honnør")) {
             basePrice = senior.getPrice();
         }
-        calculateBasePrice = basePrice;
+
+        return basePrice;
     }
 
-    public int calculateBasePrice(){
-        return calculateBasePrice;
-    }
+
 
 }

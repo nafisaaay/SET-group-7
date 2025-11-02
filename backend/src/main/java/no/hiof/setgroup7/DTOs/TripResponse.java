@@ -15,6 +15,7 @@ public class TripResponse {
         this.customerPrice = customerPrice;
     }
 
+
     public TripResponse(List<TripPattern> tripPatterns) {
         this.tripPatterns = tripPatterns;
     }
@@ -29,6 +30,7 @@ public class TripResponse {
                 return trip;
             }
         }
+
         return null;
     }
 
@@ -36,7 +38,7 @@ public class TripResponse {
     @Override
     public String toString() {
         return "TripResponse{" +
-                "tripPatterns=" + tripPatterns + "Price= " + customerPrice +
+                "tripPatterns=" + tripPatterns + "Price= " + customerPrice + "kr" +
                 '}';
     }
 }
