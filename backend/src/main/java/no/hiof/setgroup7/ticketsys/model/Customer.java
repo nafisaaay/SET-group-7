@@ -6,6 +6,11 @@ public class Customer {
     private Senior senior;
     private int calculateBasePrice;
 
+    public Customer() {
+        this.adult = new Adult();
+        this.child = new Child();
+        this.senior = new Senior();
+    }
 
     public Adult getAdult() {
         return adult;
@@ -21,13 +26,13 @@ public class Customer {
 
     public void getBasePrice(String ageGroup) {
         int basePrice = 0;
-        if(ageGroup == "voksen"){
+        if(ageGroup.equals("voksen")){
              basePrice = adult.getPrice();
         }
-        if(ageGroup == "barn"){
+        if(ageGroup.equals("barn")){
             basePrice = child.getPrice();
         }
-        if(ageGroup == "honnør") {
+        if(ageGroup.equals("honnør")) {
             basePrice = senior.getPrice();
         }
         calculateBasePrice = basePrice;

@@ -14,6 +14,9 @@ public class TicketService {
     public void setTripResponse(TripResponse tripResponse){
         this.tripResponse = tripResponse;
     }
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
 
     // Beregning av distanse (uten gangavstand)
     public int calculateDistance(){
