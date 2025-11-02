@@ -35,7 +35,8 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 2. ![Skjermbilde 2](https://github.com/user-attachments/assets/ca9c1e39-5bfd-4d5b-bdd9-e8b8d5330584)
 3. ![Skjermbilde 3](https://github.com/user-attachments/assets/22dbf70e-ab01-42e7-854e-82d02a88b0c4)
 4. ![Skjermbilde 4](https://github.com/user-attachments/assets/bf8d4df1-32cd-4127-bc72-ceeb9d4d6dea)
-5. <img width="2454" height="1337" alt="Skjermbilde 2025-11-02 091705" src="https://github.com/user-attachments/assets/90420b25-ce2d-4718-b4c2-363017e0df4c" />
+5. <img width="2447" height="1337" alt="Skjermbilde 2025-11-02 093250" src="https://github.com/user-attachments/assets/3c846c67-19e2-42fa-b573-f9f045d4a01d" />
+
 
 
 ---
