@@ -33,8 +33,8 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 
 1. ![Skjermbilde 1](https://github.com/user-attachments/assets/b1bd93be-8fb5-4b93-871c-2a5d9f2d1ef8)
 2. ![Skjermbilde 2](https://github.com/user-attachments/assets/ca9c1e39-5bfd-4d5b-bdd9-e8b8d5330584)
-3. ![Skjermbilde 3](https://github.com/user-attachments/assets/22dbf70e-ab01-42e7-854e-82d02a88b0c4)
-4. ![Skjermbilde 4](https://github.com/user-attachments/assets/bf8d4df1-32cd-4127-bc72-ceeb9d4d6dea)
+3. <img width="2456" height="1333" alt="Skjermbilde 2025-11-02 091626" src="https://github.com/user-attachments/assets/7b67936d-2e4b-4769-89e6-bb00622f5837" />
+4. <img width="2453" height="1336" alt="Skjermbilde 2025-11-02 091644" src="https://github.com/user-attachments/assets/b94b6d07-30d7-4b56-afa9-c74c4a97c7d5" />
 5. <img width="2447" height="1337" alt="Skjermbilde 2025-11-02 093250" src="https://github.com/user-attachments/assets/3c846c67-19e2-42fa-b573-f9f045d4a01d" />
 6. <img width="2456" height="1339" alt="Skjermbilde 2025-11-02 103708" src="https://github.com/user-attachments/assets/013ba3bf-fb52-426b-9e6e-9527b874bdf9" />
 7. <img width="2457" height="1338" alt="Skjermbilde 2025-11-02 103727" src="https://github.com/user-attachments/assets/82e2a03f-754b-4106-8b7a-a6d37b806bbe" />
