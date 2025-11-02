@@ -30,11 +30,11 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 ---
 
 **Skjermbilder:**
-1. <img width="2457" height="1345" alt="Skjermbilde 2025-11-02 091540" src="https://github.com/user-attachments/assets/ca1088ba-3329-4558-993b-af43752e2eea" />
-2. ![Skjermbilde 1](https://github.com/user-attachments/assets/b1bd93be-8fb5-4b93-871c-2a5d9f2d1ef8)
-3. ![Skjermbilde 2](https://github.com/user-attachments/assets/ca9c1e39-5bfd-4d5b-bdd9-e8b8d5330584)
-4. ![Skjermbilde 3](https://github.com/user-attachments/assets/22dbf70e-ab01-42e7-854e-82d02a88b0c4)
-5. ![Skjermbilde 4](https://github.com/user-attachments/assets/bf8d4df1-32cd-4127-bc72-ceeb9d4d6dea)
+
+1. ![Skjermbilde 1](https://github.com/user-attachments/assets/b1bd93be-8fb5-4b93-871c-2a5d9f2d1ef8)
+2. ![Skjermbilde 2](https://github.com/user-attachments/assets/ca9c1e39-5bfd-4d5b-bdd9-e8b8d5330584)
+3. ![Skjermbilde 3](https://github.com/user-attachments/assets/22dbf70e-ab01-42e7-854e-82d02a88b0c4)
+4. ![Skjermbilde 4](https://github.com/user-attachments/assets/bf8d4df1-32cd-4127-bc72-ceeb9d4d6dea)
 
 ---
 
