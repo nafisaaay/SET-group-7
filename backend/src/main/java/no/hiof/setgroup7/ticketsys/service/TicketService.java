@@ -39,7 +39,7 @@ public class TicketService {
         int distanceKm = calculateDistance();
         double basePrice = customer.getBasePrice();
 
-        double pricePerKm = 0.95;
+        double pricePerKm = 1.5;
         int thresholdKm = 20;
 
         if (distanceKm < thresholdKm) {
