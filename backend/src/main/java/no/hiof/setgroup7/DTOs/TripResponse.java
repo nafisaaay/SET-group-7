@@ -15,6 +15,9 @@ public class TripResponse {
         this.customerPrice = customerPrice;
     }
 
+    public double getCustomerPrice() {
+        return customerPrice;
+    }
 
     public TripResponse(List<TripPattern> tripPatterns) {
         this.tripPatterns = tripPatterns;

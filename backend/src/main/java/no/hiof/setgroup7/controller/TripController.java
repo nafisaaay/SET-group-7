@@ -105,13 +105,10 @@ public class TripController {
         } catch (NullPointerException npe) {
             System.out.println(npe);
         }
-
-
     }
 
     public void getResponse(TripResponse tripResponse) {
         this.tripResponse = tripResponse;
     }
-
 
 }
