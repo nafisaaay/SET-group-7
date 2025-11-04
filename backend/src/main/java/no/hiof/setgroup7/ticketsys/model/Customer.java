@@ -6,6 +6,7 @@ public class Customer {
     private Adult adult;
     private Child child;
     private Senior senior;
+    private Student student;
     private int basePrice = 0;
     private String ageGroup;
 
@@ -21,6 +22,7 @@ public class Customer {
         this.adult = new Adult();
         this.child = new Child();
         this.senior = new Senior();
+        this.student = new Student();
     }
 
     public Adult getAdult() {
@@ -34,6 +36,9 @@ public class Customer {
     public Senior getSenior() {
         return senior;
     }
+    public Student getStudent() {
+        return student;
+    }
 
     public int getBasePrice() {
         if (ageGroup.equals("voksen")){
@@ -44,6 +49,9 @@ public class Customer {
         }
         else if (ageGroup.equals("honnør")) {
             basePrice = senior.getPrice();
+        } else if (ageGroup.equals("student")) {
+            basePrice = student.getPrice();
+
         }
 
         return basePrice;
