@@ -7,7 +7,7 @@ public class CustomerTest {
 
 
     @Test
-    public void testCustomer()
+    public void testCustomerSucsessfully()
     throws Exception {
         Customer adult = new Customer();
         Customer child = new Customer();
