@@ -75,9 +75,9 @@ public class TicketServiceTest {
 public void calculateFinalPriceUnderAndOverThreshold() {
     TicketService ticketService = new TicketService();
 
-    // --- Under 20 km ---
+    //Under 20 km
     when(mockLeg1.getLine()).thenReturn(mockLine1);
-    when(mockLeg1.getDistance()).thenReturn(5000.0); // 5 km
+    when(mockLeg1.getDistance()).thenReturn(5000.0);
     when(mockTripPattern.getLegs()).thenReturn(List.of(mockLeg1));
     when(mockTripResponse.getTrips()).thenReturn(mockTripPattern);
     when(mockCustomer.getBasePrice()).thenReturn(20);
@@ -88,9 +88,9 @@ public void calculateFinalPriceUnderAndOverThreshold() {
     double finalPriceUnder = ticketService.calculateDistancePrice();
     Assertions.assertEquals(20.0, finalPriceUnder);
 
-    // --- Over 20 km ---
+    //Over 20 km
     when(mockLeg2.getLine()).thenReturn(mockLine2);
-    when(mockLeg2.getDistance()).thenReturn(21000.0); // 21 km
+    when(mockLeg2.getDistance()).thenReturn(21000.0);
     when(mockTripPattern.getLegs()).thenReturn(List.of(mockLeg2));
     when(mockTripResponse.getTrips()).thenReturn(mockTripPattern);
 
