@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Quicksand:wght@300..700&display=swap');
-
+/** @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Quicksand:wght@300..700&display=swap'); **/
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
-    font-family: "Bodoni Moda", serif;
+    font-family: "lora", serif;
     font-weight: 400;
     font-size: 16px;
 }
@@ -19,6 +19,7 @@ a {
 
 ul {
     list-style: none;
+    padding: 0;
 }
 
 h1,
@@ -36,17 +37,14 @@ h2 {
     font-size: 1.8rem;
 }
 
-
-
 /** --------- HEADER - NAV --------- **/
-
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 0 2rem;
-    background-color: #fefde8;
+    background-color: #f3f6fa;
 
     & .navbar {
 
@@ -89,124 +87,224 @@ nav {
     }
 }
 
-
 /** --------- MAIN --------- **/
 main {
     position: relative;
     min-height: 100vh;
     margin: 0 auto;
-    background-color: #fafaeb;
+    background-color: #f3f6fa;
 }
-
 
 /** --------- FORM --------- **/
 .container {
-    box-shadow: 0px -6px 20px #c0c0c0;
-
-
-    & img {
-        position: relative;
-        width: 100%;
-        height: 50rem;
-        object-fit: cover;
-    }
+    box-shadow: 0 5px 20px #c0c0c0;
+    position: relative;
+    height: 50rem;
+    background: #2C7DA0;
+    background: linear-gradient(145deg,rgba(44, 125, 160, 1) 23%, rgba(97, 165, 194, 1) 46%, rgba(169, 214, 229, 1) 86%);
 }
 
 .search-form {
-
-    & label {
-        margin-top: 1rem;
-    }
-
-    & input {
-        margin-top: 0.5rem;
-    }
-
-
-    & button {
-        grid-column: 1 / 3;
-        border: none;
-        border-radius: 0.5rem;
-        padding: 1.2rem;
-        margin-top: 2rem;
-        background-color: #ff5c37;
-        color: #ffffff;
-        opacity: 0.65;
-        transition: 0.3s;
-
-    }
-
-    & button:hover {
-        cursor: pointer;
-        opacity: 1;
-    }
-}
-
-form {
-    display: grid;
-    column-gap: 20px;
-}
-
-fieldset {
     position: absolute;
-    top: 18%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: .2s ease-in;
+}
+
+.form-fieldset {
+    display: block;
+
+    & h1 {
+        padding-bottom: 1rem;
+    }
+
+    & fieldset {
+        width: 30rem;
+        background-color: #ffffff34;
+        backdrop-filter: blur(10px);
+        border-radius: 2%;
+        border: none;
+        box-shadow: 0.5px 10px 20px #2C7DA0;
+
+        & input {
+            padding: 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+
+            & input:hover {
+                border: solid 1px #000000;
+            }
+        }
+
+        & label {
+            margin-top: 1rem;
+        }
+
+        & button {
+            grid-column: 1 / 3;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            background-color: #012A4A;
+            color: #ffffff;
+            opacity: 0.65;
+            transition: 0.3s;
+            box-shadow: 0 5px 20px #2C7DA0;
+
+        }
+
+        & button:hover {
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        & #tripForm {
+            display: grid;
+            column-gap: 20px;
+
+            & .options {
+                grid-area: 1 / 1 / 2 / 3;
+                padding: 1rem 0;
+
+                & select {
+                    padding: 0.7rem 1rem;
+                    border: none;
+                    border-radius: 0.5rem;
+                    margin-right: 1.5rem;
+                    background-color: #fff;
+                }
+
+                & select:hover {
+                    cursor: pointer;
+                }
+            }
+
+            & #to {
+                grid-area: 5 / 1 / 6 / 3;
+
+                & label {
+                    grid-row: 4 / 5;
+                }
+            }
+
+            & #from {
+                grid-area: 3 / 1 / 4 / 3;
+
+                & label {
+                    grid-row: 2 / 3;
+                }
+            }
+
+            & #date {
+                grid-area: 7 / 1 / 8 / 2;
+
+                & label {
+                    grid-row: 6 / 7;
+                }
+            }
+        }
+
+
+    }
+}
+
+.trip-results-display {
+    display: none;
+    transform: translateX(-400px);
+
     width: 30rem;
-    background-color: #ffffff34;
+    height: 40rem;
+    padding: 2rem;
+    background-color: #ffffff78;
     backdrop-filter: blur(10px);
     border-radius: 2%;
-    box-shadow: 0.5px 10px 20px #9b9b9b;
+    border: none;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    box-shadow: 0.5px 10px 20px #2C7DA0;
 
-    & input {
-        padding: 1.5rem;
-        border: none;
-        border-radius: 0.5rem;
+    & .summary-header{
+        display: flex;
+    }
+
+    & li {
+        padding-right: 0.5rem;
+    }
+
+    & .steps-details-display {
+        margin: 1rem 0;
+
+        & .location-name {
+            font-weight: 600;
+        }
+
+        & #walking-distance-details {
+            font-size: 14px;
+            padding: 2rem;
+            color: rgba(0, 0, 0, 0.56);
+            margin-left: 1.25rem;
+            border-left: dotted 3px #468FAF;
+
+            & .avstand {
+                margin-left: 1rem;
+            }
+        }
     }
 }
 
+.trip-details {
 
-.options {
-    grid-area: 1 / 1 / 2 / 3;
+    & .result-point {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
 
-    & select {
-        padding: 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        margin-right: 1rem;
-    }
+        & li {
+            font-weight: 600;
+        }
 
-    & select:hover {
-        cursor: pointer;
-    }
-
-}
-
-#to {
-    grid-area: 5 / 1 / 6 / 3;
-
-    & label {
-        grid-row: 4 / 5;
+        & i {
+            margin: 0 0.2rem;
+            font-size: 10px;
+        }
     }
 }
 
+.transport-leg-details{
+    margin-left: 1.25rem;
+    border-left: 3px solid #012A4A;
 
-#from {
-    grid-area: 3 / 1 / 4 / 3;
+    & ul {
+        padding: 0.5rem 2.5rem;
 
+        & li:not(.line-name){
+            font-size: 14px;
+            padding: 5px 0;
+            color: rgba(0, 0, 0, 0.56);
+        }
 
-    & label {
-        grid-row: 2 / 3;
+        & .line-name {
+            font-weight: 500;
+        }
     }
 }
 
-#date {
-    grid-area: 7 / 1 / 8 / 2;
-
-    & label {
-        grid-row: 6 / 7;
-    }
+#map {
+    display: none;
+    position: absolute;
+    height: 40rem;
+    width: 45rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-10%, -50%);
+    border-radius: 2%;
+    border: none;
+    box-shadow: 0.5px 10px 20px #2C7DA0;
 }
+
 
 /** --------- MAIN - SECTION --------- **/
 .main-section {
@@ -271,7 +369,6 @@ fieldset {
         }
     }
 }
-
 
 /** --------- SLIDER --------- **/
 .main-slider {
@@ -370,12 +467,10 @@ fieldset {
     }
 }
 
-
 /** --------- FOOTER --------- **/
 footer {
-    /*background-color: #889c68;*/
-    background-color: #93905a;
-    padding: 2rem;
+    background-color: #2A6F97;
+    padding: 4rem;
     display: flex;
     justify-content: space-between;
 
@@ -401,7 +496,7 @@ footer {
         justify-content: end;
 
         & i {
-            color: black;
+            color: #ffff;
             font-size: 24px;
             padding: 0 2rem 0 1.5rem;
             transition: transform .6s;
@@ -414,11 +509,6 @@ footer {
         }
     }
 }
-
-/** --------- TRIPSEARCH.HTML --------- **/
-
-.tripSearchForm fieldset {}
-
 
 /* === Responsive design === */
 @media (max-width: 768px) {
@@ -446,69 +536,4 @@ footer {
         gap: 1rem;
         text-align: center;
     }
-}
-
-
-
-.trip-results-display {
-    border: 3px solid tomato;
-    border-radius: 10px;
-    padding: 10px;
-    width: 400px;
-    position: absolute;
-    top: 190px;
-    left: 750px;
-    background-color: rgba(255, 255, 255, 0.49);
-    visibility: hidden;
-}
-
-
-.result-title {
-    text-align: center;
-}
-
-.journey-duration {
-    border: 3px solid salmon;
-    border-radius: 10px;
-    padding-left: 7px;
-}
-
-.transportmode-line-info {
-    border: 3px #01dd3c;
-    border-radius: 0px;
-    padding: 20px;
-    margin-left: 2px;
-    border-left-style: dashed;
-
-}
-
-.line-name {
-    margin-left: 0.5px;
-}
-
-
-.steps-details {
-    border: 3px #0168dd;
-    border-radius: 0px;
-    padding: 20px;
-    margin-left: 2px;
-    border-left-style: dashed;
-}
-
-.steps-details-display {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-
-#map {
-    height: 350px;
-    width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.map-section {
-    border: 3px solid aquamarine;
-
 }

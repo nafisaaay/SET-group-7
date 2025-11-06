@@ -16,7 +16,7 @@
 <body>
 <header>
     <nav>
-        <a href="index.html" class="logo">LOGO</a>
+        <a href="index.html" class="logo">GETYOURROUTE</a>
         <section class="navbar">
             <ul>
                 <li><a href="#"><i class="fa-solid fa-headset"></i>KUNDESERVICE</a></li>
@@ -28,109 +28,80 @@
 </header>
 <main>
     <header class="main-header">
-        <div class="container">
-            <img src="resources/img-1.jpeg" alt="illustrated picture of a house in norway, with a red roof.">
+        <section class="container">
             <section class="search-form">
-                <fieldset class="form-fieldset">
-                    <legend>
-                        <h1>Hei, hvor vil du utforske?</h1>
-                    </legend>
-                    <form id="tripForm" action="#" method="POST">
-                        <section class="options">
-                            <label for="trip"></label>
-                            <select name="trip" id="trip">
-                                <option value="round_trip">Tur/Retur</option>
-                                <option value="one_way">Én vei</option>
-                                <option value="several">Flere tur</option>
-                            </select>
-                            <label for="person"></label>
-                            <select name="person" id="person">
-                                <option value="voksen">Voksen</option>
-                                <option value="barn">Barn</option>
-                                <option value="student">Student</option>
-                                <option value="honnør">Honnør</option>
-                            </select>
-                        </section>
-                        <label for="from">Fra:</label><br>
-                        <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
-                        <label for="to">Til:</label><br>
-                        <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
-                        <label for="date">Dato:</label>
-                        <input type="date" id="date" name="date">
-                        <label for="time">Tid:</label>
-                        <input type="time" id="time" name="time">
-                        <button type="submit" id="tripSearchButton">Fortsett</button>
-                    </form>
-                </fieldset>
-
+                <section class="form-fieldset">
+                    <h1>Hei, hvor vil du reise til?</h1>
+                    <fieldset>
+                        <form id="tripForm" action="#" method="POST">
+                            <section class="options">
+                                <label for="trip"></label>
+                                <select name="trip" id="trip">
+                                    <option value="round_trip">Tur/Retur</option>
+                                    <option value="one_way">Én vei</option>
+                                </select>
+                                <label for="person"></label>
+                                <select name="person" id="person">
+                                    <option value="voksen">Voksen</option>
+                                    <option value="barn">Barn</option>
+                                    <option value="student">Student</option>
+                                    <option value="honnør">Honnør</option>
+                                </select>
+                            </section>
+                            <label for="from">Fra:</label><br>
+                            <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                            <label for="to">Til:</label><br>
+                            <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
+                            <label for="date">Dato:</label>
+                            <input type="date" id="date" name="date">
+                            <label for="time">Tid:</label>
+                            <input type="time" id="time" name="time">
+                            <button type="submit" id="tripSearchButton">Finn reise</button>
+                        </form>
+                    </fieldset>
+                </section>
                 <section class="trip-results-display">
+                    <h1>Reise funnet:</h1>
                     <template class="summary-header-template">
-                        <div class="summary-header">
-                            <h2 class="result-title">Reiserute funnet</h2>
-                            <div class="journey-duration">
-                                <i class="fa-solid fa-clock"></i>
-                                Total varighet: <span class="duration-value"></span>
-                            </div>
-                        </div>
+                        <ul class="summary-header">
+                            <li><i class="fa-solid fa-clock"></i></li>
+                            <li>Total reisevarighet:</li>
+                            <li class="duration-value"></li>
+                        </ul>
                     </template>
-
-
                     <template class="trip-details-template">
                         <div class="trip-details">
-
-                            <div class="from-result result-point">
-                                <span class="label">Fra:</span>
-                                <span class="location-name fraStedNavn">Sted navn</span>
-                                <span class="time departure-time avreisetid">--:--</span>
-                            </div>
-
+                            <ul class="from-result result-point">
+                                <li class="time departure-time avreisetid">--:--</li>
+                                <li class="label">-</li>
+                                <li class="location-name fraStedNavn">Sted navn</li>
+                            </ul>
                             <div class="transport-leg-details">
-                                <div class="transportmode-line-info">
-                                    <div class="transport-mode transportmode">Transporttype:</div>
-                                    <span class="line-id name">Linjeid: </span> </br>
-                                    <span class="line-name name">Linjenavn: </span>
-                                </div>
+                                <ul class="transportmode-line-info">
+                                    <li class="transport-mode transportmode">Transporttype:</li>
+                                    <li class="line-name name">Linjenavn: </li>
+                                    <li class="line-id name">Linjeid: </li>
+                                </ul>
                             </div>
-
-                            <div class="to-result result-point">
-                                <span class="label">Til:</span>
-                                <span class="location-name tilStedNavn">Sted navn</span>
-                                <span class="time arrival-time ankomsttid">--:--</span>
-                            </div>
-
-
-
+                            <ul class="to-result result-point">
+                                <li class="time arrival-time ankomsttid">--:--</li>
+                                <li class="label">-</li>
+                                <li class="location-name tilStedNavn">Sted navn</li>
+                            </ul>
                         </div>
                     </template>
-
                     <template class="trip-kart-template">
-                        <div class="steps-details-display">
-                            <div class="steps-result-from ">
-                                <span class="label">Fra:</span>
-                                <span class="location-name fraStedNavn">Sted navn</span>
-                            </div>
-
-                            <div class="steps-details">
-                                <span class="avstand">Avstand</span>
-                            </div>
-
-                            <div class="steps-result-to">
-                                <span class="label">Til:</span>
-                                <span class="location-name tilStedNavn">Sted navn</span>
-                            </div>
-                        </div>
+                        <ul class="steps-details-display">
+                            <li class="location-name fraStedNavn">Sted navn</li>
+                            <li id="walking-distance-details"><i class="fa-solid fa-person-walking"><span class="avstand"></span></i></li>
+                            <li class="location-name tilStedNavn">Sted navn</li>
+                        </ul>
                     </template>
                 </section>
-                </section>
-        </div>
+                <div id="map"></div>
+            </section>
+        </section>
     </header>
-
-    <div class="map-section">
-        <h2>🗺️ Reiseinstruksjoner</h2>
-        <div id="map"></div>
-    </div>
-
-
     <section class="main-section">
         <img src="resources/img3.jpeg" alt="" id="main-section-img">
         <article>

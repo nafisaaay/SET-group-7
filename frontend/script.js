@@ -128,7 +128,7 @@ function placeInfoFinder() {
                 }
 
             } catch (e) {
-                console.error("Error ved henting av to suggestions: " + e);
+                console.error("Error ved uthenting av to suggestions: " + e);
                 removeSuggestionSelect(toSelect);
             }
         }, 300);
@@ -181,16 +181,24 @@ form.addEventListener("submit", async (e) => {
         if (!response.ok) {
             const text = await response.text();
             console.log("Error: " + text);
+            alert("Noe gikk galt!\n" + text);
         }
 
+        // endret mtp display istedenfor visibility - // er tidl. kode
         if (response.ok) {
             console.log("Vellykket request og response");
             const formFieldset = document.querySelector(".form-fieldset");
-            formFieldset.style.marginLeft = "-200px";
-            tripResultsDisplay.style.visibility = "visible";
+            const mapWalking = document.getElementById("map");
+
+            //formFieldset.style.marginLeft = "-200px";
+            //tripResultsDisplay.style.visibility = "visible";
+            formFieldset.style.display = "none"; // fjerner fra skjermen når responsdelen dukker opp
+            tripResultsDisplay.style.display = "block";
+            mapWalking.style.display = "block";
+
         }
 
-        // Lagrer responsen fra backend som json format for å enklere jobbe med det
+        // Lagrer responsen fra backend som json-format slik at det er enklere å jobbe med det
         const data = await response.json();
         console.log(data);
 
@@ -206,31 +214,43 @@ form.addEventListener("submit", async (e) => {
             for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
                 const tripDetailsClone = tripDetailsTemplate.content.cloneNode(true);
                 const tripStepsMapClone = tripMapTemplate.content.cloneNode(true);
-
+                const departureTime = new Date(data.tripPatterns[0].legs[i].expectedStartTime);
+                const arrivalTime = new Date(data.tripPatterns[0].legs[i].expectedEndTime);
 
                 if ((data.tripPatterns[0].legs[i].steps.length) === 0) {
                     tripDetailsClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
-                    tripDetailsClone.querySelector(".departure-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
+                    //tripDetailsClone.querySelector(".departure-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
                     tripDetailsClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
-                    tripDetailsClone.querySelector(".arrival-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+                    //tripDetailsClone.querySelector(".arrival-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+                    tripDetailsClone.querySelector(".departure-time").textContent =
+                        String(departureTime.getHours()).padStart(2, "0") + ":" +
+                        String(departureTime.getMinutes()).padStart(2, "0");
+                    tripDetailsClone.querySelector(".arrival-time").textContent =
+                        String(arrivalTime.getHours()).padStart(2, "0") + ":" +
+                        String(arrivalTime.getMinutes()).padStart(2, "0");
+
+
 
                     if ((data.tripPatterns[0].legs[i].line.transportMode) === "rail") {
-                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + "Tog";
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Tog";
+                    }
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "bus") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Buss";
+                        // legg til egen for tram og air
+                    } else {
+                        tripDetailsClone.querySelector(".transportmode").textContent = data.tripPatterns[0].legs[i].line.transportMode;
                     }
 
-                    else {
-                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + data.tripPatterns[0].legs[i].line.transportMode;
-                    }
 
-                    tripDetailsClone.querySelector(".line-id").textContent = "Linjeid: " + data.tripPatterns[0].legs[i].line.id;
-                    tripDetailsClone.querySelector(".line-name").textContent = "Linjenavn: " + data.tripPatterns[0].legs[i].line.name;
+                    tripDetailsClone.querySelector(".line-id").textContent = "(" + data.tripPatterns[0].legs[i].line.id + ")";
+                    tripDetailsClone.querySelector(".line-name").textContent = data.tripPatterns[0].legs[i].line.name;
                     tripResultsDisplay.appendChild(tripDetailsClone);
                 }
 
                 else {
                     tripStepsMapClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
                     tripStepsMapClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
-                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + "m (se på kartet nedenfor)";
+                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + " meter";
                     tripResultsDisplay.appendChild(tripStepsMapClone);
 
                     if (L.DomUtil.get('map') !== null) {
@@ -289,7 +309,7 @@ function secondsToHourMin(durationInSeconds) {
     const remainingSecondsAfterHours = (seconds % 3600);
     const minutes = Math.floor(remainingSecondsAfterHours / 60);
 
-    return hours + " time " + minutes + " min";
+    return hours + " t  -  " + minutes + " min";
 }
 
 
