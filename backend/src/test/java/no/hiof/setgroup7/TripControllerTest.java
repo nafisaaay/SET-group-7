@@ -95,7 +95,7 @@ public class TripControllerTest {
         verify(mockContext).status(200);
         verify(mockContext).json(mockTripResponse);
     }
-    //tester når brukerinput er valid, men det ikke er noen ruter
+    //tester når brukerinput er riktig, men man ikke finner none som passer 
     @Test
     public void getTripFormDataResponseIsNull() {
         when(mockTripValidator.isValid(mockContext)).thenReturn(true);
