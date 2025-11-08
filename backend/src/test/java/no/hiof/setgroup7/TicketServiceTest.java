@@ -25,9 +25,6 @@ public class TicketServiceTest {
     TripResponse mockTripResponse;
 
     @Mock
-    TripResponse mockTripResponse2;
-
-    @Mock
     Leg mockLeg1;
     @Mock
     Line mockLine1;
