@@ -12,6 +12,23 @@ const tripSummaryHeaderTemplate = document.querySelector(".summary-header-templa
 const tripResultsDisplay = document.querySelector(".trip-results-display");
 
 
+/**
+// For toastBox
+let toastBox = document.getElementById('toastBox');
+function showToast() {
+    let toast = document.createElement('div');
+    toastBox.style.visibility = "visible";
+    toastBox.style.right = 0;
+    toast.classList.add('toast');
+    toast.innerHTML = 'success';
+    toastBox.appendChild(toast);
+
+    setTimeout(()=>{
+        toastBox.remove();
+    },5000)
+}
+**/
+
 let placeInfo = [
     {
         "from": "",
@@ -189,11 +206,10 @@ form.addEventListener("submit", async (e) => {
             console.log("Vellykket request og response");
             const formFieldset = document.querySelector(".form-fieldset");
             const mapWalking = document.getElementById("map");
+            const tripResults = document.querySelector(".trip-results")
 
-            //formFieldset.style.marginLeft = "-200px";
-            //tripResultsDisplay.style.visibility = "visible";
             formFieldset.style.display = "none"; // fjerner fra skjermen når responsdelen dukker opp
-            tripResultsDisplay.style.display = "block";
+            tripResults.style.display = "block";
             mapWalking.style.display = "block";
 
         }
