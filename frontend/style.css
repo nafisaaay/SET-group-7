@@ -132,7 +132,7 @@ main {
 }
 .search-form {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     transition: .1s ease-in;
@@ -143,7 +143,7 @@ main {
     width: 65rem;
 
     & h1 {
-        padding-bottom: 1rem;
+        margin-bottom: 5rem;
         color: #FFFFFF;
     }
 
@@ -160,7 +160,8 @@ main {
         }
 
         & button {
-            grid-area: 5 / 3 / 6 / 6;            border: none;
+            grid-area: 5 / 3 / 6 / 6;
+            border: none;
             border-radius: 0.5rem;
             padding: 1.2rem;
             background-color: #012A4A;
@@ -279,6 +280,7 @@ main {
         border: none;
         border-radius: 1rem;
         padding: 1.5rem;
+        margin-top: 2rem;
         background-color: #012A4A;
         color: #F6FAFD;
         transition: 0.2s;
@@ -295,15 +297,19 @@ main {
 
     & .summary-header {
         display: flex;
+
+        & i {
+            margin-right: .5rem;
+        }
     }
 
     & .price-header{
         display: flex;
-        margin-bottom: 2rem;
-    }
+        margin: 1rem 0 2rem 0;
 
-    & li {
-        padding-right: 0.5rem;
+        & i {
+            margin-right: .5rem;
+        }
     }
 
     & .steps-details-display {

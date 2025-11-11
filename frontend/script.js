@@ -228,8 +228,9 @@ form.addEventListener("submit", async (e) => {
             tripResultsDisplay.appendChild(tripSummaryHeaderClone);
 
             const priceHeaderClone = priceHeaderTemplate.content.cloneNode(true);
-            priceHeaderClone.querySelector(".client").textContent = formData.person;
-            priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
+            // priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
+            priceHeaderClone.querySelector(".client").textContent = `${formData.person.charAt(0).toUpperCase() + formData.person.slice(1)}: ${data.customerPrice} kr`;
+
             tripResultsDisplay.appendChild(priceHeaderClone);
 
             for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
@@ -261,7 +262,6 @@ form.addEventListener("submit", async (e) => {
                     } else {
                         tripDetailsClone.querySelector(".transportmode").textContent = data.tripPatterns[0].legs[i].line.transportMode;
                     }
-
 
                     tripDetailsClone.querySelector(".line-id").textContent = "(" + data.tripPatterns[0].legs[i].line.id + ")";
                     tripDetailsClone.querySelector(".line-name").textContent = data.tripPatterns[0].legs[i].line.name;
@@ -313,14 +313,10 @@ form.addEventListener("submit", async (e) => {
         }
 
 
-
     } catch (error) {
         console.error("Kunne ikke få data fra backend!");
         console.error(error);
     }
-
-
-
 });
 
 
