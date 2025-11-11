@@ -10,6 +10,7 @@ const tripDetailsTemplate = document.querySelector(".trip-details-template");
 const tripMapTemplate = document.querySelector(".trip-kart-template");
 const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
 const tripResultsDisplay = document.querySelector(".trip-results-display");
+const priceHeaderTemplate = document.querySelector(".price-header-template");
 
 
 /**
@@ -216,7 +217,7 @@ form.addEventListener("submit", async (e) => {
 
         // Lagrer responsen fra backend som json-format slik at det er enklere å jobbe med det
         const data = await response.json();
-        console.log(data);
+        console.log(data.customerPrice);
 
         //console.log(data.tripPatterns[0].legs[1].steps.length);
 
@@ -226,6 +227,10 @@ form.addEventListener("submit", async (e) => {
             tripSummaryHeaderClone.querySelector(".duration-value").textContent = duration;
             tripResultsDisplay.appendChild(tripSummaryHeaderClone);
 
+            const priceHeaderClone = priceHeaderTemplate.content.cloneNode(true);
+            priceHeaderClone.querySelector(".client").textContent = formData.person;
+            priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
+            tripResultsDisplay.appendChild(priceHeaderClone);
 
             for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
                 const tripDetailsClone = tripDetailsTemplate.content.cloneNode(true);
