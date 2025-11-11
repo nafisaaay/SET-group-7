@@ -23,7 +23,7 @@ public class TripController {
     TripRepository tripRepository;
     TripRequest tripRequest;
     TripInputDTO tripInputDTO;
-    TripValidator tripValidator = new TripValidator();
+    public TripValidator tripValidator = new TripValidator();
     TripService tripService;
     TripResponse tripResponse;
     Customer customer;
