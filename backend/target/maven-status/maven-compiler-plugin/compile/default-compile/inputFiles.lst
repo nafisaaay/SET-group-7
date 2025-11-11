@@ -1,0 +1,16 @@
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\controller\TripController.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\Trip.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\Line.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\integration\EnturClient.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\To.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\DTOs\TripInputDTO.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\App.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\Leg.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\DTOs\TripRequest.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\TripPattern.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\Step.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\repository\TripRepository.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\DTOs\TripResponse.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\service\TripService.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\controller\TripValidator.java
+C:\DEV\SWE_prosjekt\backend\src\main\java\no\hiof\setgroup7\model\From.java
