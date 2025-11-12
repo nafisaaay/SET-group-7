@@ -12,8 +12,15 @@ public class sqlProcedures {
         return procedure;
     }
 
+    
 
-    public static final sqlProcedures SQLGetAllPoi = new sqlProcedures("SELECT * FROM allPoIData;");
+
+    public static final sqlProcedures SQLGetFredrikstad = new sqlProcedures("SELECT * FROM viewFredrikstadPoI;");
+    public static final sqlProcedures SQLGetHalden = new sqlProcedures("SELECT * FROM viewHaldenPoI;");
+    public static final sqlProcedures SQLGetMoss = new sqlProcedures("SELECT * FROM viewMossPoI;");
+    public static final sqlProcedures SQLGetOslo = new sqlProcedures("SELECT * FROM viewOsloPoI;");
+    public static final sqlProcedures SQLGetSarpsborg = new sqlProcedures("SELECT * FROM viewSarsborgpPoI;");
+
     /* Dropped features, possibility of implementing later on
      public static final sqlProcedures SQLGetUserData = new sqlProcedures("");
      public static final sqlProcedures SQLGetFavourites = new sqlProcedures("");
