@@ -25,8 +25,7 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 | ✍️ Bruker skriver inn “Oslo” | Dynamisk liste med forslag som “Oslo lufthavn, Ullensaker”, “Oslo S, Oslo”, “Oslo bussterminal, Oslo” vises under inputfeltet. *(Se bilde 1)* |
 | ⛳ Bruker fyller ut “Til”     | Autocomplete fungerer også for destinasjon, f.eks. “Remmen”, og forslag som “Remmen Høgskolen, Halden” vises. *(Se bilde 2)* |
 | 📅 Bruker velger dato/tid     | Feltene fylles automatisk i formatet dd.mm.åååå og hh:mm. *(Se bilde 3)* |
-| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd <br>- totalpris for hele turen <br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- gangavstand 
-*(se bilde 3)*| 
+| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd <br>- totalpris for hele turen <br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- gangavstand *(se bilde 3)*
 | 💰 trykk på "gå videre til betaling" | En bilett vises med qr kode slik at billetten kan valideres, og bilde endres daglig *(se bilde 4)*
 
 
