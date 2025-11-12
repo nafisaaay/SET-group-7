@@ -20,6 +20,7 @@ public class sqlProcedures {
     public static final sqlProcedures SQLGetMoss = new sqlProcedures("SELECT * FROM viewMossPoI;");
     public static final sqlProcedures SQLGetOslo = new sqlProcedures("SELECT * FROM viewOsloPoI;");
     public static final sqlProcedures SQLGetSarpsborg = new sqlProcedures("SELECT * FROM viewSarsborgpPoI;");
+    public static final sqlProcedures SQLGetAllPoi = new sqlProcedures("SELECT * FROM allPoIData;");
 
     /* Dropped features, possibility of implementing later on
      public static final sqlProcedures SQLGetUserData = new sqlProcedures("");
