@@ -1,6 +1,6 @@
 # Reiseplanlegger
 
-En webapplikasjon som lar brukeren søke etter kollektivreiser i Norge.  
+En webapplikasjon som lar brukeren søke etter kollektivruter i Norge, og blir presentert den raskeste og mest effektive ruten.
 Frontend er laget i **HTML, CSS og JavaScript**, og backend er implementert i **Java (Javalin)** med integrasjon mot **Entur GraphQL API** for rutetider.
 
 ---
@@ -10,10 +10,11 @@ Frontend er laget i **HTML, CSS og JavaScript**, og backend er implementert i **
 Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde og et sentrert søkeskjema:
 
 - **Valg av billettype:** En dropdown for Én vei eller Tur/Retur.
-- **Valg av reisende:** En dropdown for Student, Voksen, Barn, etc.
+- **Valg av reisende:** En dropdown for Student, Voksen, Barn eller honnør.
 - **Fra / Til:** To input-felt med autoutfylling (autocomplete) koblet til Entur sitt geocoder-API.
 - **Dato og tid:** Dato- og tidsvelgere for avreisetidspunkt.
 - **Fortsett-knapp:** Sender inn søket og henter ruter fra backend.
+- Brukeren får presentert ruten deres, samt et kart som viser dem gangruten deres
 
 ---
 
