@@ -1,31 +1,48 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Trip {
-    - from: List<map(String, string)>
-    - to: List<map(String, string)>
-    - numTripPatterns: int
-    - dateTime: ZonedDateTime
+
+
+class To{
+    - place : String
+    - name : String
+}
+class ToPlace{
+    - name : String
+    - latitude : double
+    - longitude : double
+}
+class From{
+    - place : String
+    - name : String
+}
+class FromPlace{
+    - name : String
+    - latitude : double
+    - longitude : double
+    - vertexType : String
 }
 
 class TripPattern {
-    - duration: Duration
+    - duration: int
     - legs: List<Leg>
-    - startTime: ZonedDateTime
-    - endTime: ZonedDateTime
+    - startTime: String
+    - endTime: String
 }
 
 class Leg {
-    - distance: int
-    - expectedStartTime: ZonedDateTime
-    - expectedEndTime: ZonedDateTime
-    - fromPlace: String
-    - toPlace: String
-    - line: List<Line>
+    - mode : String
+    - distance: double
+    - expectedStartTime: String
+    - expectedEndTime: String
+    - fromPlace: FromPlace
+    - toPlace: ToPlace
+    - line : Line
     - steps: List<Step>
 }
 
 class Line {
+    - id : String
     - transportMode: String
     - name: String
 }
@@ -36,39 +53,168 @@ class Step {
     - streetName: String
     - stayOn: boolean
     - relativeDirection: String
+    - longitude : double
+    - latitude : double
 }
 
 class TripRequest {
-    - from: List<map(String, string)>
-    - to: List<map(String, string)>
+    - from: From
+    - to: To
     - numTripPatterns: int
-    - dateTime: ZonedDateTime
+    - dateTime: String
 }
 
 class TripResponse {
     - tripPatterns: List<TripPattern>
-    - duration: Duration
-    - endTime: ZonedDateTime
-    - startTime: ZonedDateTime
-    - legs: List<Leg>
+    - customerPrice : double
+    + getTrips() : TripPattern
 }
 
-class Person {
-    - name: String
-    - age: int
-    - alderGruppe: String
+class Adult {
+    + price : int
+    + getPrice() : int
+}
+class Child {
+    + price : int
+    + getPrice() : int
+}
+class Senior {
+     + price : int
+     + getPrice() : int
+
 }
 
-class Ticket {
-    - route: Route
-    - typeOfTicket: List<oneWay, roundTrip, several>
-    - person: Person
+class Student {
+     + price : int
+     + getPrice() : int
+
 }
 
-Trip ..> TripPattern
-TripPattern ..> Leg
-Leg ..> Line
-Leg ..> Step
+class Customer {
+    - adult : Adult
+    - child : Child
+    - senior : Senior
+    - student : Student
+    - ageGroup : String
+   + getBasePrice() : int
+}
+
+
+class TicketService {
+    - tripResponse : TripResponse
+    - customer : Customer
+    - finalPrice : double
+    + calculateDistance() : int
+    + calculateDistancePrice(): double
+}
+
+class TripInputDTO{
+    - tripType: String
+    - person : String
+    - from : String
+    - to : String
+    - toPlace : String
+    - date : String
+    - time : String
+}
+
+class TripController{
+    tripRepository : TripRepository
+    tripRequest : TripRequest
+    tripInputDTO : TripInputDTO
+    - tripValidator : TripValidator
+    tripService : TripService
+    tripResponse : TripResponse
+    customer : Customer
+    ticketService : TicketService
+    + getTripFromData(Context) : void
+}
+
+class TripRepository{
+
+}
+
+class TripValidator{
+    tripInputDTO : TripInputDTO
+    + isValid(Context) : boolean
+    isNullOrEmpty(String) : boolean
+}
+
+class TripService{
+    - enturClient : EnturClient
+    + getTrip(TripRequest) : TripRequest
+}
+
+class EnturClient{
+    query : String
+    tripRequest : TripRequest
+    tripResponse : TripResponse
+}
+class EnturResponse {
+    data : DataWrapper
+}
+
+class DataWrapper{
+    - trip : TripResponse
+}
+
+class SQLConnector{
+    + getAllPois(sqlProcedures) : ArrayList<poiDTO>
+}
+
+class sqlProcedures{
+    - procedure : String
+}
+
+
+class poiDTO{
+    - latitude : float
+    - longitude : float
+    - placeName : String
+    - placeType : String
+    - city : String
+    - area : String
+
+}
+class SQLConnectorController{
+    - SQLConnector : SQLConnector
+    + fetchPois() : ArrayList<poiDTO>
+}
+
+TripPattern *-- Leg
+Leg *-- Step
+Leg *-- Line
+
+Customer *-- Adult
+Customer *-- Child
+Customer *-- Senior
+Customer *-- Student
+TicketService ..> Customer
+TicketService ..> TripResponse
+TripResponse *-- TripPattern
+TripResponse ..> TripRequest
+Leg ..> FromPlace
+Leg ..> ToPlace
+TripRequest ..> To
+TripRequest ..> From
+TripRequest ..> EnturClient
+TripValidator ..> TripInputDTO
+TripController ..> TripInputDTO
+TripController ..> TripResponse
+TripController ..> TripRequest
+TripController ..> TripService
+TripController ..> TicketService
+TripController ..> Customer
+TripController ..> TripRepository
+EnturResponse ..> DataWrapper
+EnturClient ..> TripRequest
+EnturClient ..> TripResponse
+TripService ..> TripRequest
+DataWrapper ..> TripResponse
+SQLConnectorController ..> SQLConnector
+SQLConnectorController ..> sqlProcedures
+SQLConnectorController ..> poiDTO
+SQLConnector ..> poiDTO
 
 
 @enduml
