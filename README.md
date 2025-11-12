@@ -32,8 +32,9 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 
 **Skjermbilder:**
 
-
-
+1. <img width="1505" height="827" alt="G7-webb start" src="https://github.com/user-attachments/assets/80c44f4c-2d43-4abd-a651-83a2fe7313a5" />
+2.<img width="1186" height="676" alt="G7-webb sok" src="https://github.com/user-attachments/assets/0b3cf00f-a97b-4e07-98d0-2da1a256ede7" />
+3. <img width="1469" height="842" alt="G7-webb rute" src="https://github.com/user-attachments/assets/84b90ee9-933d-45ba-a32b-3a5d183c1205" />
 
 
 
