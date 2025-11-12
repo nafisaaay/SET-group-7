@@ -127,7 +127,7 @@ class TripController{
     tripResponse : TripResponse
     customer : Customer
     ticketService : TicketService
-    + getTripFromData(Context) : void
+    + getTripFormData(Context) : void
 }
 
 class TripRepository{
