@@ -43,7 +43,7 @@ function removeSuggestionSelect(selectElement) {
 }
 
 function setUpSuggestionSelect(inputElement, selectElement) {
-    selectElement.innerHTML = "";   // Sletter tidligere valgmuligheter
+    selectElement.innerHTML = " ";   // Sletter tidligere valgmuligheter
     inputElement.parentNode.insertBefore(selectElement, inputElement.nextSibling); // Legger dropdown elementet nær den input elementet som den hører til
 
     selectElement.classList.add('suggestion-select');
@@ -155,7 +155,7 @@ console.log(placeInfo);
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
-    tripResultsDisplay.innerHTML = "";
+    tripResultsDisplay.innerHTML = " ";
 
 
     console.log("Skjemaet ble sendt!");
@@ -323,6 +323,7 @@ document.querySelector(".recommendationButton").addEventListener('click', functi
 let toastBox = document.getElementById('toastBox');
 let newRouteSaved = "<i class=\"fa-solid fa-circle-check\" style='color: #0e881b'></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
 let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #FF0000'></i>Noe gikk galt ";
+let buttonClicked = "Button clicked :)";
 
  function showToast(msg) {
      let toast = document.createElement('div');
