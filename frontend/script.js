@@ -12,24 +12,6 @@ const tripSummaryHeaderTemplate = document.querySelector(".summary-header-templa
 const tripResultsDisplay = document.querySelector(".trip-results-display");
 const priceHeaderTemplate = document.querySelector(".price-header-template");
 
-
-/**
-// For toastBox
-let toastBox = document.getElementById('toastBox');
-function showToast() {
-    let toast = document.createElement('div');
-    toastBox.style.visibility = "visible";
-    toastBox.style.right = 0;
-    toast.classList.add('toast');
-    toast.innerHTML = 'success';
-    toastBox.appendChild(toast);
-
-    setTimeout(()=>{
-        toastBox.remove();
-    },5000)
-}
-**/
-
 let placeInfo = [
     {
         "from": "",
@@ -105,9 +87,9 @@ function placeInfoFinder() {
                 removeSuggestionSelect(fromSelect)
             }
 
-            }, 300)
+        }, 300)
 
-        })
+    })
 
     fromSelect.addEventListener("change", (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -199,10 +181,10 @@ form.addEventListener("submit", async (e) => {
         if (!response.ok) {
             const text = await response.text();
             console.log("Error: " + text);
-            alert("Noe gikk galt!\n" + text);
+
+            showToast(errorMsg + "\n" + text)
         }
 
-        // endret mtp display istedenfor visibility - // er tidl. kode
         if (response.ok) {
             console.log("Vellykket request og response");
             const formFieldset = document.querySelector(".form-fieldset");
@@ -257,8 +239,11 @@ form.addEventListener("submit", async (e) => {
                         tripDetailsClone.querySelector(".transportmode").textContent = "Tog";
                     }
                     else if ((data.tripPatterns[0].legs[i].line.transportMode) === "bus") {
-                        tripDetailsClone.querySelector(".transportmode").textContent = "Buss";
-                        // legg til egen for tram og air
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Buss";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "tram") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Trikk";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "air") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Fly";
                     } else {
                         tripDetailsClone.querySelector(".transportmode").textContent = data.tripPatterns[0].legs[i].line.transportMode;
                     }
@@ -328,7 +313,40 @@ function secondsToHourMin(durationInSeconds) {
 
     return hours + " t  -  " + minutes + " min";
 }
+document.querySelector(".recommendationButton").addEventListener('click', function() {
+    const mainRecommendationsSection = document.querySelector(".main-rec-section");
+    mainRecommendationsSection.style.display = "block";
+});
 
 
+ // For toastBox
+let toastBox = document.getElementById('toastBox');
+let newRouteSaved = "<i class=\"fa-solid fa-circle-check\" style='color: #0e881b'></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
+let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #FF0000'></i>Noe gikk galt ";
 
+ function showToast(msg) {
+     let toast = document.createElement('div');
+     toastBox.style.display = "block";
+     toast.classList.add('toast');
+     toast.innerHTML = msg;
+     toastBox.appendChild(toast);
+
+     setTimeout(()=>{
+     toastBox.remove();
+     },6000)
+ }
+
+ document.getElementById("unfilled-heart").addEventListener('click', function() {
+ const unfilledHeart = document.getElementById("unfilled-heart");
+ const filledHeart = document.getElementById("full-heart");
+ unfilledHeart.style.display = "none";
+ filledHeart.style.display = "block";
+
+ showToast(newRouteSaved);
+ });
+
+document.querySelector('.contactSection').addEventListener('click', function (){
+    const contact = document.getElementById('contact');
+    contact.style.display = 'block';
+});
 

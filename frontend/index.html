@@ -20,7 +20,7 @@
         <a href="index.html" class="logo"><img src="resources/logo.png"></a>
         <section class="navbar">
             <ul>
-                <li><a href="#"><i class="fa-solid fa-headset"></i><span class="navbar-text">KUNDESERVICE</span></a></li>
+                <li><a href="#contact" class="contactSection"><i class="fa-solid fa-headset"></i><span class="navbar-text">KUNDESERVICE</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-heart"></i><span class="navbar-text">LAGREDE RUTER</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-circle-user"></i><span class="navbar-text">MIN SIDE</span></a></li>
             </ul>
@@ -62,53 +62,63 @@
                     </fieldset>
                 </section>
                 <section class="trip-results">
-                    <div class="trip-results-display">
-                        <h1>Reise funnet:</h1>
-                        <template class="summary-header-template">
-                            <ul class="summary-header">
-                                <li><i class="fa-solid fa-clock"></i></li>
-                                <li>Total reisevarighet:</li>
-                                <li class="duration-value"></li>
-                            </ul>
-                        </template>
-                        <template class="price-header-template">
-                            <ul class="price-header">
-                                <li><i class="fa-solid fa-sack-dollar"></i></li>
-                                <li class="client">Voksen: </li>
-                            </ul>
-                        </template>
-                        <template class="trip-details-template">
-                            <div class="trip-details">
-                                <ul class="from-result result-point">
-                                    <li class="time departure-time avreisetid">--:--</li>
-                                    <li class="label">-</li>
-                                    <li class="location-name fraStedNavn">Sted navn</li>
-                                </ul>
-                                <div class="transport-leg-details">
-                                    <ul class="transportmode-line-info">
-                                        <li class="transport-mode transportmode">Transporttype:</li>
-                                        <li class="line-name name">Linjenavn: </li>
-                                        <li class="line-id name">Linjeid: </li>
+                    <div id="trip-results-container">
+                        <section id="trip-results-div">
+                            <div class="trip-results-display">
+                                <template class="summary-header-template">
+                                    <ul class="summary-header">
+                                        <li><i class="fa-solid fa-clock"></i></li>
+                                        <li>Total reisevarighet:</li>
+                                        <li class="duration-value"></li>
                                     </ul>
-                                </div>
-                                <ul class="to-result result-point">
-                                    <li class="time arrival-time ankomsttid">--:--</li>
-                                    <li class="label">-</li>
-                                    <li class="location-name tilStedNavn">Sted navn</li>
-                                </ul>
+                                </template>
+                                <template class="price-header-template">
+                                    <ul class="price-header">
+                                        <li><i class="fa-solid fa-sack-dollar"></i></li>
+                                        <li class="client">Voksen: </li>
+                                    </ul>
+                                </template>
+                                <template class="trip-details-template">
+                                    <div class="trip-details">
+                                        <ul class="from-result result-point">
+                                            <li class="time departure-time avreisetid">--:--</li>
+                                            <li class="label">-</li>
+                                            <li class="location-name fraStedNavn">Sted navn</li>
+                                        </ul>
+                                        <div class="transport-leg-details">
+                                            <ul class="transportmode-line-info">
+                                                <li class="transport-mode transportmode">Transporttype:</li>
+                                                <li class="line-name name">Linjenavn: </li>
+                                                <li class="line-id name">Linjeid: </li>
+                                            </ul>
+                                        </div>
+                                        <ul class="to-result result-point">
+                                            <li class="time arrival-time ankomsttid">--:--</li>
+                                            <li class="label">-</li>
+                                            <li class="location-name tilStedNavn">Sted navn</li>
+                                        </ul>
+                                    </div>
+                                </template>
+                                <template class="trip-kart-template">
+                                    <ul class="steps-details-display">
+                                        <li class="location-name fraStedNavn">Sted navn</li>
+                                        <li id="walking-distance-details"><i class="fa-solid fa-person-walking"><span class="avstand"></span></i></li>
+                                        <li class="location-name tilStedNavn">Sted navn</li>
+                                    </ul>
+                                </template>
                             </div>
-                        </template>
-                        <template class="trip-kart-template">
-                            <ul class="steps-details-display">
-                                <li class="location-name fraStedNavn">Sted navn</li>
-                                <li id="walking-distance-details"><i class="fa-solid fa-person-walking"><span class="avstand"></span></i></li>
-                                <li class="location-name tilStedNavn">Sted navn</li>
-                            </ul>
-                        </template>
+                            <button onclick="alert('Button clicked!');">Gå videre til betaling</button>
+                        </section>
+                        <i class="fa-regular fa-heart" id="unfilled-heart"></i>
+                        <i class="fa-solid fa-heart" id="full-heart"></i>
+                        <section id="map">
+                            <p>
+                                Kartet viser kun gåavstanden.<br>
+                                Dersom du ikke ser et kart her, så er det fordi det ikke er noen gå-distanser på rutene valgt.
+                            </p>
+                        </section>
                     </div>
-                    <button onclick="alert('Button clicked!');">Gå videre til betaling</button>
                 </section>
-                <div id="map"></div>
             </section>
         </section>
     </header>
@@ -148,10 +158,9 @@
                         <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
                             sed.
                         </p>
-                        <button>Les mer her</button>
+                        <button class="recommendationButton">Les mer her</button>
                     </details>
                 </div>
-
             </article>
             <article class="article-card">
                 <h4>EVENTYREREN</h4>
@@ -161,7 +170,7 @@
                         <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
                             sed.
                         </p>
-                        <button>Les mer her</button>
+                        <button class="recommendationButton">Les mer her</button>
                     </details>
                 </div>
             </article>
@@ -215,54 +224,60 @@
             </article>
         </section>
     </section>
-    <!--<div id="toastBox"></div>-->
-    <section class="main-recommendations">
-        <div class="main-recommendations-info">
-            <h4>Matsteder i ---Fredrikstad---</h4>
-            <p>blalblalbla</p>
-            <ul>
-                <li>tiramisu</li>
-                <li>esspreso house</li>
-                <li>divan restaurant</li>
-                <li>D</li>
-                <li>E</li>
-            </ul>
-        </div>
-        <div class="main-recommendations-map"></div>
-    </section>
+    <div class="main-rec-section">
+        <section class="main-recommendations">
+            <section class="main-recommendations-info">
+                <h4>Matsteder i <i>Fredrikstad</i></h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Suspendisse pharetra mi mi, a tempor orci vehicula sed.
+                    Curabitur pretium, ante vitae facilisis fringilla.</p>
+                <ul>
+                    <li>Tiramisu</li>
+                    <li>Espresso House</li>
+                    <li>Divan Restaurant</li>
+                    <li>Paa Brygga</li>
+                    <li>Et annet spisested</li>
+                </ul>
+            </section>
+            <div class="main-recommendations-map"></div>
+        </section>
+    </div>
 </main>
 <footer>
-    <!--
-    <section class="contact-info">
-        <h5>Kontakt oss</h5>
-        <p>
-            Integer a ultrices mi. Curabitur at interdum nisl.
-            Morbi at leo et metus viverra pretium nec eu erat.
-        </p>
-        <address>
-            Høgskolen i Østfold<br>
-            B R A veien 4<br>
-            1757 Halden
-        </address>
+    <section id="contact">
+        <div class="contact-info">
+            <h5>Kontakt oss</h5>
+            <p>
+                Integer a ultrices mi. Curabitur at interdum nisl.
+            </p>
+            <a href=tel:004712345678><b>Tel:</b> +47 12345678</a>
+            <a href="mailto:email@example.com"><span>||</span> Send oss en e-post her</a>
+            <address>
+                <p>Høgskolen i Østfold</p>
+                B R A veien 4, 1757 Halden
+            </address>
+        </div>
     </section>
-    -->
-    <section class="footer-info">
-        <ul>
-            <li><a href="#"><i class="fa-solid fa-circle-info"></i>Kontaktinformasjon</a></li>
-            <li><a href="#"><i class="fa-solid fa-suitcase-rolling"></i>Vilkår</a></li>
-            <li><a href="#"><i class="fa-solid fa-shield-halved"></i>Personvern</a></li>
-            <li><a href="#"><i class="fa-solid fa-cookie-bite"></i>Informasjonskapsler</a></li>
-            <li><a href="#"><i class="fa-solid fa-book-open"></i>Tilgjengelighetserklæring</a></li>
-        </ul>
-    </section>
-    <section class="so-me">
-        <ul>
-            <li id="instagram"><a href="www.instagram.com"><i class="fa-brands fa-instagram"></i><span class="so-me-text">Instagram</span></a></li>
-            <li id="facebook"><a href="www.facebook.com"><i class="fa-brands fa-facebook"></i><span class="so-me-text">Facebook</span></a></li>
-            <li id="linkedin"><a href="www.linkedin.com"><i class="fa-brands fa-linkedin"></i><span class="so-me-text">LinkedIn</span></a></li>
-        </ul>
-    </section>
+    <div>
+        <section class="footer-info">
+            <ul>
+                <li><a href="#contact"><i class="fa-solid fa-circle-info"></i>Kontaktinformasjon</a></li>
+                <li><a href="#"><i class="fa-solid fa-suitcase-rolling"></i>Vilkår</a></li>
+                <li><a href="#"><i class="fa-solid fa-shield-halved"></i>Personvern</a></li>
+                <li><a href="#"><i class="fa-solid fa-cookie-bite"></i>Informasjonskapsler</a></li>
+                <li><a href="#"><i class="fa-solid fa-book-open"></i>Tilgjengelighetserklæring</a></li>
+            </ul>
+        </section>
+        <section class="so-me">
+            <ul>
+                <li id="instagram"><a href="www.instagram.com"><i class="fa-brands fa-instagram"></i><span class="so-me-text">Instagram</span></a></li>
+                <li id="facebook"><a href="www.facebook.com"><i class="fa-brands fa-facebook"></i><span class="so-me-text">Facebook</span></a></li>
+                <li id="linkedin"><a href="www.linkedin.com"><i class="fa-brands fa-linkedin"></i><span class="so-me-text">LinkedIn</span></a></li>
+            </ul>
+        </section>
+    </div>
 </footer>
+<div id="toastBox"></div>
 </body>
 
 </html>
