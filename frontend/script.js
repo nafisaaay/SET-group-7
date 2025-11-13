@@ -170,11 +170,20 @@ function placeInfoFinder() {
 placeInfoFinder();
 console.log(placeInfo);
 
+function showSpinner() {
+    document.getElementById("loading-spinner").classList.remove("hidden");
+}
+
+function hideSpinner() {
+    document.getElementById("loading-spinner").classList.add("hidden");
+}
+
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
     tripResultsDisplay.innerHTML = "";
 
+    showSpinner();
 
     console.log("Skjemaet ble sendt!");
     const formData = {
@@ -213,11 +222,13 @@ form.addEventListener("submit", async (e) => {
             tripResults.style.display = "block";
             mapWalking.style.display = "block";
 
+
         }
 
         // Lagrer responsen fra backend som json-format slik at det er enklere å jobbe med det
         const data = await response.json();
         console.log(data.customerPrice);
+        console.log(data.tripPatterns);
 
         //console.log(data.tripPatterns[0].legs[1].steps.length);
 
@@ -229,7 +240,7 @@ form.addEventListener("submit", async (e) => {
 
             const priceHeaderClone = priceHeaderTemplate.content.cloneNode(true);
             // priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
-            priceHeaderClone.querySelector(".client").textContent = `${formData.person.charAt(0).toUpperCase() + formData.person.slice(1)}: ${data.customerPrice} kr`;
+            priceHeaderClone.querySelector(".client").textContent = `${formData.person.charAt(0).toUpperCase() + formData.person.slice(1)}: ${Math.ceil(data.customerPrice)} kr`;
 
             tripResultsDisplay.appendChild(priceHeaderClone);
 
@@ -274,10 +285,8 @@ form.addEventListener("submit", async (e) => {
                     tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + " meter";
                     tripResultsDisplay.appendChild(tripStepsMapClone);
 
-                    if (L.DomUtil.get('map') !== null) {
-                        L.DomUtil.get('map')._leaflet_id = null;
-                    }
 
+                    /*
                     const map = L.map('map').setView([data.tripPatterns[0].legs[i].steps[0].latitude, data.tripPatterns[0].legs[i].steps[0].longitude], 17);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -306,10 +315,48 @@ form.addEventListener("submit", async (e) => {
                     })
 
                     map.fitBounds(routeLine.getBounds());
+
+                     */
                 }
 
             }
 
+            const startPLat = data.tripPatterns[0].legs[0].fromPlace.latitude;
+            const startPlon = data.tripPatterns[0].legs[0].fromPlace.longitude;
+
+            let arrLength = data.tripPatterns[0].legs.length;
+
+            const endPLat = data.tripPatterns[0].legs[arrLength - 1].toPlace.latitude;
+            const endPLon = data.tripPatterns[0].legs[arrLength - 1].toPlace.longitude;
+
+            let routeCoordinates = [[startPLat, startPlon], [endPLat, endPLon]];
+
+            const map = L.map('map').setView([startPLat, startPlon], 17);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                // Max zoom level available for these tiles
+                maxZoom: 19,
+                // Attribution is required by most tile providers
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([startPLat, startPlon])
+                .addTo(map).bindPopup('Turens start posisjon')
+                .openPopup();
+            L.marker([endPLat, endPLon])
+                .addTo(map).bindPopup('Turens slutt posisjon')
+                .openPopup();
+
+            const polyline = L.polyline(routeCoordinates, {
+                color: 'blue',
+                weight: 5,
+                opacity: 0.7
+            });
+
+            polyline.addTo(map);
+            map.fitBounds(polyline.getBounds());
+
+            hideSpinner();
         }
 
 
@@ -328,6 +375,8 @@ function secondsToHourMin(durationInSeconds) {
 
     return hours + " t  -  " + minutes + " min";
 }
+
+
 
 
 
