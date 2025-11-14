@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 
 import no.hiof.setgroup7.DTOs.SQLdbConnect;
 import no.hiof.setgroup7.DTOs.TripResponse;
+import no.hiof.setgroup7.controller.SQLConnectorController;
 import no.hiof.setgroup7.controller.TripController;
 import no.hiof.setgroup7.integration.EnturClient;
 import no.hiof.setgroup7.service.TripService;
