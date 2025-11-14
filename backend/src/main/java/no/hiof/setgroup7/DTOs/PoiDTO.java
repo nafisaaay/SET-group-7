@@ -1,6 +1,6 @@
 package no.hiof.setgroup7.DTOs;
 
-public class poiDTO {
+public class PoiDTO {
     private float latitude;
     private float longitude;
     private String placeName;
@@ -8,7 +8,7 @@ public class poiDTO {
     private String city;
     private String area;
 
-    public poiDTO(float latitude, float longitude, String placeName, String placeType, String city, String area) {
+    public PoiDTO(float latitude, float longitude, String placeName, String placeType, String city, String area) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.placeName = placeName;

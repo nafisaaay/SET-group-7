@@ -1,10 +1,10 @@
 package no.hiof.setgroup7.controller;
 
 import no.hiof.setgroup7.model.SQLConnector;
-import no.hiof.setgroup7.DTOs.poiDTO;
+import no.hiof.setgroup7.DTOs.PoiDTO;
 import java.util.ArrayList;
 
-import static no.hiof.setgroup7.model.sqlProcedures.SQLGetAllPoi;
+import static no.hiof.setgroup7.model.sqlProcedures.*;
 
 
 public class SQLConnectorController {
@@ -17,9 +17,6 @@ public class SQLConnectorController {
     }
 
     // Method to fetch POIs using SQLConnector
-    public ArrayList<poiDTO> fetchPois() {
 
-        ArrayList<poiDTO> poiList = sqlConnector.getAllPois(SQLGetAllPoi);
-        return poiList;
-    }
+
 }

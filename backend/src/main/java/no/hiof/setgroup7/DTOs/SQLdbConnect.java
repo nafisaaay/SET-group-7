@@ -1,21 +1,43 @@
 package no.hiof.setgroup7.DTOs;
 
 import no.hiof.setgroup7.model.SQLConnector;
-import static no.hiof.setgroup7.model.sqlProcedures.SQLGetAllPoi;
 import java.util.ArrayList;
 
+import static no.hiof.setgroup7.model.PoIFilter.poiFilter;
+
+
+import static no.hiof.setgroup7.model.sqlProcedures.*;
+
+
+
 public class SQLdbConnect {
-    public static void main(String[] args) {
 
-        System.out.println(SQLGetAllPoi.getProcedure());
+    private SQLConnector sqlConnector;
 
-        SQLConnector sqlConnector = new SQLConnector();
+    public SQLdbConnect() {
+        this.sqlConnector = new SQLConnector();
+    }
 
-        ArrayList<poiDTO> poiList = sqlConnector.getAllPois(SQLGetAllPoi);
+    public void run(){
 
-        // Print out the list of POIs
-        for (poiDTO poi : poiList) {
-            System.out.println(poi);
-        }
+        ArrayList<PoiDTO> poiFredrikstad = (ArrayList<PoiDTO>) sqlConnector.getAllPois(SQLGetFredrikstad);
+        ArrayList<PoiDTO> poiSarpsborg = (ArrayList<PoiDTO>) sqlConnector.getAllPois(SQLGetSarpsborg);
+        ArrayList<PoiDTO> poiMoss = (ArrayList<PoiDTO>) sqlConnector.getAllPois(SQLGetMoss);
+        ArrayList<PoiDTO> poiHalden = (ArrayList<PoiDTO>) sqlConnector.getAllPois(SQLGetHalden);
+        ArrayList<PoiDTO> poiOslo = (ArrayList<PoiDTO>) sqlConnector.getAllPois(SQLGetOslo);
+
+        ArrayList<PoiDTO> SarpFoodPoI = poiFilter(poiSarpsborg, "café", "restaurant", "tavern");;
+        ArrayList<PoiDTO> FredFoodPoI = poiFilter(poiFredrikstad, "café", "restaurant", "tavern");
+        ArrayList<PoiDTO> MossFoodPoI = poiFilter(poiMoss, "café", "restaurant", "tavern");
+        ArrayList<PoiDTO> HaldenFoodPoI = poiFilter(poiHalden, "café", "restaurant", "tavern");
+        ArrayList<PoiDTO> OsloFoodPoI = poiFilter(poiOslo, "café", "restaurant", "tavern");
+
+        ArrayList<PoiDTO> SarpCulturePoI = poiFilter(poiSarpsborg, "museum", "art gallery", "*landmark");
+        ArrayList<PoiDTO> FredCulturePoI = poiFilter(poiFredrikstad, "museum", "art gallery", "*landmark");
+        ArrayList<PoiDTO> MossCulturePoI = poiFilter(poiMoss, "museum", "art gallery", "*landmark");
+        ArrayList<PoiDTO> HaldenCulturePoi = poiFilter(poiHalden, "museum", "art gallery", "*landmark");
+        ArrayList<PoiDTO> OsloCulturePoI = poiFilter(poiOslo, "museum", "art gallery", "*landmark");
+
+
     }
 }
