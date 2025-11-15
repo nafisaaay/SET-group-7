@@ -2,6 +2,7 @@ package no.hiof.setgroup7;
 
 import io.javalin.Javalin;
 
+import no.hiof.setgroup7.DTOs.SQLdbConnect;
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.controller.TripController;
 import no.hiof.setgroup7.integration.EnturClient;
@@ -17,6 +18,9 @@ public class App {
                     cors.addRule(rule -> rule.anyHost()));
         }).start(8000);
 
+        SQLdbConnect sqLdbConnect = new SQLdbConnect();
+        sqLdbConnect.run();
+
         EnturClient client = new EnturClient();
 
         TripService tripService = new TripService(client);
@@ -31,5 +35,4 @@ public class App {
         app.get("/health", context -> context.result("ok"));
 
     }
-
 }
