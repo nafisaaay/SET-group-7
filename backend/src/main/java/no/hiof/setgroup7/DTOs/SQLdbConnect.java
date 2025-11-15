@@ -18,6 +18,7 @@ public class SQLdbConnect {
         this.sqlConnector = new SQLConnector();
     }
 
+    // Works similarly to main class, but is called instead of ran. Populating array lists with relevant data from DB
     public void run(){
 
         ArrayList<PoiDTO> poiFredrikstad = sqlConnector.getAllPois(SQLGetFredrikstad);

@@ -12,6 +12,7 @@ public class sqlProcedures {
         return procedure;
     }
 
+    // prewritten queries to be used with SQLConnector
     public static final sqlProcedures SQLGetFredrikstad = new sqlProcedures("SELECT * FROM viewFredrikstadPoI;");
     public static final sqlProcedures SQLGetHalden = new sqlProcedures("SELECT * FROM viewHaldenPoI;");
     public static final sqlProcedures SQLGetMoss = new sqlProcedures("SELECT * FROM viewMossPoI;");

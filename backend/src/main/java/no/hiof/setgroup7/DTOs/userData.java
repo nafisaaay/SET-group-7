@@ -8,17 +8,13 @@ public class userData {
     // private int favPos2;
     // private int favPos3;
 
-
+    // constructor, getters and setters
     public userData(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
     public static userData DBConnector = new userData("gruppe7", "Summer26");
-
-    public static userData getDBConnector() {
-        return DBConnector;
-    }
 
     public String getUsername() {
         return username;
@@ -35,6 +31,8 @@ public class userData {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 /*
     public int getFavPos1() {
         return favPos1;

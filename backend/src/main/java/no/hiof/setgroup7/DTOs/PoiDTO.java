@@ -1,5 +1,7 @@
 package no.hiof.setgroup7.DTOs;
 
+
+// DTO to be able to work with POIs. Contains constructors, getters and setters.
 public class PoiDTO {
     private float latitude;
     private float longitude;
