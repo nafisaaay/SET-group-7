@@ -1,9 +1,10 @@
-package no.hiof.setgroup7.model;
+package no.hiof.setgroup7.repository;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
 import no.hiof.setgroup7.DTOs.userData;
-import java.util.ArrayList;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLConnector {
     /* creating an url which represents the database.
@@ -14,10 +15,9 @@ public class SQLConnector {
      */
     String url = "jdbc:mysql://itstud.hiof.no:3306/se25_G7";
 
-    public SQLConnector() {
-    }
+    public SQLConnector() {}
 
-        public ArrayList<PoiDTO> getAllPois (sqlProcedures sqlProcedures){
+        public ArrayList<PoiDTO> getAllPois (SQLProcedures sqlProcedures){
             ArrayList<PoiDTO> poiArrayList = new ArrayList<>();
             Connection connection = null;
 
@@ -43,6 +43,7 @@ public class SQLConnector {
 
                         PoiDTO poiDTOItem = new PoiDTO(field1, field2, field3, field4, field5, field6);
                         poiArrayList.add(poiDTOItem);
+
                     }
 
                 } catch (SQLException e) {

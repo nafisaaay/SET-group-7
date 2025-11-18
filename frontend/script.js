@@ -360,7 +360,12 @@ function secondsToHourMin(durationInSeconds) {
 
     return hours + " t  -  " + minutes + " min";
 }
-document.querySelector(".recommendationButton").addEventListener('click', function() {
+document.querySelector(".recommendationButton").addEventListener('click', () => {
+    const mainRecommendationsSection = document.querySelector(".main-rec-section");
+    mainRecommendationsSection.style.display = "block";
+});
+
+document.querySelector(".recommendationButtonAdventure").addEventListener('click', () => {
     const mainRecommendationsSection = document.querySelector(".main-rec-section");
     mainRecommendationsSection.style.display = "block";
 });
@@ -385,12 +390,12 @@ let buttonClicked = "Button clicked :)";
  }
 
  document.getElementById("unfilled-heart").addEventListener('click', function() {
- const unfilledHeart = document.getElementById("unfilled-heart");
- const filledHeart = document.getElementById("full-heart");
- unfilledHeart.style.display = "none";
- filledHeart.style.display = "block";
+     const unfilledHeart = document.getElementById("unfilled-heart");
+     const filledHeart = document.getElementById("full-heart");
+     unfilledHeart.style.display = "none";
+     filledHeart.style.display = "block";
 
- showToast(newRouteSaved);
+     showToast(newRouteSaved);
  });
 
 document.querySelector('.contactSection').addEventListener('click', function (){
@@ -398,5 +403,98 @@ document.querySelector('.contactSection').addEventListener('click', function (){
     contact.style.display = 'block';
 });
 
+
+
+const selectSight = document.getElementById("city");
+
+selectSight.addEventListener("change", async (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOption = e.target.options[selectedIndex].textContent;
+    // console.log(selectedOption);
+
+    try {
+        const response = await fetch("http://localhost:8000/api/sights", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(selectedOption)
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+            const res = await response.text();
+            console.log("Message: " + res);
+        }
+
+        if(response.ok) {
+            console.log("Successfull request and response");
+
+            const res = await response.json();
+            console.log(res);
+
+            const cityName = document.querySelector(".cityName");
+            const restaurants = document.querySelector(".sights");
+
+
+            function foodPlaces(option) {
+
+                // Nullstiller verdiene i main-recommendations-info
+                for (let i = 0; i < restaurants.childElementCount; i++) {
+                    cityName.textContent = "ingen matsteder ble funnet!";
+                    restaurants.children.item(i).textContent = "";
+                }
+
+
+                if (selectedOption === "Fredrikstad") {
+                    for (let i = 0; i < restaurants.childElementCount; i++) {
+                        cityName.textContent = res[0][0].city;
+                        restaurants.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Sarpsborg") {
+                    for (let i = 0; i < restaurants.childElementCount; i++) {
+                        cityName.textContent = res[0][0].city;
+                        restaurants.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Moss") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][0].city;
+                        restaurants.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+
+                else if (selectedOption === "Halden") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][0].city;
+                        restaurants.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+            }
+
+            foodPlaces(selectedOption);
+
+            /*function sights() {
+
+            }*/
+
+        }
+
+
+
+
+
+
+    }
+
+    catch (e) {
+        console.error(e);
+    }
+
+})
 
 

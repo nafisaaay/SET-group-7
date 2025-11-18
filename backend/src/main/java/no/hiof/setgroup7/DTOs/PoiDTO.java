@@ -19,6 +19,8 @@ public class PoiDTO {
         this.area = area;
     }
 
+    public PoiDTO() {}
+
     public float getLatitude() {
         return latitude;
     }
@@ -65,5 +67,17 @@ public class PoiDTO {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    @Override
+    public String toString() {
+        return "PoiDTO{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", placeName='" + placeName + '\'' +
+                ", placeType='" + placeType + '\'' +
+                ", city='" + city + '\'' +
+                ", area='" + area + '\'' +
+                '}';
     }
 }

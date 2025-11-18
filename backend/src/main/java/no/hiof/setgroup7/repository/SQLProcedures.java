@@ -1,24 +1,26 @@
-package no.hiof.setgroup7.model;
+package no.hiof.setgroup7.repository;
 
-public class sqlProcedures {
+public class SQLProcedures {
     private String procedure;
 
-    public sqlProcedures(String procedure) {
+    public SQLProcedures(String procedure) {
         this.procedure = procedure;
     }
 
+    public SQLProcedures() {}
 
     public String getProcedure() {
         return procedure;
     }
 
     // prewritten queries to be used with SQLConnector
-    public static final sqlProcedures SQLGetFredrikstad = new sqlProcedures("SELECT * FROM viewFredrikstadPoI;");
-    public static final sqlProcedures SQLGetHalden = new sqlProcedures("SELECT * FROM viewHaldenPoI;");
-    public static final sqlProcedures SQLGetMoss = new sqlProcedures("SELECT * FROM viewMossPoI;");
-    public static final sqlProcedures SQLGetOslo = new sqlProcedures("SELECT * FROM viewOsloPoI;");
-    public static final sqlProcedures SQLGetSarpsborg = new sqlProcedures("SELECT * FROM viewSarsborgpPoI;");
-    }
+    public static final SQLProcedures SQLGetFredrikstad = new SQLProcedures("SELECT * FROM viewFredrikstadPoI;");
+    public static final SQLProcedures SQLGetHalden = new SQLProcedures("SELECT * FROM viewHaldenPoI;");
+    public static final SQLProcedures SQLGetMoss = new SQLProcedures("SELECT * FROM viewMossPoI;");
+    public static final SQLProcedures SQLGetOslo = new SQLProcedures("SELECT * FROM viewOsloPoI;");
+    public static final SQLProcedures SQLGetSarpsborg = new SQLProcedures("SELECT * FROM viewSarsborgpPoI;");
+
+}
 
     /* Dropped features, possibility of implementing later on
      public static final sqlProcedures SQLGetUserData = new sqlProcedures("");
