@@ -158,32 +158,40 @@ class DataWrapper{
     - trip : TripResponse
 }
 
-class SQLConnector{
-    + getAllPois(sqlProcedures) : ArrayList<poiDTO>
+class SQLdbConnector{
+    - sqlConnector : SQLConnector
+    + run() : void
 }
 
 class sqlProcedures{
     - procedure : String
 }
+class SQLConnector{
+    + getAllPois(sqlProcedures : sqlProcedures) : ArrayList<PoiDTO>
+}
 
-
-class poiDTO{
+class PoiDTO{
     - latitude : float
     - longitude : float
     - placeName : String
     - placeType : String
     - city : String
     - area : String
-
 }
-class SQLConnectorController{
-    - SQLConnector : SQLConnector
-    + fetchPois() : ArrayList<poiDTO>
+
+class PoiFilter{
+   + poiFilter(fromList: ArrayList<PoiDTO>, filterCondition1: String, filterCondition2: String, filterCondition3: String) : ArrayList<PoiDTO>
+}
+
+class userData{
+    - username : String
+    - password : String
 }
 
 TripPattern *-- Leg
 Leg *-- Step
 Leg *-- Line
+PoiFilter *-- PoiDTO
 
 Customer *-- Adult
 Customer *-- Child
@@ -211,10 +219,10 @@ EnturClient ..> TripRequest
 EnturClient ..> TripResponse
 TripService ..> TripRequest
 DataWrapper ..> TripResponse
-SQLConnectorController ..> SQLConnector
-SQLConnectorController ..> sqlProcedures
-SQLConnectorController ..> poiDTO
-SQLConnector ..> poiDTO
+SQLdbConnector ..> SQLConnector
+SQLdbConnector *-- userData
+SQLConnector ..> PoiDTO
+SQLConnector ..> sqlProcedures
 
 
 @enduml
