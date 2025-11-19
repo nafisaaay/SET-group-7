@@ -1,4 +1,4 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import io.javalin.http.Context;
 import no.hiof.setgroup7.DTOs.TripInputDTO;

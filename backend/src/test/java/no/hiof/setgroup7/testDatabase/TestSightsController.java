@@ -1,17 +1,11 @@
-package no.hiof.setgroup7.controller;
+package no.hiof.setgroup7.testDatabase;
+
 import io.javalin.http.Context;
-import no.hiof.setgroup7.DTOs.PoiDTO;
-import no.hiof.setgroup7.database.SQLdbConnect;
-import no.hiof.setgroup7.repository.SQLConnector;
-import no.hiof.setgroup7.repository.SQLProcedures;
 
-import java.util.ArrayList;
+public class TestSightsController {
+    private final TestSQLdbConnect sqlConnector;
 
-
-public class SightsController {
-    private final SQLdbConnect sqlConnector;
-
-    public SightsController(SQLdbConnect sqlConnector) {
+    public TestSightsController(TestSQLdbConnect sqlConnector) {
         this.sqlConnector = sqlConnector;
     }
 

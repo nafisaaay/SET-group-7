@@ -1,12 +1,12 @@
-package no.hiof.setgroup7.repository;
+package no.hiof.setgroup7.testDatabase;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
-import no.hiof.setgroup7.DTOs.userData;
+import no.hiof.setgroup7.repository.SQLProcedures;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SQLConnector {
+public class TestSQLConnector {
     /* creating an url which represents the database.
     jbdc = java database connectivity
     mysql refers to the database management system
@@ -17,11 +17,11 @@ public class SQLConnector {
     String username;
     String password;
 
-    public SQLConnector() {
+    public TestSQLConnector() {
 
     }
 
-    public SQLConnector(String url, String username, String password) {
+    public TestSQLConnector(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -34,8 +34,7 @@ public class SQLConnector {
 
                 // trying to connect to the database based on where url points to, using username and password to verify
                 try {
-                    connection = DriverManager.getConnection(url, userData.DBConnector.getUsername(), userData.DBConnector.getPassword()); //tries to connect to the db using url, username and password
-
+                    connection = DriverManager.getConnection(url, username, password);
                     System.out.println("Connected to database.");
 
                     // creating a statement which then is used for calling a prewritten sql query.

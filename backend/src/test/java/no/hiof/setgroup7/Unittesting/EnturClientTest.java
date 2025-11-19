@@ -1,23 +1,26 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import no.hiof.setgroup7.DTOs.TripRequest;
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.integration.EnturClient;
 import no.hiof.setgroup7.model.From;
 import no.hiof.setgroup7.model.To;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockedStatic;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -94,7 +97,7 @@ public class EnturClientTest {
             TripResponse result = enturClient.sendRequest();
 
             assertNotNull(result);
-            assertEquals(3600, result.getTripPatterns().get(0).getDuration());
+            Assertions.assertEquals(3600, result.getTripPatterns().get(0).getDuration());
         }
     }
 }

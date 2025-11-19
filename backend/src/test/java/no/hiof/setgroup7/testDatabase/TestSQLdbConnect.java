@@ -1,4 +1,4 @@
-package no.hiof.setgroup7.database;
+package no.hiof.setgroup7.testDatabase;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
 import no.hiof.setgroup7.repository.SQLConnector;
@@ -7,22 +7,23 @@ import java.util.ArrayList;
 
 import static no.hiof.setgroup7.repository.PoIFilter.poiFilter;
 import static no.hiof.setgroup7.repository.SQLProcedures.*;
+import static no.hiof.setgroup7.repository.SQLProcedures.SQLGetHalden;
+import static no.hiof.setgroup7.repository.SQLProcedures.SQLGetOslo;
 
-
-public class SQLdbConnect {
+public class TestSQLdbConnect {
     private ArrayList<ArrayList<PoiDTO>> arrayListOfFred;
     private ArrayList<ArrayList<PoiDTO>> arrayListOfSarps;
     private ArrayList<ArrayList<PoiDTO>> arrayListOfMoss;
     private ArrayList<ArrayList<PoiDTO>> arrayListOfHalden;
     private ArrayList<ArrayList<PoiDTO>> arrayListOfOslo;
 
-    private SQLConnector sqlConnector;
+    private TestSQLConnector sqlConnector;
 
-    public SQLdbConnect() {
-        this.sqlConnector = new SQLConnector();
+    public TestSQLdbConnect() {
+        this.sqlConnector = new TestSQLConnector();
     }
 
-    public SQLdbConnect(SQLConnector connector) {
+    public TestSQLdbConnect(TestSQLConnector connector) {
         this.sqlConnector = connector;
     }
 

@@ -1,11 +1,12 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 
 import static org.mockito.Mockito.*;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
-import no.hiof.setgroup7.model.SQLConnector;
-import no.hiof.setgroup7.model.sqlProcedures;
+import no.hiof.setgroup7.repository.SQLConnector;
+import no.hiof.setgroup7.repository.SQLProcedures;
+import no.hiof.setgroup7.repository.SQLProcedures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 public class SQLConnectorTest {
 
     private SQLConnector sqlConnector;
-    private sqlProcedures mockSqlProcedures;
+    private SQLProcedures mockSqlProcedures;
 
     @BeforeEach
     public void setup(){
         sqlConnector = new SQLConnector();
-        mockSqlProcedures = mock(sqlProcedures.class);
+        mockSqlProcedures = mock(SQLProcedures.class);
     }
 
     @Test
@@ -64,6 +65,5 @@ public class SQLConnectorTest {
         ArrayList<PoiDTO> poiDTOS = sqlConnector.getAllPois(mockSqlProcedures);
 
         Assertions.assertEquals(0, poiDTOS.size(), "Expecting empty array if connection failure.");
-        }
     }
-
+}

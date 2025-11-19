@@ -22,12 +22,7 @@ public class SQLProcedures {
 
 }
 
-    /* Dropped features, possibility of implementing later on
-     public static final sqlProcedures SQLGetUserData = new sqlProcedures("");
-     public static final sqlProcedures SQLGetFavourites = new sqlProcedures("");
-     public static final sqlProcedures createUser = new sqlProcedures(
-     "CREATE TABLE userDataTable (userID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, emailAddress varchar(255) NOT NULL, userPassword varchar(255) NOT NULL, fav1 INT, fav2, INT, fav3 INT);");
-     */
+
 
 
 
