@@ -1,6 +1,6 @@
 # Reiseplanlegger
 
-En webapplikasjon som lar brukeren søke etter kollektivreiser i Norge.  
+En webapplikasjon som lar brukeren søke etter kollektivruter i Norge, og blir presentert den raskeste og mest effektive ruten.
 Frontend er laget i **HTML, CSS og JavaScript**, og backend er implementert i **Java (Javalin)** med integrasjon mot **Entur GraphQL API** for rutetider.
 
 ---
@@ -10,10 +10,11 @@ Frontend er laget i **HTML, CSS og JavaScript**, og backend er implementert i **
 Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde og et sentrert søkeskjema:
 
 - **Valg av billettype:** En dropdown for Én vei eller Tur/Retur.
-- **Valg av reisende:** En dropdown for Student, Voksen, Barn, etc.
+- **Valg av reisende:** En dropdown for Student, Voksen, Barn eller honnør.
 - **Fra / Til:** To input-felt med autoutfylling (autocomplete) koblet til Entur sitt geocoder-API.
 - **Dato og tid:** Dato- og tidsvelgere for avreisetidspunkt.
 - **Fortsett-knapp:** Sender inn søket og henter ruter fra backend.
+- Brukeren får presentert ruten deres, samt et kart som viser dem gangavstanden deres 
 
 ---
 
@@ -24,23 +25,24 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 | ✍️ Bruker skriver inn “Oslo” | Dynamisk liste med forslag som “Oslo lufthavn, Ullensaker”, “Oslo S, Oslo”, “Oslo bussterminal, Oslo” vises under inputfeltet. *(Se bilde 1)* |
 | ⛳ Bruker fyller ut “Til”     | Autocomplete fungerer også for destinasjon, f.eks. “Remmen”, og forslag som “Remmen Høgskolen, Halden” vises. *(Se bilde 2)* |
 | 📅 Bruker velger dato/tid     | Feltene fylles automatisk i formatet dd.mm.åååå og hh:mm. *(Se bilde 3)* |
-| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd<br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- evt. gå-avstand | 
-|                              | *(Se bilde 5)* |
+| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd <br>- totalpris for hele turen <br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- gangavstand  <br>- *(se bilde 3)*
+| 💰 Trykk på "gå videre til betaling" | En bilett vises med qr kode slik at billetten kan valideres, og bilde endres daglig *(se bilde 4)*
+
 
 ---
 
 **Skjermbilder:**
 
-1. ![Skjermbilde 1](https://github.com/user-attachments/assets/b1bd93be-8fb5-4b93-871c-2a5d9f2d1ef8)
-2. ![Skjermbilde 2](https://github.com/user-attachments/assets/ca9c1e39-5bfd-4d5b-bdd9-e8b8d5330584)
-3. <img width="2456" height="1333" alt="Skjermbilde 2025-11-02 091626" src="https://github.com/user-attachments/assets/7b67936d-2e4b-4769-89e6-bb00622f5837" />
-4. <img width="2453" height="1336" alt="Skjermbilde 2025-11-02 091644" src="https://github.com/user-attachments/assets/b94b6d07-30d7-4b56-afa9-c74c4a97c7d5" />
-5. <img width="2447" height="1337" alt="Skjermbilde 2025-11-02 093250" src="https://github.com/user-attachments/assets/3c846c67-19e2-42fa-b573-f9f045d4a01d" />
-6. <img width="2456" height="1339" alt="Skjermbilde 2025-11-02 103708" src="https://github.com/user-attachments/assets/013ba3bf-fb52-426b-9e6e-9527b874bdf9" />
-7. <img width="2457" height="1338" alt="Skjermbilde 2025-11-02 103727" src="https://github.com/user-attachments/assets/82e2a03f-754b-4106-8b7a-a6d37b806bbe" />
-8. <img width="2457" height="1340" alt="Skjermbilde 2025-11-02 103739" src="https://github.com/user-attachments/assets/6b3b2c86-bcdb-4474-8184-841f3b0408a3" />
-9. <img width="2454" height="1332" alt="Skjermbilde 2025-11-02 103800" src="https://github.com/user-attachments/assets/b8435423-b050-4748-a985-ae5e5cfe71ed" />
+Start side
+<img width="1505" height="827" alt="G7-webb start" src="https://github.com/user-attachments/assets/80c44f4c-2d43-4abd-a651-83a2fe7313a5" />
 
+Lagt inn søk 
+<img width="1186" height="676" alt="G7-webb sok" src="https://github.com/user-attachments/assets/0b3cf00f-a97b-4e07-98d0-2da1a256ede7" />
+
+Søkefeltet blir byttet ut med brukrens valgte rute 
+<img width="1469" height="842" alt="G7-webb rute" src="https://github.com/user-attachments/assets/84b90ee9-933d-45ba-a32b-3a5d183c1205" />
+
+Betaling
 
 
 

@@ -53,6 +53,9 @@ public class Customer {
             basePrice = student.getPrice();
 
         }
+        else if (ageGroup.equals("student")) {
+            basePrice = student.getPrice();
+        }
 
         return basePrice;
     }

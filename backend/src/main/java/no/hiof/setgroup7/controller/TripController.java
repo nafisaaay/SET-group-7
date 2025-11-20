@@ -6,7 +6,6 @@ import no.hiof.setgroup7.DTOs.TripInputDTO;
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.model.From;
 import no.hiof.setgroup7.model.To;
-import no.hiof.setgroup7.repository.TripRepository;
 import no.hiof.setgroup7.service.TripService;
 import no.hiof.setgroup7.ticketsys.model.Customer;
 import no.hiof.setgroup7.ticketsys.service.TicketService;
@@ -20,18 +19,12 @@ import java.time.ZonedDateTime;
 
 
 public class TripController {
-    TripRepository tripRepository;
-    TripRequest tripRequest;
     TripInputDTO tripInputDTO;
-    TripValidator tripValidator = new TripValidator();
+    public TripValidator tripValidator = new TripValidator();
     TripService tripService;
     TripResponse tripResponse;
     Customer customer;
     TicketService ticketService;
-
-    public TripController(TripRepository tripRepository) {
-        this.tripRepository = tripRepository;
-    }
 
     public TripController(TripService tripService, Customer customer, TicketService ticketService) {
         this.tripService = tripService;

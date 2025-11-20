@@ -10,11 +10,15 @@ const tripDetailsTemplate = document.querySelector(".trip-details-template");
 const tripMapTemplate = document.querySelector(".trip-kart-template");
 const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
 const tripResultsDisplay = document.querySelector(".trip-results-display");
+<<<<<<< HEAD
 
 // laster siden på https
 if (location.protocol !== "https:") {
     location.protocol = "https:";
 }
+=======
+const priceHeaderTemplate = document.querySelector(".price-header-template");
+>>>>>>> origin/develop
 
 let placeInfo = [
     {
@@ -47,7 +51,7 @@ function removeSuggestionSelect(selectElement) {
 }
 
 function setUpSuggestionSelect(inputElement, selectElement) {
-    selectElement.innerHTML = "";   // Sletter tidligere valgmuligheter
+    selectElement.innerHTML = " ";   // Sletter tidligere valgmuligheter
     inputElement.parentNode.insertBefore(selectElement, inputElement.nextSibling); // Legger dropdown elementet nær den input elementet som den hører til
 
     selectElement.classList.add('suggestion-select');
@@ -91,9 +95,9 @@ function placeInfoFinder() {
                 removeSuggestionSelect(fromSelect)
             }
 
-            }, 300)
+        }, 300)
 
-        })
+    })
 
     fromSelect.addEventListener("change", (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -132,7 +136,7 @@ function placeInfoFinder() {
                 }
 
             } catch (e) {
-                console.error("Error ved henting av to suggestions: " + e);
+                console.error("Error ved uthenting av to suggestions: " + e);
                 removeSuggestionSelect(toSelect);
             }
         }, 300);
@@ -156,11 +160,20 @@ function placeInfoFinder() {
 placeInfoFinder();
 console.log(placeInfo);
 
+function showSpinner() {
+    document.getElementById("loading-spinner").classList.remove("hidden");
+}
+
+function hideSpinner() {
+    document.getElementById("loading-spinner").classList.add("hidden");
+}
+
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
-    tripResultsDisplay.innerHTML = "";
+    tripResultsDisplay.innerHTML = " ";
 
+    showSpinner();
 
     console.log("Skjemaet ble sendt!");
     const formData = {
@@ -186,18 +199,27 @@ form.addEventListener("submit", async (e) => {
         if (!response.ok) {
             const text = await response.text();
             console.log("Error: " + text);
+
+            showToast(errorMsg + "\n" + text)
         }
 
         if (response.ok) {
             console.log("Vellykket request og response");
             const formFieldset = document.querySelector(".form-fieldset");
-            formFieldset.style.marginLeft = "-200px";
-            tripResultsDisplay.style.visibility = "visible";
+            const mapWalking = document.getElementById("map");
+            const tripResults = document.querySelector(".trip-results")
+
+            formFieldset.style.display = "none"; // fjerner fra skjermen når responsdelen dukker opp
+            tripResults.style.display = "block";
+            mapWalking.style.display = "block";
+
+
         }
 
-        // Lagrer responsen fra backend som json format for å enklere jobbe med det
+        // Lagrer responsen fra backend som json-format slik at det er enklere å jobbe med det
         const data = await response.json();
-        console.log(data);
+        console.log(data.customerPrice);
+        console.log(data.tripPatterns);
 
         //console.log(data.tripPatterns[0].legs[1].steps.length);
 
@@ -207,41 +229,58 @@ form.addEventListener("submit", async (e) => {
             tripSummaryHeaderClone.querySelector(".duration-value").textContent = duration;
             tripResultsDisplay.appendChild(tripSummaryHeaderClone);
 
+            const priceHeaderClone = priceHeaderTemplate.content.cloneNode(true);
+            // priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
+            priceHeaderClone.querySelector(".client").textContent = `${formData.person.charAt(0).toUpperCase() + formData.person.slice(1)}: ${Math.ceil(data.customerPrice)} kr`;
+
+            tripResultsDisplay.appendChild(priceHeaderClone);
 
             for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
                 const tripDetailsClone = tripDetailsTemplate.content.cloneNode(true);
                 const tripStepsMapClone = tripMapTemplate.content.cloneNode(true);
-
+                const departureTime = new Date(data.tripPatterns[0].legs[i].expectedStartTime);
+                const arrivalTime = new Date(data.tripPatterns[0].legs[i].expectedEndTime);
 
                 if ((data.tripPatterns[0].legs[i].steps.length) === 0) {
                     tripDetailsClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
-                    tripDetailsClone.querySelector(".departure-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
+                    //tripDetailsClone.querySelector(".departure-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
                     tripDetailsClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
-                    tripDetailsClone.querySelector(".arrival-time").textContent = " - " + new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+                    //tripDetailsClone.querySelector(".arrival-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+                    tripDetailsClone.querySelector(".departure-time").textContent =
+                        String(departureTime.getHours()).padStart(2, "0") + ":" +
+                        String(departureTime.getMinutes()).padStart(2, "0");
+                    tripDetailsClone.querySelector(".arrival-time").textContent =
+                        String(arrivalTime.getHours()).padStart(2, "0") + ":" +
+                        String(arrivalTime.getMinutes()).padStart(2, "0");
+
+
 
                     if ((data.tripPatterns[0].legs[i].line.transportMode) === "rail") {
-                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + "Tog";
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Tog";
+                    }
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "bus") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Buss";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "tram") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Trikk";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "air") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Fly";
+                    } else {
+                        tripDetailsClone.querySelector(".transportmode").textContent = data.tripPatterns[0].legs[i].line.transportMode;
                     }
 
-                    else {
-                        tripDetailsClone.querySelector(".transportmode").textContent = "Transporttype: " + data.tripPatterns[0].legs[i].line.transportMode;
-                    }
-
-                    tripDetailsClone.querySelector(".line-id").textContent = "Linjeid: " + data.tripPatterns[0].legs[i].line.id;
-                    tripDetailsClone.querySelector(".line-name").textContent = "Linjenavn: " + data.tripPatterns[0].legs[i].line.name;
+                    tripDetailsClone.querySelector(".line-id").textContent = "(" + data.tripPatterns[0].legs[i].line.id + ")";
+                    tripDetailsClone.querySelector(".line-name").textContent = data.tripPatterns[0].legs[i].line.name;
                     tripResultsDisplay.appendChild(tripDetailsClone);
                 }
 
                 else {
                     tripStepsMapClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
                     tripStepsMapClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
-                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + "m (se på kartet nedenfor)";
+                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + " meter";
                     tripResultsDisplay.appendChild(tripStepsMapClone);
 
-                    if (L.DomUtil.get('map') !== null) {
-                        L.DomUtil.get('map')._leaflet_id = null;
-                    }
 
+                    /*
                     const map = L.map('map').setView([data.tripPatterns[0].legs[i].steps[0].latitude, data.tripPatterns[0].legs[i].steps[0].longitude], 17);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -270,21 +309,55 @@ form.addEventListener("submit", async (e) => {
                     })
 
                     map.fitBounds(routeLine.getBounds());
+
+                     */
                 }
 
             }
 
-        }
+            const startPLat = data.tripPatterns[0].legs[0].fromPlace.latitude;
+            const startPlon = data.tripPatterns[0].legs[0].fromPlace.longitude;
 
+            let arrLength = data.tripPatterns[0].legs.length;
+
+            const endPLat = data.tripPatterns[0].legs[arrLength - 1].toPlace.latitude;
+            const endPLon = data.tripPatterns[0].legs[arrLength - 1].toPlace.longitude;
+
+            let routeCoordinates = [[startPLat, startPlon], [endPLat, endPLon]];
+
+            const map = L.map('map').setView([startPLat, startPlon], 17);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                // Max zoom level available for these tiles
+                maxZoom: 19,
+                // Attribution is required by most tile providers
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([startPLat, startPlon])
+                .addTo(map).bindPopup('Turens start posisjon')
+                .openPopup();
+            L.marker([endPLat, endPLon])
+                .addTo(map).bindPopup('Turens slutt posisjon')
+                .openPopup();
+
+            const polyline = L.polyline(routeCoordinates, {
+                color: 'blue',
+                weight: 5,
+                opacity: 0.7
+            });
+
+            polyline.addTo(map);
+            map.fitBounds(polyline.getBounds());
+
+            hideSpinner();
+        }
 
 
     } catch (error) {
         console.error("Kunne ikke få data fra backend!");
         console.error(error);
     }
-
-
-
 });
 
 
@@ -294,8 +367,187 @@ function secondsToHourMin(durationInSeconds) {
     const remainingSecondsAfterHours = (seconds % 3600);
     const minutes = Math.floor(remainingSecondsAfterHours / 60);
 
-    return hours + " time " + minutes + " min";
+    return hours + " t  -  " + minutes + " min";
 }
+document.querySelector(".recommendationButton").addEventListener('click', () => {
+    const mainRecommendationsSection = document.querySelector(".main-rec-section");
+    mainRecommendationsSection.style.display = "block";
+});
+/* 
+document.querySelector(".recommendationButtonAdventure").addEventListener('click', () => {
+    const mainRecommendationsSection = document.querySelector(".main-rec-section");
+    mainRecommendationsSection.style.display = "block";
+});
+*/
+
+
+ // For toastBox
+let toastBox = document.getElementById('toastBox');
+let newRouteSaved = "<i class=\"fa-solid fa-circle-check\" style='color: #0e881b'></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
+let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #FF0000'></i>Noe gikk galt ";
+let buttonClicked = "Button clicked :)";
+
+ function showToast(msg) {
+     let toast = document.createElement('div');
+     toastBox.style.display = "block";
+     toast.classList.add('toast');
+     toast.innerHTML = msg;
+     toastBox.appendChild(toast);
+
+     setTimeout(()=>{
+     toastBox.remove();
+     },6000)
+ }
+
+ document.getElementById("unfilled-heart").addEventListener('click', function() {
+     const unfilledHeart = document.getElementById("unfilled-heart");
+     const filledHeart = document.getElementById("full-heart");
+     unfilledHeart.style.display = "none";
+     filledHeart.style.display = "block";
+
+     showToast(newRouteSaved);
+ });
+
+document.querySelector('.contactSection').addEventListener('click', function (){
+    const contact = document.getElementById('contact');
+    contact.style.display = 'block';
+});
+
+
+
+const selectSight = document.getElementById("city");
+
+selectSight.addEventListener("change", async (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOption = e.target.options[selectedIndex].textContent;
+    // console.log(selectedOption);
+
+    try {
+        const response = await fetch("http://localhost:8000/api/sights", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(selectedOption)
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+            const res = await response.text();
+            console.log("Message: " + res);
+        }
+
+        if(response.ok) {
+            console.log("Successfull request and response");
+
+            const res = await response.json();
+            console.log(res);
+
+            const cityName = document.querySelector(".cityName");
+            const sights = document.querySelector(".sights");
+
+
+            function foodPlaces(option) {
+
+                // Nullstiller verdiene i main-recommendations-info
+                for (let i = 0; i < sights.childElementCount; i++) {
+                    cityName.textContent = "ingen matsteder ble funnet!";
+                    sights.children.item(i).textContent = "";
+                }
+
+
+                if (selectedOption === "Fredrikstad") {
+                    for (let i = 0; i < sights.childElementCount; i++) {
+                        cityName.textContent = res[0][0].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Sarpsborg") {
+                    for (let i = 0; i < sights.childElementCount; i++) {
+                        cityName.textContent = res[0][0].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Moss") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][0].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+
+                else if (selectedOption === "Halden") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][0].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+                else if (selectedOption === "Oslo") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][0].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+            }
+
+            
+            function adventure(option){
+                for (let i = 0; i < sights.childElementCount; i++) {
+                    cityName.textContent = "ingen matsteder ble funnet!";
+                    sights.children.item(i).textContent = "";
+                }
+
+
+                if (selectedOption === "Fredrikstad") {
+                    for (let i = 0; i < sights.childElementCount; i++) {
+                        cityName.textContent = res[0][1].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Sarpsborg") {
+                    for (let i = 0; i < sights.childElementCount; i++) {
+                        cityName.textContent = res[0][1].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                    }
+                }
+
+                else if (selectedOption === "Moss") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][1].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+
+                else if (selectedOption === "Halden") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][1].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+                else if (selectedOption === "Oslo") {
+                    for (let i = 0; i < res[0].length; i++) {
+                        cityName.textContent = res[0][1].city;
+                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    }
+                }
+                    
+
+            }
+                
+            
+
+            foodPlaces(selectedOption);
+
+            /*function sights() {
+
+            }*/
+
+        }
 
 // geolocation - longtitude og latitude                                                 
 const x = document.getElementById("locationDisplay");
@@ -312,6 +564,7 @@ async function success(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
+<<<<<<< HEAD
     x.innerHTML = `Latitude: ${lat}<br>Longitude: ${lon}<br><br>Henter nærmeste stopp...`;
 
     const stops = await getNearestStops(lat, lon);
@@ -351,3 +604,16 @@ function showStops(stops) {
         `;
     });
 }
+=======
+
+
+    }
+
+    catch (e) {
+        console.error(e);
+    }
+
+})
+
+
+>>>>>>> origin/develop
