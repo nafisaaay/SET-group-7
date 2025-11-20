@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="script.js" defer></script>
     <title>GetYourRoute</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -217,6 +218,8 @@
     </div>
 </main>
 <footer>
+    <p id="locationDisplay">Trykk på knappen for å hente posisjonen din.</p>
+    <button onclick="getLocation()">Hent posisjon</button>
     <section class="footer-info">
         <ul>
             <li><a href="#">Kontakt oss</a></li>
