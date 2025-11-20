@@ -524,60 +524,60 @@ selectSight.addEventListener("change", async (e) => {
 
 })
 
+const locationButton = document.getElementById("useLocationButton");
+const fromInput = document.getElementById("from");
 
-// geolocation - longtitude og latitude
-const x = document.getElementById("locationDisplay");
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(success, error);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+if (locationButton) {
+    locationButton.addEventListener("click", getLocation);
 }
 
-async function success(position) {
+async function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Nettleseren støtter ikke geolokasjon.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+}
+
+async function geoSuccess(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    x.innerHTML = `Latitude: ${lat}<br>Longitude: ${lon}<br><br>Henter nærmeste stopp...`;
+    console.log("Din posisjon:", lat, lon);
 
     const stops = await getNearestStops(lat, lon);
-    showStops(stops);
+    if (!stops || stops.length === 0) {
+        alert("Fant ingen stopp i nærheten.");
+        return;
+    }
+
+    const nearest = stops[0];
+    console.log("Nærmeste stopp:", nearest);
+
+    // legg inn i FROM-feltet
+    fromInput.value = nearest.properties.name;
+
+    // legg inn i placeInfo slik koden din krever
+    placeInfo[0].from = nearest.properties.name;
+    placeInfo[0].fromStopPlaceId = nearest.properties.id;
+
+    // fjern suggestions liste
+    removeSuggestionSelect(fromSelect);
 }
 
-function error(err) {
-    x.innerHTML = "Kunne ikke hente posisjon: " + err.message;
+function geoError(err) {
+    alert("Kunne ikke hente posisjon: " + err.message);
 }
 
-// hent nærmeste stopp fra Entur
+// Hent nærmeste stopp fra Entur
 async function getNearestStops(lat, lon) {
     const url = `https://api.entur.io/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&boundary.circle.radius=500&size=5&layers=venue`;
 
     const req = await fetch(url, {
-        headers: {
-            "ET-Client-Name": "gruppe7-kollektivtransport-app"
-        }
+        headers: { "ET-Client-Name": "gruppe7-kollektivtransport-app" }
     });
 
     const data = await req.json();
     return data.features;
-}
-
-
-// vis stopp
-function showStops(stops) {
-    if (!stops || stops.length === 0) {
-        x.innerHTML += "<br>Fant ingen stopp i nærheten.";
-        return;
-    }
-
-    x.innerHTML += "<br><b>Nærmeste stopp:</b><br><br>";
-
-    stops.forEach(stop => {
-        x.innerHTML += `
-            <b>${stop.properties.name}</b><br>
-            Avstand: ${Math.round(stop.properties.distance)} meter<br><br>
-        `;
-    });
 }

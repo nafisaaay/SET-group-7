@@ -72,7 +72,7 @@ public class App {
         SightsController sightsController = new SightsController(sqLdbConnect);
 
 
-        for (Javalin app : new Javalin[]{httpsApp, httpApp}) {
+        for (Javalin app : new Javalin[]{httpsApp}) {
             //app.post("/api/trip", context -> tripController.getTripFormData(context));
             app.get("/health", context -> context.result("ok"));
             app.post("/api/trip", context -> {
@@ -86,7 +86,7 @@ public class App {
                         });
                     });
 
-                    System.out.println(" HTTP on http://localhost:8000");
+            System.out.println(" HTTP on http://localhost:8000");
             System.out.println(" HTTPS on https://localhost:8443/api/trip");
         }
     }
