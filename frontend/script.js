@@ -145,9 +145,7 @@ function placeInfoFinder() {
 
         removeSuggestionSelect(toSelect);
     });
-
 }
-
 
 placeInfoFinder();
 console.log(placeInfo);
@@ -159,7 +157,6 @@ function showSpinner() {
 function hideSpinner() {
     document.getElementById("loading-spinner").classList.add("hidden");
 }
-
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
@@ -374,9 +371,9 @@ document.querySelector(".recommendationButtonAdventure").addEventListener('click
 
  // For toastBox
 let toastBox = document.getElementById('toastBox');
-let newRouteSaved = "<i class=\"fa-solid fa-circle-check\" style='color: #0e881b'></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
-let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #FF0000'></i>Noe gikk galt ";
-let buttonClicked = "Button clicked :)";
+let routeSaved = "<i class=\"fa-solid fa-heart\" style=\"color: #74C0FC;\"></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
+let routeRemoved = "<i class=\"fa-solid fa-heart-crack\" style=\"color: #74C0FC;\"></i>Ruten er fjernet fra dine lagrede ruter.";
+let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #74C0FC'></i>Noe gikk galt - ";
 
  function showToast(msg) {
      let toast = document.createElement('div');
@@ -385,6 +382,7 @@ let buttonClicked = "Button clicked :)";
      toast.innerHTML = msg;
      toastBox.appendChild(toast);
 
+     
      setTimeout(()=>{
      toastBox.remove();
      },6000)
@@ -396,8 +394,16 @@ let buttonClicked = "Button clicked :)";
      unfilledHeart.style.display = "none";
      filledHeart.style.display = "block";
 
-     showToast(newRouteSaved);
+     showToast(routeSaved);
  });
+ document.getElementById("full-heart").addEventListener('click', function() {
+    const unfilledHeart = document.getElementById("unfilled-heart");
+    const filledHeart = document.getElementById("full-heart");
+    unfilledHeart.style.display = "block";
+    filledHeart.style.display = "none";
+
+    showToast(routeRemoved);
+});
 
 document.querySelector('.contactSection').addEventListener('click', function (){
     const contact = document.getElementById('contact');
