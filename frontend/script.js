@@ -276,39 +276,6 @@ form.addEventListener("submit", async (e) => {
                     tripStepsMapClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
                     tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + " meter";
                     tripResultsDisplay.appendChild(tripStepsMapClone);
-
-
-                    /*
-                    const map = L.map('map').setView([data.tripPatterns[0].legs[i].steps[0].latitude, data.tripPatterns[0].legs[i].steps[0].longitude], 17);
-
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap',
-                        maxZoom: 19
-                    }).addTo(map);
-
-                    const latlngs = data.tripPatterns[0].legs[i].steps.map(s => [s.latitude, s.longitude]);
-                    const routeLine = L.polyline(latlngs, { color: 'blue', weight: 4 }).addTo(map);
-
-                    data.tripPatterns[0].legs[i].steps.forEach((s, index) => {
-                        const popupText = `
-                                <b>Steg ${index + 1}</b><br>
-                                ${s.relativeDirection === "depart" ? "Start" : s.relativeDirection === "right" ? "Ta til høyre" : "Hold til venstre"}<br>
-                                ${Math.round(s.distance)} m på ${s.streetName}<br>
-                                Retning: ${s.heading}
-                              `;
-                        L.circleMarker([s.latitude, s.longitude], {
-                            radius: 6,
-                            fillColor: index === 0 ? "green" : (index === data.tripPatterns[0].legs[i].steps.length - 1 ? "red" : "blue"),
-                            color: "#fff",
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity: 0.9
-                        }).addTo(map).bindPopup(popupText);
-                    })
-
-                    map.fitBounds(routeLine.getBounds());
-
-                     */
                 }
 
             }
@@ -367,16 +334,6 @@ function secondsToHourMin(durationInSeconds) {
 
     return hours + " t  -  " + minutes + " min";
 }
-document.querySelector(".recommendationButton").addEventListener('click', () => {
-    const mainRecommendationsSection = document.querySelector(".main-rec-section");
-    mainRecommendationsSection.style.display = "block";
-});
-/* 
-document.querySelector(".recommendationButtonAdventure").addEventListener('click', () => {
-    const mainRecommendationsSection = document.querySelector(".main-rec-section");
-    mainRecommendationsSection.style.display = "block";
-});
-*/
 
 
  // For toastBox
@@ -411,7 +368,8 @@ document.querySelector('.contactSection').addEventListener('click', function (){
     contact.style.display = 'block';
 });
 
-
+const recommendationButtonFood = document.querySelector(".recommendationButtonFood");
+const recommendationButtonAdventure = document.querySelector(".recommendationButtonAdventure");
 
 const selectSight = document.getElementById("city");
 
@@ -432,6 +390,7 @@ selectSight.addEventListener("change", async (e) => {
         if (!response.ok) {
             const res = await response.text();
             console.log("Message: " + res);
+            alert("Noe gikk galt, vennligst prøv ingen 😁!")
         }
 
         if(response.ok) {
@@ -440,119 +399,122 @@ selectSight.addEventListener("change", async (e) => {
             const res = await response.json();
             console.log(res);
 
-            const cityName = document.querySelector(".cityName");
-            const sights = document.querySelector(".sights");
+            const cityNameFood = document.querySelector(".cityNameFood");
+            const cityNameAdventure = document.querySelector(".cityNameAdventure");
+            const foodSights = document.querySelector(".food-sights");
+            const adventureSights = document.querySelector(".adventure-sights");
 
+            const mainRecommendationAdventure = document.querySelector(".main-rec-section-adventure");
+            const mainRecommendationFood = document.querySelector(".main-rec-section-food");
 
-            function foodPlaces(option) {
-
-                // Nullstiller verdiene i main-recommendations-info
-                for (let i = 0; i < sights.childElementCount; i++) {
-                    cityName.textContent = "ingen matsteder ble funnet!";
-                    sights.children.item(i).textContent = "";
-                }
-
-
-                if (selectedOption === "Fredrikstad") {
-                    for (let i = 0; i < sights.childElementCount; i++) {
-                        cityName.textContent = res[0][0].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-
-                    }
-                }
-
-                else if (selectedOption === "Sarpsborg") {
-                    for (let i = 0; i < sights.childElementCount; i++) {
-                        cityName.textContent = res[0][0].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-
-                    }
-                }
-
-                else if (selectedOption === "Moss") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][0].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
-
-                else if (selectedOption === "Halden") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][0].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
-                else if (selectedOption === "Oslo") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][0].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
+            function hideRecommendation(element) {
+                element.style.display = "none";
             }
 
-            
-            function adventure(option){
-                for (let i = 0; i < sights.childElementCount; i++) {
-                    cityName.textContent = "ingen matsteder ble funnet!";
-                    sights.children.item(i).textContent = "";
-                }
+            recommendationButtonFood.addEventListener('click', () => {
+                mainRecommendationFood.style.display = "block";
+                hideRecommendation(mainRecommendationAdventure);
 
+                function foodPlaces(option) {
+                    // Nullstiller verdiene i main-recommendations-info
+                    for (let i = 0; i < foodSights.childElementCount; i++) {
+                        cityNameFood.textContent = "ingen matsteder ble funnet!";
+                        foodSights.children.item(i).textContent = "";
+                    }
 
-                if (selectedOption === "Fredrikstad") {
-                    for (let i = 0; i < sights.childElementCount; i++) {
-                        cityName.textContent = res[0][1].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                    if (selectedOption === "Fredrikstad") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
 
+                        }
+                    }
+
+                    else if (selectedOption === "Sarpsborg") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Moss") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
+                    }
+
+                    else if (selectedOption === "Halden") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
+                    }
+                    else if (selectedOption === "Oslo") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
                     }
                 }
 
-                else if (selectedOption === "Sarpsborg") {
-                    for (let i = 0; i < sights.childElementCount; i++) {
-                        cityName.textContent = res[0][1].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                foodPlaces(selectedOption);
+            });
 
+
+
+            recommendationButtonAdventure.addEventListener('click', () => {
+                mainRecommendationAdventure.style.display = "block";
+                hideRecommendation(mainRecommendationFood);
+
+                function adventure(option){
+                    for (let i = 0; i < adventureSights.childElementCount; i++) {
+                        cityNameAdventure.textContent = "ingen attraksjoner ble funnet!";
+                        adventureSights.children.item(i).textContent = "";
+                    }
+
+
+                    if (selectedOption === "Fredrikstad") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Sarpsborg") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Moss") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
+                    }
+
+                    else if (selectedOption === "Halden") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
+                    }
+                    else if (selectedOption === "Oslo") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
                     }
                 }
 
-                else if (selectedOption === "Moss") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][1].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
-
-                else if (selectedOption === "Halden") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][1].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
-                else if (selectedOption === "Oslo") {
-                    for (let i = 0; i < res[0].length; i++) {
-                        cityName.textContent = res[0][1].city;
-                        sights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
-                    }
-                }
-                    
-
-            }
-                
-            
-
-            foodPlaces(selectedOption);
-
-            /*function sights() {
-
-            }*/
-
+                adventure(selectedOption);
+            });
         }
-
-
-
-
-
-
-
 
     }
 
