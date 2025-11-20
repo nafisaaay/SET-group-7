@@ -1,9 +1,9 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
+import no.hiof.setgroup7.repository.PoIFilter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import no.hiof.setgroup7.model.PoIFilter;
 
 import java.util.ArrayList;
 

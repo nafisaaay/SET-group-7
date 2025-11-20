@@ -1,9 +1,9 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
+import no.hiof.setgroup7.DTOs.PoiDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import no.hiof.setgroup7.DTOs.PoiDTO;
 
 public class PoiDTOTest {
 

@@ -1,13 +1,11 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
-import no.hiof.setgroup7.model.SQLConnector;
-import no.hiof.setgroup7.model.sqlProcedures;
+import no.hiof.setgroup7.repository.SQLConnector;
+import no.hiof.setgroup7.repository.SQLProcedures;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-
-import static org.mockito.Mockito.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,16 +13,18 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import static org.mockito.Mockito.*;
+
 
 public class SQLdbConnectTest {
 
     private SQLConnector sqlConnector;
-    private sqlProcedures mockSqlProcedures;
+    private SQLProcedures mocksqlProcedures;
 
     @BeforeEach
     public void setup() {
         sqlConnector = new SQLConnector();
-        mockSqlProcedures = mock(sqlProcedures.class);
+        mocksqlProcedures = mock(SQLProcedures.class);
     }
 
     @SuppressWarnings("SqlResolve")
@@ -34,7 +34,7 @@ public class SQLdbConnectTest {
         Statement mockStatement = mock(Statement.class);
         ResultSet mockResultSet = mock(ResultSet.class);
 
-        when(mockSqlProcedures.getProcedure()).thenReturn("SELECT * FROM anyTable");
+        when(mocksqlProcedures.getProcedure()).thenReturn("SELECT * FROM anyTable");
 
         when(DriverManager.getConnection(anyString(), anyString(), anyString())).thenReturn(mockConnection);
         when(mockConnection.createStatement()).thenReturn(mockStatement);
@@ -48,7 +48,7 @@ public class SQLdbConnectTest {
         when(mockResultSet.getString("city")).thenReturn("City A", "City B");
         when(mockResultSet.getString("area")).thenReturn("Area A", "Area B");
 
-        ArrayList<PoiDTO> pois = sqlConnector.getAllPois(mockSqlProcedures);
+        ArrayList<PoiDTO> pois = sqlConnector.getAllPois(mocksqlProcedures);
 
         Assertions.assertEquals(2, pois.size(), "Expecting 2 entries");
         Assertions.assertEquals("Place A", pois.get(0).getPlaceName());

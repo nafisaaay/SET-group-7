@@ -1,5 +1,5 @@
-package no.hiof.setgroup7;
-import no.hiof.setgroup7.ticketsys.model.*;
+package no.hiof.setgroup7.Unittesting;
+import no.hiof.setgroup7.ticketsys.model.Customer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

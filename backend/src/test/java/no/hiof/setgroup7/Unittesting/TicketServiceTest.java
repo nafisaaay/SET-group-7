@@ -1,4 +1,4 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.model.Leg;

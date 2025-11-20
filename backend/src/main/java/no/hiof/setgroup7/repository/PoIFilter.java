@@ -1,4 +1,4 @@
-package no.hiof.setgroup7.model;
+package no.hiof.setgroup7.repository;
 
 import no.hiof.setgroup7.DTOs.PoiDTO;
 
