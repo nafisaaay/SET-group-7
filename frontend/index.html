@@ -28,11 +28,6 @@
     </nav>
 </header>
 <main>
-    <div id="loading-spinner" class="spinner hidden">
-        <div class="loader"></div>
-        <p class="loading-text">Tenker …</p>
-    </div>
-
     <header class="main-header">
         <section class="container">
             <section class="search-form">
@@ -112,7 +107,7 @@
                                     </ul>
                                 </template>
                             </div>
-                            <button onclick="showToast(buttonClicked)">Gå videre til betaling</button>
+                            <button id="buyTicketButton">Kjøp billett</button>
                         </section>
                         <i class="fa-regular fa-heart" id="unfilled-heart"></i>
                         <i class="fa-solid fa-heart" id="full-heart"></i>
@@ -247,6 +242,17 @@
             <div class="main-recommendations-map"></div>
         </section>
     </div>
+
+    <div id="loading-spinner" class="spinner hidden">
+        <div class="loader"></div>
+        <p class="loading-text">Tenker …</p>
+    </div>
+    <section id="ticket-controller">
+        <h5>BILLETT</h5>
+        <img src="resources/qrcode.png" id="qrcode-img">
+        <img src="resources/group-img.jpg" id="group-img">
+        <button id="ticketControllerButton">Lukk billetten</button>
+    </section>
 </main>
 <footer>
     <section id="contact">

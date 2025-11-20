@@ -529,8 +529,6 @@ selectSight.addEventListener("change", async (e) => {
                     
 
             }
-                
-            
 
             foodPlaces(selectedOption);
 
@@ -540,11 +538,6 @@ selectSight.addEventListener("change", async (e) => {
 
         }
 
-
-
-
-
-
     }
 
     catch (e) {
@@ -553,4 +546,12 @@ selectSight.addEventListener("change", async (e) => {
 
 })
 
+document.getElementById("buyTicketButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "block";
+});
 
+document.getElementById("ticketControllerButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "none";
+});
