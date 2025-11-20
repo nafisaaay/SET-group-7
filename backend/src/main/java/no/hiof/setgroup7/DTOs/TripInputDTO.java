@@ -1,5 +1,6 @@
 package no.hiof.setgroup7.DTOs;
 
+
 public class TripInputDTO {
     private String tripType;
     private String person;
@@ -12,6 +13,7 @@ public class TripInputDTO {
 
     public TripInputDTO() {
     }
+
 
     public TripInputDTO(String tripType, String person, String from, String fromPlace, String to, String toPlace, String date, String time) {
         this.tripType = tripType;
