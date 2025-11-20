@@ -70,25 +70,26 @@ public class App {
         TripController tripController = new TripController(tripService, customer, ticketService);
 
         SightsController sightsController = new SightsController(sqLdbConnect);
-        
+
 
         for (Javalin app : new Javalin[]{httpsApp, httpApp}) {
-            app.post("/api/trip", context -> tripController.getTripFormData(context));
+            //app.post("/api/trip", context -> tripController.getTripFormData(context));
             app.get("/health", context -> context.result("ok"));
             app.post("/api/trip", context -> {
                         tripController.getTripFormData(context);
-            app.before(ctx -> {
-                if (!"https".equalsIgnoreCase(ctx.scheme())) {
-                    String redirect = "https://localhost:8443" + ctx.path();
-                    ctx.redirect(redirect);
-                }
-            });
+                        app.post("api/sights", context1 -> sightsController.getSight(context));
+                        app.before(ctx -> {
+                            if (!"https".equalsIgnoreCase(ctx.scheme())) {
+                                String redirect = "https://localhost:8443" + ctx.path();
+                                ctx.redirect(redirect);
+                            }
+                        });
+                    });
+
+                    System.out.println(" HTTP on http://localhost:8000");
+            System.out.println(" HTTPS on https://localhost:8443/api/trip");
         }
-
-        System.out.println(" HTTP on http://localhost:8000");
-        System.out.println(" HTTPS on https://localhost:8443/api/trip");
     }
-
 
     private static SslContextFactory.Server getSslContextFactory() {
         SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
@@ -97,11 +98,8 @@ public class App {
         sslContextFactory.setSniRequired(false);
         return sslContextFactory;
     }
+
+
 }
 
-        app.post("api/sights", context -> {
-            sightsController.getSight(context);
-        });
-    }
-}
 
