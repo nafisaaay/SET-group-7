@@ -10,15 +10,13 @@ const tripDetailsTemplate = document.querySelector(".trip-details-template");
 const tripMapTemplate = document.querySelector(".trip-kart-template");
 const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
 const tripResultsDisplay = document.querySelector(".trip-results-display");
-<<<<<<< HEAD
 
 // laster siden på https
 if (location.protocol !== "https:") {
     location.protocol = "https:";
 }
-=======
+
 const priceHeaderTemplate = document.querySelector(".price-header-template");
->>>>>>> origin/develop
 
 let placeInfo = [
     {
@@ -549,7 +547,23 @@ selectSight.addEventListener("change", async (e) => {
 
         }
 
-// geolocation - longtitude og latitude                                                 
+
+
+
+
+
+
+
+    }
+
+    catch (e) {
+        console.error(e);
+    }
+
+})
+
+
+// geolocation - longtitude og latitude
 const x = document.getElementById("locationDisplay");
 
 function getLocation() {
@@ -564,7 +578,6 @@ async function success(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-<<<<<<< HEAD
     x.innerHTML = `Latitude: ${lat}<br>Longitude: ${lon}<br><br>Henter nærmeste stopp...`;
 
     const stops = await getNearestStops(lat, lon);
@@ -588,6 +601,8 @@ async function getNearestStops(lat, lon) {
     const data = await req.json();
     return data.features;
 }
+
+
 // vis stopp
 function showStops(stops) {
     if (!stops || stops.length === 0) {
@@ -604,16 +619,3 @@ function showStops(stops) {
         `;
     });
 }
-=======
-
-
-    }
-
-    catch (e) {
-        console.error(e);
-    }
-
-})
-
-
->>>>>>> origin/develop
