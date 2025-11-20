@@ -16,17 +16,12 @@ public class SQLConnector {
     String url = "jdbc:mysql://itstud.hiof.no:3306/se25_G7";
     String username;
     String password;
+    private Connection injectedConnection;
 
-    public SQLConnector() {
-
+    public SQLConnector() {}
+    public SQLConnector(Connection connection) {
+        this.injectedConnection = connection;
     }
-
-    public SQLConnector(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
-
 
     public ArrayList<PoiDTO> getAllPois (SQLProcedures sqlProcedures){
             ArrayList<PoiDTO> poiArrayList = new ArrayList<>();
@@ -34,9 +29,15 @@ public class SQLConnector {
 
                 // trying to connect to the database based on where url points to, using username and password to verify
                 try {
-                    connection = DriverManager.getConnection(url, userData.DBConnector.getUsername(), userData.DBConnector.getPassword()); //tries to connect to the db using url, username and password
+                    Connection conn;
 
-                    System.out.println("Connected to database.");
+                    if (injectedConnection != null) {
+                        connection = injectedConnection;
+                    } else {
+                        connection = DriverManager.getConnection(url, userData.DBConnector.getUsername(), userData.DBConnector.getPassword()); //tries to connect to the db using url, username and password
+                        System.out.println("Connected to database.");
+                    }
+
 
                     // creating a statement which then is used for calling a prewritten sql query.
                     Statement statement = connection.createStatement();
@@ -70,8 +71,6 @@ public class SQLConnector {
                     }
                 }
                 return poiArrayList;
-
-
     }
 }
 

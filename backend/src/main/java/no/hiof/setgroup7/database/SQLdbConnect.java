@@ -41,11 +41,11 @@ public class SQLdbConnect {
         ArrayList<PoiDTO> HaldenFoodPoI = poiFilter(poiHalden, "café", "restaurant", "tavern");
         ArrayList<PoiDTO> OsloFoodPoI = poiFilter(poiOslo, "café", "restaurant", "tavern");
 
-        ArrayList<PoiDTO> SarpCulturePoI = poiFilter(poiSarpsborg, "museum", "art gallery", "*landmark");
-        ArrayList<PoiDTO> FredCulturePoI = poiFilter(poiFredrikstad, "museum", "art gallery", "*landmark");
-        ArrayList<PoiDTO> MossCulturePoI = poiFilter(poiMoss, "museum", "art gallery", "*landmark");
-        ArrayList<PoiDTO> HaldenCulturePoi = poiFilter(poiHalden, "museum", "art gallery", "*landmark");
-        ArrayList<PoiDTO> OsloCulturePoI = poiFilter(poiOslo, "museum", "art gallery", "*landmark");
+        ArrayList<PoiDTO> SarpCulturePoI = poiFilter(poiSarpsborg, "sightseeing spot", "art gallery", "*landmark");
+        ArrayList<PoiDTO> FredCulturePoI = poiFilter(poiFredrikstad, "museum", "historical landmark", "park");
+        ArrayList<PoiDTO> MossCulturePoI = poiFilter(poiMoss, "museum", "historical landmark", "sightseeing spot");
+        ArrayList<PoiDTO> HaldenCulturePoi = poiFilter(poiHalden, "museum", "park", "*landmark");
+        ArrayList<PoiDTO> OsloCulturePoI = poiFilter(poiOslo, "museum", "park", "sightseeing spot");
 
 
         arrayListOfFred = new ArrayList<ArrayList<PoiDTO>>();
@@ -69,6 +69,7 @@ public class SQLdbConnect {
         arrayListOfOslo.add(OsloFoodPoI);
         arrayListOfOslo.add(OsloCulturePoI);
 
+        System.out.println(SarpCulturePoI);
 
     }
 
