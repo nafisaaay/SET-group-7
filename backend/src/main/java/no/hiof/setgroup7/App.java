@@ -1,12 +1,8 @@
 package no.hiof.setgroup7;
 
 import io.javalin.Javalin;
-<<<<<<< HEAD
-=======
-
 import no.hiof.setgroup7.DTOs.PoiDTO;
 import no.hiof.setgroup7.controller.SightsController;
->>>>>>> origin/develop
 import no.hiof.setgroup7.controller.TripController;
 import no.hiof.setgroup7.database.SQLdbConnect;
 import no.hiof.setgroup7.integration.EnturClient;
@@ -73,18 +69,14 @@ public class App {
         TicketService ticketService = new TicketService();
         TripController tripController = new TripController(tripService, customer, ticketService);
 
-<<<<<<< HEAD
-=======
         SightsController sightsController = new SightsController(sqLdbConnect);
-
-        app.post("/api/trip", context -> {
-            tripController.getTripFormData(context);
-        });
->>>>>>> origin/develop
+        
 
         for (Javalin app : new Javalin[]{httpsApp, httpApp}) {
             app.post("/api/trip", context -> tripController.getTripFormData(context));
             app.get("/health", context -> context.result("ok"));
+            app.post("/api/trip", context -> {
+                        tripController.getTripFormData(context);
             app.before(ctx -> {
                 if (!"https".equalsIgnoreCase(ctx.scheme())) {
                     String redirect = "https://localhost:8443" + ctx.path();
@@ -93,7 +85,6 @@ public class App {
             });
         }
 
-<<<<<<< HEAD
         System.out.println(" HTTP on http://localhost:8000");
         System.out.println(" HTTPS on https://localhost:8443/api/trip");
     }
@@ -107,10 +98,10 @@ public class App {
         return sslContextFactory;
     }
 }
-=======
+
         app.post("api/sights", context -> {
             sightsController.getSight(context);
         });
     }
 }
->>>>>>> origin/develop
+
