@@ -77,7 +77,6 @@ public class App {
             app.get("/health", context -> context.result("ok"));
             app.post("/api/trip", context -> {
                         tripController.getTripFormData(context);
-                        app.post("api/sights", context1 -> sightsController.getSight(context));
                         app.before(ctx -> {
                             if (!"https".equalsIgnoreCase(ctx.scheme())) {
                                 String redirect = "https://localhost:8443" + ctx.path();
@@ -89,6 +88,23 @@ public class App {
             System.out.println(" HTTP on http://localhost:8000");
             System.out.println(" HTTPS on https://localhost:8443/api/trip");
         }
+
+        for (Javalin app : new Javalin[]{httpsApp}) {
+            //app.post("/api/trip", context -> tripController.getTripFormData(context));
+            app.post("/api/sights", context -> {
+                sightsController.getSight(context);
+                app.before(ctx -> {
+                    if (!"https".equalsIgnoreCase(ctx.scheme())) {
+                        String redirect = "https://localhost:8443" + ctx.path();
+                        ctx.redirect(redirect);
+                    }
+                });
+            });
+
+            System.out.println(" HTTP on http://localhost:8000");
+            System.out.println(" HTTPS on https://localhost:8443/api/sights");
+        }
+
     }
 
     private static SslContextFactory.Server getSslContextFactory() {

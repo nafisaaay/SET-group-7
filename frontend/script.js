@@ -379,7 +379,7 @@ selectSight.addEventListener("change", async (e) => {
     // console.log(selectedOption);
 
     try {
-        const response = await fetch("http://localhost:8000/api/sights", {
+        const response = await fetch("https://localhost:8443/api/sights", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(selectedOption)
