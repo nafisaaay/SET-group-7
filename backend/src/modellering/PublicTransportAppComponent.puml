@@ -1,27 +1,39 @@
 @startuml
 'https://plantuml.com/component-diagram
 
-
 package "Frontend" {
     component Frontend_UI
 }
 
 package "Backend" {
+
     component REST_API
 
-    package "Server logic" {
-        component TripService
-        component TouristSightService
+    package "Controllers" {
+        component TripController
+        component SightsController
     }
-    component Enturclient
 
+    package "Server Logic" {
+        component TripService
+        component SightsService
+    }
+
+    component EnturClient
     database MySQL
 }
 
+' --- Relasjoner
 Frontend_UI --> REST_API
-REST_API --> TripService
-TripService --> Enturclient
-Frontend_UI --> TouristSightService
-TouristSightService --> MySQL
-TripService -> MySQL
+
+REST_API --> TripController
+REST_API --> SightsController
+
+TripController --> TripService
+TripService --> EnturClient
+TripService --> MySQL
+
+SightsController --> SightsService
+SightsService --> MySQL
+
 @enduml

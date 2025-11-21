@@ -1,36 +1,51 @@
 @startuml
 'https://plantuml.com/component-diagram
 
+package "Frontend" {
+    [Frontend UI] as Frontend_UI
+}
 
-   package "Frontend" {
-       [Frontend UI] as Frontend_UI
-   }
+package "Backend" {
 
-   package "Backend" {
+    [REST API\n(Javalin Endpoints)] as REST_API
 
-       [REST API\n(TripController)] as REST_API
+    package "Server Logic" {
+        [TripController]
+        [TripService]
+        [SightsController]
+        [SQLdbConnect]
+        [DTOs]
+    }
 
-       package "Server Logic" {
-           [TripService]
-           [TouristSightService]
-           [DTOs]
-       }
+    package "Persistence" {
+        [TripRepository]
+        [SQLConnector]
+        [SQLProcedures]
+        database MySQL
+    }
 
-       package "Persistence" {
-           [TripRepository]
-           [TouristSightRepository]
-           database MySQL
-       }
+    [EnturClient]
+}
 
-       [EnturClient]
+' Relasjoner – Trip-flow
 
+Frontend_UI --> REST_API : POST /api/trip (JSON)
+REST_API --> TripController
+TripController --> TripService
+TripService --> EnturClient : GraphQL queries
+TripService --> TripRepository
+TripRepository --> MySQL
 
-   ' --- Relasjoner mellom komponentene ---
-   Frontend_UI --> REST_API : HTTP requests (JSON)
-   REST_API --> TripService
-   TripService --> EnturClient : GraphQL queries
-   TripService --> TripRepository
-   TouristSightService --> TouristSightRepository
-   TripRepository --> MySQL
-   TouristSightRepository --> MySQL
+' Relasjoner – Sights-flow
+Frontend_UI --> REST_API : POST /api/sights (JSON)
+REST_API --> SightsController : getSight(city)
+SightsController --> SQLdbConnect : getArrayListOfCity()
+SQLdbConnect --> SQLConnector : getAllPois(SQLProcedure)
+SQLConnector --> SQLProcedures : predefined SQL views
+SQLConnector --> MySQL : SELECT * FROM viewCityPois
+
+SQLConnector --> SQLdbConnect : List<PoiDTO>
+SQLdbConnect --> SightsController : [[Food],[Culture]]
+SightsController --> REST_API : JSON response
+
 @enduml
