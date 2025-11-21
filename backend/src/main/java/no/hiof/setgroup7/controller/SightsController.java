@@ -25,7 +25,8 @@ public class SightsController {
 
         try {
             if (city.equals("Velg ønsket by ... ")) {
-                System.out.println("Ingen by valgt!");
+                context.status(400).result("Ingen by valgt!");
+                return;
             }
 
             else if (city.equals("Fredrikstad")) {
@@ -56,6 +57,7 @@ public class SightsController {
         }
 
         catch (Exception e) {
+            context.status(500).result("Server error");
             throw new RuntimeException(e);
         }
 

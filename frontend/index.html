@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="script.js" defer></script>
     <title>GetYourRoute</title>
     <link rel="icon" type="image/x-icon" href="resources/logo-icon.png">
@@ -34,6 +35,7 @@
                 <section class="form-fieldset">
                     <h1>Hei, hvor vil du reise til?</h1>
                     <fieldset>
+                        <button id="useLocationButton" type="button">Bruk min posisjon</button>
                         <form id="tripForm" action="#" method="POST">
                             <section class="options">
                                 <label for="trip"></label>
@@ -160,10 +162,8 @@
                 <div class="overlay">
                     <details open>
                         <summary>MATELSKEREN</summary>
-                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                            sed.
-                        </p>
-                        <button class="recommendationButton">Les mer her</button>
+                        <p>Her er noen anbefalte spisesteder og kafeer du kan sjekke ut i denne byen</p>
+                        <button class="recommendationButtonFood">Les mer her</button>
                     </details>
                 </div>
             </article>
@@ -172,9 +172,7 @@
                 <div class="overlay">
                     <details open>
                         <summary>EVENTYREREN</summary>
-                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                            sed.
-                        </p>
+                        <p>For deg som liker spenning og å oppleve ting i naturen</p>
                         <button class="recommendationButtonAdventure">Les mer her</button>
                     </details>
                 </div>
@@ -229,14 +227,12 @@
             </article>
         </section>
     </section>
-    <div class="main-rec-section">
+    <div class="main-rec-section-food">
         <section class="main-recommendations">
-            <section class="main-recommendations-info">
-                <h4>Matsteder i <i class="cityName">Fredrikstad</i></h4>
-                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse pharetra mi mi, a tempor orci vehicula sed.
-                    Curabitur pretium, ante vitae facilisis fringilla.</p>
-                <ul class="sights">
+            <section class="main-recommendations-food">
+                <h4>Matsteder i <i class="cityNameFood">Fredrikstad</i></h4>
+                <p class="description">Her er noen anbefalte spisesteder og kafeer du kan sjekke ut i denne byen:</p>
+                <ul class="food-sights">
                     <li>Tiramisu</li>
                     <li>Espresso House</li>
                     <li>Divan Restaurant</li>
@@ -258,6 +254,22 @@
         <img src="resources/group-img.jpg" id="group-img">
         <button id="ticketControllerButton">Lukk billetten</button>
     </section>
+    <div class="main-rec-section-adventure">
+        <section class="main-recommendations">
+            <section class="main-recommendations-adventure">
+                <h4>Attraksjoner i <i class="cityNameAdventure">Fredrikstad</i></h4>
+                <p class="description">For deg som liker spenning og å oppleve ting i naturen:</p>
+                <ul class="adventure-sights">
+                    <li>Gamlebyen</li>
+                    <li>Fredrikstad stadion</li>
+                    <li>...</li>
+                    <li>...</li>
+                    <li>...</li>
+                </ul>
+            </section>
+            <div class="main-recommendations-map"></div>
+        </section>
+    </div>
 </main>
 <footer>
     <section id="contact">

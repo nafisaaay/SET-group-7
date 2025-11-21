@@ -653,7 +653,7 @@ main {
             /* fjerner scroll-baren fra andre nettsider
 }*/
 
-.main-rec-section {
+.main-rec-section-food {
     display: none;
     margin: 2rem 0 6rem 0;
     transition: .2s ease-in;
@@ -668,7 +668,66 @@ main {
         padding: 2rem;
         position: relative;
 
-        & .main-recommendations-info {
+        & .main-recommendations-food {
+            width: 600px;
+
+            & h4 {
+                font-size: 2rem;
+                color: #023456;
+            }
+
+            & i {
+                font-size: 2rem;
+            }
+
+            & p {
+                width: 500px;
+                margin: 2rem 0;
+            }
+
+            & ul {
+                list-style: circle;
+                margin: 1rem 2rem;
+
+                & li {
+                    padding: .5rem 0;
+                }
+            }
+
+            & li:hover {
+                cursor: pointer;
+            }
+        }
+
+        & .main-recommendations-map {
+            background-image: url("resources/map.png");
+            background-size: cover;
+            width: 500px;
+            height: 400px;
+            border-radius: 2rem;
+            box-shadow: 0 0 30px -5px #022d4f;
+        }
+    }
+}
+
+
+.main-rec-section-adventure {
+    display: none;
+    margin: 2rem 0 6rem 0;
+    transition: .2s ease-in;
+
+
+    & .main-recommendations {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+
+        & .main-recommendations-adventure {
             width: 600px;
 
             & h4 {
