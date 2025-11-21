@@ -29,13 +29,6 @@
     </nav>
 </header>
 <main>
-    <div id="loading-spinner" class="spinner hidden">
-        <div class="loader"></div>
-        <p class="loading-text">Tenker …</p>
-    </div>
-    <p id="locationDisplay">Min posisjon.</p>
-    <button onclick="getLocation()">Hent posisjon</button>
-
     <header class="main-header">
         <section class="container">
             <section class="search-form">
@@ -59,12 +52,17 @@
                                 </select>
                             </section>
                             <label for="from">Fra:</label><br>
-                            <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                            <div id="from-wrapper">
+                                <div id="from-container">
+                                    <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                                    <button id="useLocationButton" type="button"><i class="fa-solid fa-map-pin"></i></button>
+                                </div>
+                            </div>
                             <label for="to">Til:</label><br>
                             <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
-                            <label for="date" class="date-label">Dato:</label>
+                            <label for="date">Dato:</label>
                             <input type="date" id="date" name="date">
-                            <label for="time" class="time-label">Tid:</label>
+                            <label for="time">Tid:</label>
                             <input type="time" id="time" name="time">
                             <button type="submit" id="tripSearchButton">Finn reise</button>
                         </form>
@@ -116,7 +114,7 @@
                                     </ul>
                                 </template>
                             </div>
-                            <button onclick="showToast(buttonClicked)">Gå videre til betaling</button>
+                            <button id="buyTicketButton">Kjøp billett</button>
                         </section>
                         <i class="fa-regular fa-heart" id="unfilled-heart"></i>
                         <i class="fa-solid fa-heart" id="full-heart"></i>
@@ -246,6 +244,16 @@
         </section>
     </div>
 
+    <div id="loading-spinner" class="spinner hidden">
+        <div class="loader"></div>
+        <p class="loading-text">Tenker …</p>
+    </div>
+    <section id="ticket-controller">
+        <h5>BILLETT</h5>
+        <img src="resources/qrcode.png" id="qrcode-img">
+        <img src="resources/group-img.jpg" id="group-img">
+        <button id="ticketControllerButton">Lukk billetten</button>
+    </section>
     <div class="main-rec-section-adventure">
         <section class="main-recommendations">
             <section class="main-recommendations-adventure">
