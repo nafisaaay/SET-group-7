@@ -151,9 +151,7 @@ function placeInfoFinder() {
 
         removeSuggestionSelect(toSelect);
     });
-
 }
-
 
 placeInfoFinder();
 console.log(placeInfo);
@@ -165,7 +163,6 @@ function showSpinner() {
 function hideSpinner() {
     document.getElementById("loading-spinner").classList.add("hidden");
 }
-
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
@@ -338,16 +335,21 @@ function secondsToHourMin(durationInSeconds) {
 
  // For toastBox
 let toastBox = document.getElementById('toastBox');
-let newRouteSaved = "<i class=\"fa-solid fa-circle-check\" style='color: #0e881b'></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
-let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #FF0000'></i>Noe gikk galt ";
-let buttonClicked = "Button clicked :)";
+let routeSaved = "<i class=\"fa-solid fa-heart\" style=\"color: #74C0FC;\"></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
+let routeRemoved = "<i class=\"fa-solid fa-heart-crack\" style=\"color: #74C0FC;\"></i>Ruten er fjernet fra dine lagrede ruter.";
+let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #74C0FC'></i>Noe gikk galt - ";
 
  function showToast(msg) {
      let toast = document.createElement('div');
      toastBox.style.display = "block";
+     toastBox.scrollIntoView( {behavior: "smooth"});
+     toastBox.style.right = '1.5rem';
+
+
      toast.classList.add('toast');
      toast.innerHTML = msg;
      toastBox.appendChild(toast);
+
 
      setTimeout(()=>{
      toastBox.remove();
@@ -360,8 +362,16 @@ let buttonClicked = "Button clicked :)";
      unfilledHeart.style.display = "none";
      filledHeart.style.display = "block";
 
-     showToast(newRouteSaved);
+     showToast(routeSaved);
  });
+ document.getElementById("full-heart").addEventListener('click', function() {
+    const unfilledHeart = document.getElementById("unfilled-heart");
+    const filledHeart = document.getElementById("full-heart");
+    unfilledHeart.style.display = "block";
+    filledHeart.style.display = "none";
+
+    showToast(routeRemoved);
+});
 
 document.querySelector('.contactSection').addEventListener('click', function (){
     const contact = document.getElementById('contact');
@@ -522,7 +532,17 @@ selectSight.addEventListener("change", async (e) => {
         console.error(e);
     }
 
-})
+});
+
+document.getElementById("buyTicketButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "block";
+});
+
+document.getElementById("ticketControllerButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "none";
+});
 
 const locationButton = document.getElementById("useLocationButton");
 const fromInput = document.getElementById("from");
@@ -581,3 +601,5 @@ async function getNearestStops(lat, lon) {
     const data = await req.json();
     return data.features;
 }
+
+
