@@ -5,7 +5,8 @@ autonumber
 
 
 
-Frontend  -> Controller
+Frontend  -> REST_API: /api/trip
+REST_API -> Controller
 Controller -> TripService: getTripFormData(from, to, numTripPatterns, dateTime)
 TripService -> EnturClient: getTrip(TripRequest)
 EnturClient --> TripService: 200 OK\n+ Entur JSON response
