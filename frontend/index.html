@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="script.js" defer></script>
     <title>GetYourRoute</title>
     <link rel="icon" type="image/x-icon" href="resources/logo-icon.png">
@@ -32,6 +33,10 @@
         <div class="loader"></div>
         <p class="loading-text">Tenker …</p>
     </div>
+
+    <p id="locationDisplay">Trykk på knappen for å hente posisjonen din.</p>
+    <button onclick="getLocation()">Hent posisjon</button>
+
 
     <header class="main-header">
         <section class="container">

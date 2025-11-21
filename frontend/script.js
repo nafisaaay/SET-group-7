@@ -10,6 +10,12 @@ const tripDetailsTemplate = document.querySelector(".trip-details-template");
 const tripMapTemplate = document.querySelector(".trip-kart-template");
 const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
 const tripResultsDisplay = document.querySelector(".trip-results-display");
+
+// laster siden på https
+if (location.protocol !== "https:") {
+    location.protocol = "https:";
+}
+
 const priceHeaderTemplate = document.querySelector(".price-header-template");
 
 let placeInfo = [
@@ -180,8 +186,9 @@ form.addEventListener("submit", async (e) => {
     };
     console.log(formData);
 
+
     try {
-        const response = await fetch("http://localhost:8000/api/trip", {
+        const response = await fetch("https://localhost:8443/api/trip", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
@@ -518,3 +525,59 @@ selectSight.addEventListener("change", async (e) => {
 })
 
 
+// geolocation - longtitude og latitude
+const x = document.getElementById("locationDisplay");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+async function success(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    x.innerHTML = `Latitude: ${lat}<br>Longitude: ${lon}<br><br>Henter nærmeste stopp...`;
+
+    const stops = await getNearestStops(lat, lon);
+    showStops(stops);
+}
+
+function error(err) {
+    x.innerHTML = "Kunne ikke hente posisjon: " + err.message;
+}
+
+// hent nærmeste stopp fra Entur
+async function getNearestStops(lat, lon) {
+    const url = `https://api.entur.io/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&boundary.circle.radius=500&size=5&layers=venue`;
+
+    const req = await fetch(url, {
+        headers: {
+            "ET-Client-Name": "gruppe7-kollektivtransport-app"
+        }
+    });
+
+    const data = await req.json();
+    return data.features;
+}
+
+
+// vis stopp
+function showStops(stops) {
+    if (!stops || stops.length === 0) {
+        x.innerHTML += "<br>Fant ingen stopp i nærheten.";
+        return;
+    }
+
+    x.innerHTML += "<br><b>Nærmeste stopp:</b><br><br>";
+
+    stops.forEach(stop => {
+        x.innerHTML += `
+            <b>${stop.properties.name}</b><br>
+            Avstand: ${Math.round(stop.properties.distance)} meter<br><br>
+        `;
+    });
+}
