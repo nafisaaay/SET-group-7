@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="nb">
+<html lang="nb" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="Software Engineering - Gruppe 7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="script.js" defer></script>
     <title>GetYourRoute</title>
-
+    <link rel="icon" type="image/x-icon" href="resources/logo-icon.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -15,72 +18,118 @@
 <body>
 <header>
     <nav>
-        <a href="index.html" class="logo">LOGO</a>
+        <a href="index.html" class="logo"><img src="resources/logo.png" alt="logo-icon"></a>
         <section class="navbar">
             <ul>
-                <li><a href="#"><i class="fa-solid fa-headset"></i>KUNDESERVICE</a></li>
-                <li><a href="#"><i class="fa-solid fa-heart"></i>LAGREDE RUTER</a></li>
-                <li><a href="#"><i class="fa-regular fa-circle-user"></i>MIN SIDE</a></li>
+                <li><a href="#contact" class="contactSection"><i class="fa-solid fa-headset"></i><span class="navbar-text">KUNDESERVICE</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-heart"></i><span class="navbar-text">LAGREDE RUTER</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-circle-user"></i><span class="navbar-text">MIN SIDE</span></a></li>
             </ul>
         </section>
     </nav>
 </header>
 <main>
     <header class="main-header">
-        <div class="container">
-            <img src="resources/img-1.jpeg" alt="illustrated picture of a house in norway, with a red roof.">
+        <section class="container">
             <section class="search-form">
-                <fieldset class="form-fieldset">
-                    <legend>
-                        <h1>Hei, hvor vil du utforske?</h1>
-                    </legend>
-                    <form id="tripForm" action="#" method="POST">
-                        <section class="options">
-                            <label for="trip"></label>
-                            <select name="trip" id="trip">
-                                <option value="round_trip">Tur/Retur</option>
-                                <option value="one_way">Én vei</option>
-                                <option value="several">Flere tur</option>
-                            </select>
-                            <label for="person"></label>
-                            <select name="person" id="person">
-                                <option value="voksen">Voksen</option>
-                                <option value="barn">Barn</option>
-                                <option value="student">Student</option>
-                                <option value="honnør">Honnør</option>
-                            </select>
+                <section class="form-fieldset">
+                    <h1>Hei, hvor vil du reise til?</h1>
+                    <fieldset>
+                        <form id="tripForm" action="#" method="POST">
+                            <section class="options">
+                                <label for="trip"></label>
+                                <select name="trip" id="trip">
+                                    <option value="one_way">Én vei</option>
+                                    <option value="round_trip">Tur/Retur</option>
+                                </select>
+                                <label for="person"></label>
+                                <select name="person" id="person">
+                                    <option value="voksen">Voksen</option>
+                                    <option value="barn">Barn</option>
+                                    <option value="student">Student</option>
+                                    <option value="honnør">Honnør</option>
+                                </select>
+                            </section>
+                            <label for="from">Fra:</label><br>
+                            <div id="from-wrapper">
+                                <div id="from-container">
+                                    <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                                    <button id="useLocationButton" type="button"><i class="fa-solid fa-map-pin"></i></button>
+                                </div>
+                            </div>
+                            <label for="to">Til:</label><br>
+                            <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
+                            <label for="date">Dato:</label>
+                            <input type="date" id="date" name="date">
+                            <label for="time">Tid:</label>
+                            <input type="time" id="time" name="time">
+                            <button type="submit" id="tripSearchButton">Finn reise</button>
+                        </form>
+                    </fieldset>
+                </section>
+                <section class="trip-results">
+                    <div id="trip-results-container">
+                        <section id="trip-results-div">
+                            <div class="trip-results-display">
+                                <template class="summary-header-template">
+                                    <ul class="summary-header">
+                                        <li><i class="fa-solid fa-clock"></i></li>
+                                        <li>Total reisevarighet:</li>
+                                        <li class="duration-value"></li>
+                                    </ul>
+                                </template>
+                                <template class="price-header-template">
+                                    <ul class="price-header">
+                                        <li><i class="fa-solid fa-sack-dollar"></i></li>
+                                        <li class="client">Voksen: </li>
+                                    </ul>
+                                </template>
+                                <template class="trip-details-template">
+                                    <div class="trip-details">
+                                        <ul class="from-result result-point">
+                                            <li class="time departure-time avreisetid">--:--</li>
+                                            <li class="label">-</li>
+                                            <li class="location-name fraStedNavn">Sted navn</li>
+                                        </ul>
+                                        <div class="transport-leg-details">
+                                            <ul class="transportmode-line-info">
+                                                <li class="transport-mode transportmode">Transporttype:</li>
+                                                <li class="line-name name">Linjenavn: </li>
+                                                <li class="line-id name">Linjeid: </li>
+                                            </ul>
+                                        </div>
+                                        <ul class="to-result result-point">
+                                            <li class="time arrival-time ankomsttid">--:--</li>
+                                            <li class="label">-</li>
+                                            <li class="location-name tilStedNavn">Sted navn</li>
+                                        </ul>
+                                    </div>
+                                </template>
+                                <template class="trip-kart-template">
+                                    <ul class="steps-details-display">
+                                        <li class="location-name fraStedNavn">Sted navn</li>
+                                        <li id="walking-distance-details"><i class="fa-solid fa-person-walking"><span class="avstand"></span></i></li>
+                                        <li class="location-name tilStedNavn">Sted navn</li>
+                                    </ul>
+                                </template>
+                            </div>
+                            <button id="buyTicketButton">Kjøp billett</button>
                         </section>
-                        <label for="from">Fra:</label><br>
-                        <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
-                        <label for="to">Til:</label><br>
-                        <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
-                        <label for="date">Dato:</label>
-                        <input type="date" id="date" name="date">
-                        <label for="time">Tid:</label>
-                        <input type="time" id="time" name="time">
-                        <button type="submit" id="tripSearchButton">Fortsett</button>
-                    </form>
-                </fieldset>
-
-                <section class="display">
-                    <div class="journey-duration">Reise varigheten</div>
-                    <div class="from-result">
-                        <span class="fra">Fra: <span class="fraStedNavn">Sted navn </span></span>
-                        <span class="avreisetid">Avreisetid</span>
-                        <div><span class="transport-id">Id: </span></div>
-                        <div><span class="name">Name: </span></div>
-                        <div><span class="transportmode">Transportmode:</span></div>
-                    </div>
-                    <div class="to-result">
-                        <span class="fra">Til: <span class="tilStedNavn">Sted navn </span></span>
-                        <span class="ankomsttid">Ankomsttid</span>
+                        <i class="fa-regular fa-heart" id="unfilled-heart"></i>
+                        <i class="fa-solid fa-heart" id="full-heart"></i>
+                        <section id="map">
+                            <p>
+                                Kartet viser kun gåavstanden.<br>
+                                Dersom du ikke ser et kart her, så er det fordi det ikke er noen gå-distanser på rutene valgt.
+                            </p>
+                        </section>
                     </div>
                 </section>
             </section>
-        </div>
+        </section>
     </header>
     <section class="main-section">
-        <img src="resources/img3.jpeg" alt="" id="main-section-img">
+        <img src="resources/img3.png" alt="" id="main-section-img">
         <article>
             <h1>Utforsk Norge med buss, tog og båt!</h1>
             <p>Sed euismod vehicula neque, in aliquam felis consequat at.
@@ -92,96 +141,170 @@
             <a href="#">Les mer om turen her</a>
         </article>
     </section>
-    <div class="main-slider">
-        <h2>Usikker? Sjekk ut disse rutene:</h2>
+    <section class="main-slider">
+        <div class="main-slider-form">
+            <h2>Usikker? Sjekk ut disse attraksjonene i :</h2>
+            <form>
+                <select name="city" id="city">
+                    <option value="null">Velg ønsket by ... </option>
+                    <option value="fredrikstad">Fredrikstad</option>
+                    <option value="sarpsborg">Sarpsborg</option>
+                    <option value="oslo">Oslo</option>
+                    <option value="moss">Moss</option>
+                    <option value="halden">Halden</option>
+                </select>
+            </form>
+        </div>
         <section id="route-tips">
-            <article>
-                <img src="resources/img3.jpeg" alt="">
+            <article class="article-card">
                 <h4>MATELSKEREN</h4>
-                <details open>
-                    <summary>MATELSKEREN</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
+                <div class="overlay">
+                    <details open>
+                        <summary>MATELSKEREN</summary>
+                        <p>Her er noen anbefalte spisesteder og kafeer du kan sjekke ut i denne byen</p>
+                        <button class="recommendationButtonFood">Les mer her</button>
+                    </details>
+                </div>
             </article>
-            <article>
-                <img src="resources/img3.jpeg" alt="">
+            <article class="article-card">
                 <h4>EVENTYREREN</h4>
-                <details open>
-                    <summary>EVENTYREREN</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
+                <div class="overlay">
+                    <details open>
+                        <summary>EVENTYREREN</summary>
+                        <p>For deg som liker spenning og å oppleve ting i naturen</p>
+                        <button class="recommendationButtonAdventure">Les mer her</button>
+                    </details>
+                </div>
             </article>
-            <article>
-                <img src="resources/img3.jpeg" alt="">
+            <article class="article-card">
                 <h4>HISTORIKEREN</h4>
-                <details open>
-                    <summary>HISTORIKEREN</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
+                <div class="overlay">
+                    <details open>
+                        <summary>HISTORIKEREN</summary>
+                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                            sed.
+                        </p>
+                        <button>Les mer her</button>
+                    </details>
+                </div>
             </article>
-            <article>
-                <img src="resources/img3.jpeg" alt="">
+            <article class="article-card">
                 <h4>FAMILIETUR</h4>
-                <details open>
-                    <summary>FAMILIETUR</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
+                <div class="overlay">
+                    <details open>
+                        <summary>FAMILIETUR</summary>
+                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                            sed.
+                        </p>
+                        <button>Les mer her</button>
+                    </details>
+                </div>
             </article>
-            <article>
-                <img src="resources/img3.jpeg" alt="">
-                <h4>NATURELSKEREN</h4>
-                <details open>
-                    <summary>NATURELSKEREN</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
-            </article>
-            <article>
-                <img src="resources/img3.jpeg" alt="">
+            <article class="article-card">
                 <h4>FESTLØVEN</h4>
-                <details open>
-                    <summary>FESTLØVEN</summary>
-                    <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
-                        sed.
-                    </p>
-                    <a href="#">Les mer her</a>
-                </details>
+                <div class="overlay">
+                    <details open>
+                        <summary>FESTLØVEN</summary>
+                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                            sed.
+                        </p>
+                        <button>Les mer her</button>
+                    </details>
+                </div>
             </article>
+            <article class="article-card">
+                <h4>NATURELSKEREN</h4>
+                <div class="overlay">
+                    <details open>
+                        <summary>NATURELSKEREN</summary>
+                        <p>Donec dictum lectus in tristique molestie. Fusce at mauris nec neque vulputate lobortis nec
+                            sed.
+                        </p>
+                        <button>Les mer her</button>
+                    </details>
+                </div>
+            </article>
+        </section>
+    </section>
+    <div class="main-rec-section-food">
+        <section class="main-recommendations">
+            <section class="main-recommendations-food">
+                <h4>Matsteder i <i class="cityNameFood">Fredrikstad</i></h4>
+                <p class="description">Her er noen anbefalte spisesteder og kafeer du kan sjekke ut i denne byen:</p>
+                <ul class="food-sights">
+                    <li>Tiramisu</li>
+                    <li>Espresso House</li>
+                    <li>Divan Restaurant</li>
+                    <li>Paa Brygga</li>
+                    <li>Et annet spisested</li>
+                </ul>
+            </section>
+            <div class="main-recommendations-map"></div>
+        </section>
+    </div>
+
+    <div id="loading-spinner" class="spinner hidden">
+        <div class="loader"></div>
+        <p class="loading-text">Tenker …</p>
+    </div>
+    <section id="ticket-controller">
+        <h5>BILLETT</h5>
+        <img src="resources/qrcode.png" id="qrcode-img">
+        <img src="resources/group-img.jpg" id="group-img">
+        <button id="ticketControllerButton">Lukk billetten</button>
+    </section>
+    <div class="main-rec-section-adventure">
+        <section class="main-recommendations">
+            <section class="main-recommendations-adventure">
+                <h4>Attraksjoner i <i class="cityNameAdventure">Fredrikstad</i></h4>
+                <p class="description">For deg som liker spenning og å oppleve ting i naturen:</p>
+                <ul class="adventure-sights">
+                    <li>Gamlebyen</li>
+                    <li>Fredrikstad stadion</li>
+                    <li>...</li>
+                    <li>...</li>
+                    <li>...</li>
+                </ul>
+            </section>
+            <div class="main-recommendations-map"></div>
         </section>
     </div>
 </main>
 <footer>
-    <section class="footer-info">
-        <ul>
-            <li><a href="#">Kontakt oss</a></li>
-            <li><a href="#">Vilkår</a></li>
-            <li><a href="#">Personvern</a></li>
-            <li><a href="#">Informasjonskapsler</a></li>
-            <li><a href="#">Tilgjengelighetserklæring</a></li>
-        </ul>
+    <section id="contact">
+        <div class="contact-info">
+            <h5>Kontakt oss</h5>
+            <p>
+                Integer a ultrices mi. Curabitur at interdum nisl.
+            </p>
+            <a href=tel:004712345678><b>Tel:</b> +47 12345678</a>
+            <a href="mailto:email@example.com"><span>||</span> Send oss en e-post her</a>
+            <address>
+                <p>Høgskolen i Østfold</p>
+                B R A veien 4, 1757 Halden
+            </address>
+        </div>
     </section>
-    <section class="so-me">
-        <ul>
-            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-        </ul>
-    </section>
+    <div>
+        <section class="footer-info">
+            <ul>
+                <li><a href="#contact"><i class="fa-solid fa-circle-info"></i>Kontaktinformasjon</a></li>
+                <li><a href="#"><i class="fa-solid fa-suitcase-rolling"></i>Vilkår</a></li>
+                <li><a href="#"><i class="fa-solid fa-shield-halved"></i>Personvern</a></li>
+                <li><a href="#"><i class="fa-solid fa-cookie-bite"></i>Informasjonskapsler</a></li>
+                <li><a href="#"><i class="fa-solid fa-book-open"></i>Tilgjengelighetserklæring</a></li>
+            </ul>
+        </section>
+        <section class="so-me">
+            <ul>
+                <li id="instagram"><a href="www.instagram.com"><i class="fa-brands fa-instagram"></i><span class="so-me-text">Instagram</span></a></li>
+                <li id="facebook"><a href="www.facebook.com"><i class="fa-brands fa-facebook"></i><span class="so-me-text">Facebook</span></a></li>
+                <li id="linkedin"><a href="www.linkedin.com"><i class="fa-brands fa-linkedin"></i><span class="so-me-text">LinkedIn</span></a></li>
+            </ul>
+        </section>
+    </div>
 </footer>
+<div id="toastBox"></div>
 </body>
 
 </html>

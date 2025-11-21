@@ -1,6 +1,7 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**

@@ -5,14 +5,18 @@ const to = document.getElementById("to");
 let fromStopPlaceId;
 let toStopPlaceId;
 
-const journeyDuration = document.querySelector(".journey-duration");
-const fromPlace = document.querySelector(".fraStedNavn");
-const departureTime = document.querySelector(".avreisetid");
-const transportId = document.querySelector(".transport-id");
-const name = document.querySelector(".name");
-const transportMode = document.querySelector(".transportmode");
-const toPlace = document.querySelector(".tilStedNavn");
-const arrivalTime = document.querySelector(".ankomsttid");
+const journeyDuration = document.querySelector(".duration-value");
+const tripDetailsTemplate = document.querySelector(".trip-details-template");
+const tripMapTemplate = document.querySelector(".trip-kart-template");
+const tripSummaryHeaderTemplate = document.querySelector(".summary-header-template");
+const tripResultsDisplay = document.querySelector(".trip-results-display");
+
+// laster siden på https
+if (location.protocol !== "https:") {
+    location.protocol = "https:";
+}
+
+const priceHeaderTemplate = document.querySelector(".price-header-template");
 
 let placeInfo = [
     {
@@ -45,7 +49,7 @@ function removeSuggestionSelect(selectElement) {
 }
 
 function setUpSuggestionSelect(inputElement, selectElement) {
-    selectElement.innerHTML = "";   // Sletter tidligere valgmuligheter
+    selectElement.innerHTML = " ";   // Sletter tidligere valgmuligheter
     inputElement.parentNode.insertBefore(selectElement, inputElement.nextSibling); // Legger dropdown elementet nær den input elementet som den hører til
 
     selectElement.classList.add('suggestion-select');
@@ -89,9 +93,9 @@ function placeInfoFinder() {
                 removeSuggestionSelect(fromSelect)
             }
 
-            }, 300)
+        }, 300)
 
-        })
+    })
 
     fromSelect.addEventListener("change", (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -130,7 +134,7 @@ function placeInfoFinder() {
                 }
 
             } catch (e) {
-                console.error("Error ved henting av to suggestions: " + e);
+                console.error("Error ved uthenting av to suggestions: " + e);
                 removeSuggestionSelect(toSelect);
             }
         }, 300);
@@ -147,16 +151,24 @@ function placeInfoFinder() {
 
         removeSuggestionSelect(toSelect);
     });
-
 }
-
 
 placeInfoFinder();
 console.log(placeInfo);
 
+function showSpinner() {
+    document.getElementById("loading-spinner").classList.remove("hidden");
+}
+
+function hideSpinner() {
+    document.getElementById("loading-spinner").classList.add("hidden");
+}
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault(); // hindrer at siden lastes på nytt
+    tripResultsDisplay.innerHTML = " ";
+
+    showSpinner();
 
     console.log("Skjemaet ble sendt!");
     const formData = {
@@ -170,12 +182,10 @@ form.addEventListener("submit", async (e) => {
         time: document.getElementById("time").value
     };
     console.log(formData);
-    const formFieldset = document.querySelector(".form-fieldset");
-    formFieldset.style.marginLeft = "-200px";
 
 
     try {
-        const response = await fetch("http://localhost:5000/api/trip", {
+        const response = await fetch("https://localhost:8443/api/trip", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
@@ -184,23 +194,132 @@ form.addEventListener("submit", async (e) => {
         if (!response.ok) {
             const text = await response.text();
             console.log("Error: " + text);
+
+            showToast(errorMsg + "\n" + text)
         }
 
         if (response.ok) {
             console.log("Vellykket request og response");
+            const formFieldset = document.querySelector(".form-fieldset");
+            const mapWalking = document.getElementById("map");
+            const tripResults = document.querySelector(".trip-results")
+
+            formFieldset.style.display = "none"; // fjerner fra skjermen når responsdelen dukker opp
+            tripResults.style.display = "block";
+            mapWalking.style.display = "block";
+
+
         }
 
-        // Lagrer responsen fra backend som json format for å enklere jobbe med det
+        // Lagrer responsen fra backend som json-format slik at det er enklere å jobbe med det
         const data = await response.json();
-        console.log(data);
+        console.log(data.customerPrice);
+        console.log(data.tripPatterns);
+
+        //console.log(data.tripPatterns[0].legs[1].steps.length);
+
+        if((data.tripPatterns.length) > 0) {
+            const tripSummaryHeaderClone = tripSummaryHeaderTemplate.content.cloneNode(true);
+            const duration = secondsToHourMin(data.tripPatterns[0].duration);
+            tripSummaryHeaderClone.querySelector(".duration-value").textContent = duration;
+            tripResultsDisplay.appendChild(tripSummaryHeaderClone);
+
+            const priceHeaderClone = priceHeaderTemplate.content.cloneNode(true);
+            // priceHeaderClone.querySelector(".price").textContent = data.customerPrice;
+            priceHeaderClone.querySelector(".client").textContent = `${formData.person.charAt(0).toUpperCase() + formData.person.slice(1)}: ${Math.ceil(data.customerPrice)} kr`;
+
+            tripResultsDisplay.appendChild(priceHeaderClone);
+
+            for (let i = 0; i < data.tripPatterns[0].legs.length; i++) {
+                const tripDetailsClone = tripDetailsTemplate.content.cloneNode(true);
+                const tripStepsMapClone = tripMapTemplate.content.cloneNode(true);
+                const departureTime = new Date(data.tripPatterns[0].legs[i].expectedStartTime);
+                const arrivalTime = new Date(data.tripPatterns[0].legs[i].expectedEndTime);
+
+                if ((data.tripPatterns[0].legs[i].steps.length) === 0) {
+                    tripDetailsClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
+                    //tripDetailsClone.querySelector(".departure-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedStartTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedStartTime).getMinutes()).padStart(2,0);
+                    tripDetailsClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
+                    //tripDetailsClone.querySelector(".arrival-time").textContent = new Date(data.tripPatterns[0].legs[i].expectedEndTime).getHours() + ":" + String(new Date(data.tripPatterns[0].legs[i].expectedEndTime).getMinutes()).padStart(2,0);
+                    tripDetailsClone.querySelector(".departure-time").textContent =
+                        String(departureTime.getHours()).padStart(2, "0") + ":" +
+                        String(departureTime.getMinutes()).padStart(2, "0");
+                    tripDetailsClone.querySelector(".arrival-time").textContent =
+                        String(arrivalTime.getHours()).padStart(2, "0") + ":" +
+                        String(arrivalTime.getMinutes()).padStart(2, "0");
+
+
+
+                    if ((data.tripPatterns[0].legs[i].line.transportMode) === "rail") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Tog";
+                    }
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "bus") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Buss";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "tram") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Trikk";}
+                    else if ((data.tripPatterns[0].legs[i].line.transportMode) === "air") {
+                        tripDetailsClone.querySelector(".transportmode").textContent = "Fly";
+                    } else {
+                        tripDetailsClone.querySelector(".transportmode").textContent = data.tripPatterns[0].legs[i].line.transportMode;
+                    }
+
+                    tripDetailsClone.querySelector(".line-id").textContent = "(" + data.tripPatterns[0].legs[i].line.id + ")";
+                    tripDetailsClone.querySelector(".line-name").textContent = data.tripPatterns[0].legs[i].line.name;
+                    tripResultsDisplay.appendChild(tripDetailsClone);
+                }
+
+                else {
+                    tripStepsMapClone.querySelector(".fraStedNavn").textContent = data.tripPatterns[0].legs[i].fromPlace.name;
+                    tripStepsMapClone.querySelector(".tilStedNavn").textContent = data.tripPatterns[0].legs[i].toPlace.name;
+                    tripStepsMapClone.querySelector(".avstand").textContent = "Gå i " + Math.floor(data.tripPatterns[0].legs[i].distance) + " meter";
+                    tripResultsDisplay.appendChild(tripStepsMapClone);
+                }
+
+            }
+
+            const startPLat = data.tripPatterns[0].legs[0].fromPlace.latitude;
+            const startPlon = data.tripPatterns[0].legs[0].fromPlace.longitude;
+
+            let arrLength = data.tripPatterns[0].legs.length;
+
+            const endPLat = data.tripPatterns[0].legs[arrLength - 1].toPlace.latitude;
+            const endPLon = data.tripPatterns[0].legs[arrLength - 1].toPlace.longitude;
+
+            let routeCoordinates = [[startPLat, startPlon], [endPLat, endPLon]];
+
+            const map = L.map('map').setView([startPLat, startPlon], 17);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                // Max zoom level available for these tiles
+                maxZoom: 19,
+                // Attribution is required by most tile providers
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([startPLat, startPlon])
+                .addTo(map).bindPopup('Turens start posisjon')
+                .openPopup();
+            L.marker([endPLat, endPLon])
+                .addTo(map).bindPopup('Turens slutt posisjon')
+                .openPopup();
+
+            const polyline = L.polyline(routeCoordinates, {
+                color: 'blue',
+                weight: 5,
+                opacity: 0.7
+            });
+
+            polyline.addTo(map);
+            map.fitBounds(polyline.getBounds());
+
+            hideSpinner();
+        }
 
 
     } catch (error) {
         console.error("Kunne ikke få data fra backend!");
+        console.error(error);
     }
-
-
-
 });
 
 
@@ -210,7 +329,277 @@ function secondsToHourMin(durationInSeconds) {
     const remainingSecondsAfterHours = (seconds % 3600);
     const minutes = Math.floor(remainingSecondsAfterHours / 60);
 
-    return hours + " time " + minutes + " min";
+    return hours + " t  -  " + minutes + " min";
+}
+
+
+ // For toastBox
+let toastBox = document.getElementById('toastBox');
+let routeSaved = "<i class=\"fa-solid fa-heart\" style=\"color: #74C0FC;\"></i>Ny rute lagret!\nSe dine Favoritter øverst på siden ( ♥ )";
+let routeRemoved = "<i class=\"fa-solid fa-heart-crack\" style=\"color: #74C0FC;\"></i>Ruten er fjernet fra dine lagrede ruter.";
+let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #74C0FC'></i>Noe gikk galt - ";
+
+ function showToast(msg) {
+     let toast = document.createElement('div');
+     toastBox.style.display = "block";
+     toastBox.scrollIntoView( {behavior: "smooth"});
+     toastBox.style.right = '1.5rem';
+
+
+     toast.classList.add('toast');
+     toast.innerHTML = msg;
+     toastBox.appendChild(toast);
+
+
+     setTimeout(()=>{
+     toastBox.remove();
+     },6000)
+ }
+
+ document.getElementById("unfilled-heart").addEventListener('click', function() {
+     const unfilledHeart = document.getElementById("unfilled-heart");
+     const filledHeart = document.getElementById("full-heart");
+     unfilledHeart.style.display = "none";
+     filledHeart.style.display = "block";
+
+     showToast(routeSaved);
+ });
+ document.getElementById("full-heart").addEventListener('click', function() {
+    const unfilledHeart = document.getElementById("unfilled-heart");
+    const filledHeart = document.getElementById("full-heart");
+    unfilledHeart.style.display = "block";
+    filledHeart.style.display = "none";
+
+    showToast(routeRemoved);
+});
+
+document.querySelector('.contactSection').addEventListener('click', function (){
+    const contact = document.getElementById('contact');
+    contact.style.display = 'block';
+});
+
+const recommendationButtonFood = document.querySelector(".recommendationButtonFood");
+const recommendationButtonAdventure = document.querySelector(".recommendationButtonAdventure");
+
+const selectSight = document.getElementById("city");
+
+selectSight.addEventListener("change", async (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOption = e.target.options[selectedIndex].textContent;
+    // console.log(selectedOption);
+
+    try {
+        const response = await fetch("https://localhost:8443/api/sights", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(selectedOption)
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+            const res = await response.text();
+            console.log("Message: " + res);
+            alert("Noe gikk galt, vennligst prøv ingen 😁!")
+        }
+
+        if(response.ok) {
+            console.log("Successfull request and response");
+
+            const res = await response.json();
+            console.log(res);
+
+            const cityNameFood = document.querySelector(".cityNameFood");
+            const cityNameAdventure = document.querySelector(".cityNameAdventure");
+            const foodSights = document.querySelector(".food-sights");
+            const adventureSights = document.querySelector(".adventure-sights");
+
+            const mainRecommendationAdventure = document.querySelector(".main-rec-section-adventure");
+            const mainRecommendationFood = document.querySelector(".main-rec-section-food");
+
+            function hideRecommendation(element) {
+                element.style.display = "none";
+            }
+
+            recommendationButtonFood.addEventListener('click', () => {
+                mainRecommendationFood.style.display = "block";
+                hideRecommendation(mainRecommendationAdventure);
+
+                function foodPlaces(option) {
+                    // Nullstiller verdiene i main-recommendations-info
+                    for (let i = 0; i < foodSights.childElementCount; i++) {
+                        cityNameFood.textContent = "ingen matsteder ble funnet!";
+                        foodSights.children.item(i).textContent = "";
+                    }
+
+                    if (selectedOption === "Fredrikstad") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Sarpsborg") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Moss") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
+                    }
+
+                    else if (selectedOption === "Halden") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
+                    }
+                    else if (selectedOption === "Oslo") {
+                        for (let i = 0; i < res[0].length; i++) {
+                            cityNameFood.textContent = res[0][0].city;
+                            foodSights.children.item(i).textContent = res[0][i].placeName + " - " + res[0][i].placeType;
+                        }
+                    }
+                }
+
+                foodPlaces(selectedOption);
+            });
+
+
+
+            recommendationButtonAdventure.addEventListener('click', () => {
+                mainRecommendationAdventure.style.display = "block";
+                hideRecommendation(mainRecommendationFood);
+
+                function adventure(option){
+                    for (let i = 0; i < adventureSights.childElementCount; i++) {
+                        cityNameAdventure.textContent = "ingen attraksjoner ble funnet!";
+                        adventureSights.children.item(i).textContent = "";
+                    }
+
+
+                    if (selectedOption === "Fredrikstad") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Sarpsborg") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+
+                        }
+                    }
+
+                    else if (selectedOption === "Moss") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
+                    }
+
+                    else if (selectedOption === "Halden") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
+                    }
+                    else if (selectedOption === "Oslo") {
+                        for (let i = 0; i < res[1].length; i++) {
+                            cityNameAdventure.textContent = res[1][1].city;
+                            adventureSights.children.item(i).textContent = res[1][i].placeName + " - " + res[1][i].placeType;
+                        }
+                    }
+                }
+
+                adventure(selectedOption);
+            });
+        }
+
+    }
+
+    catch (e) {
+        console.error(e);
+    }
+
+});
+
+document.getElementById("buyTicketButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "block";
+});
+
+document.getElementById("ticketControllerButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "none";
+});
+
+const locationButton = document.getElementById("useLocationButton");
+const fromInput = document.getElementById("from");
+
+if (locationButton) {
+    locationButton.addEventListener("click", getLocation);
+}
+
+async function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Nettleseren støtter ikke geolokasjon.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+}
+
+async function geoSuccess(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    console.log("Din posisjon:", lat, lon);
+
+    const stops = await getNearestStops(lat, lon);
+    if (!stops || stops.length === 0) {
+        alert("Fant ingen stopp i nærheten.");
+        return;
+    }
+
+    const nearest = stops[0];
+    console.log("Nærmeste stopp:", nearest);
+
+    // legg inn i FROM-feltet
+    fromInput.value = nearest.properties.name;
+
+    // legg inn i placeInfo slik koden din krever
+    placeInfo[0].from = nearest.properties.name;
+    placeInfo[0].fromStopPlaceId = nearest.properties.id;
+
+    // fjern suggestions liste
+    removeSuggestionSelect(fromSelect);
+}
+
+function geoError(err) {
+    alert("Kunne ikke hente posisjon: " + err.message);
+}
+
+// Hent nærmeste stopp fra Entur
+async function getNearestStops(lat, lon) {
+    const url = `https://api.entur.io/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&boundary.circle.radius=500&size=5&layers=venue`;
+
+    const req = await fetch(url, {
+        headers: { "ET-Client-Name": "gruppe7-kollektivtransport-app" }
+    });
+
+    const data = await req.json();
+    return data.features;
 }
 
 

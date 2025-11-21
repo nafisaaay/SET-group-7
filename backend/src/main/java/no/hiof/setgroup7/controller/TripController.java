@@ -6,8 +6,9 @@ import no.hiof.setgroup7.DTOs.TripInputDTO;
 import no.hiof.setgroup7.DTOs.TripResponse;
 import no.hiof.setgroup7.model.From;
 import no.hiof.setgroup7.model.To;
-import no.hiof.setgroup7.repository.TripRepository;
 import no.hiof.setgroup7.service.TripService;
+import no.hiof.setgroup7.ticketsys.model.Customer;
+import no.hiof.setgroup7.ticketsys.service.TicketService;
 
 
 import java.time.LocalDate;
@@ -18,19 +19,17 @@ import java.time.ZonedDateTime;
 
 
 public class TripController {
-    TripRepository tripRepository;
-    TripRequest tripRequest;
     TripInputDTO tripInputDTO;
-    TripValidator tripValidator = new TripValidator();
+    public TripValidator tripValidator = new TripValidator();
     TripService tripService;
     TripResponse tripResponse;
+    Customer customer;
+    TicketService ticketService;
 
-    public TripController(TripRepository tripRepository) {
-        this.tripRepository = tripRepository;
-    }
-
-    public TripController(TripService tripService) {
+    public TripController(TripService tripService, Customer customer, TicketService ticketService) {
         this.tripService = tripService;
+        this.customer = customer;
+        this.ticketService = ticketService;
     }
 
     /*
@@ -43,7 +42,7 @@ public class TripController {
         if (!tripValidator.isValid(context)) {
             System.out.println("Tomme input-felter!");
             context.status(400)
-                    .result("vennligst fyll ut skjemaen først: (eg. from, to, date osv...)");
+                    .result("Vennligst fyll ut skjemaet først: (eg. from, to, date osv...)");
             return;
         }
 
@@ -52,6 +51,8 @@ public class TripController {
                 tripInputDTO = context.bodyAsClass(TripInputDTO.class);
                 From fromObj = new From(tripInputDTO.getFromPlace(), tripInputDTO.getFrom());
                 To toObj = new To(tripInputDTO.getToPlace(), tripInputDTO.getTo());
+                customer.setAgeGroup(tripInputDTO.getPerson());
+                ticketService.setCustomer(customer);
 
                 LocalDate localDate = LocalDate.parse(tripInputDTO.getDate());
                 ZoneId zoneId = ZoneId.of("Europe/Oslo");
@@ -85,20 +86,22 @@ public class TripController {
 
             else {
                 context.status(200);
+
+                ticketService.setTripResponse(tripResponse);
+                System.out.println(ticketService.calculateDistance());
+                System.out.println(ticketService.calculateDistancePrice());
+                System.out.println(tripResponse.toString());
                 context.json(tripResponse);
+
                 return;
             }
         } catch (NullPointerException npe) {
             System.out.println(npe);
-            context.status(500).result("Uventet feil på serveren");
         }
-
-
     }
 
     public void getResponse(TripResponse tripResponse) {
         this.tripResponse = tripResponse;
     }
-
 
 }

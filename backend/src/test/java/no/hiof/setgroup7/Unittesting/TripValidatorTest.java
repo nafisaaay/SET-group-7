@@ -1,4 +1,4 @@
-package no.hiof.setgroup7;
+package no.hiof.setgroup7.Unittesting;
 
 import io.javalin.http.Context;
 import no.hiof.setgroup7.DTOs.TripInputDTO;
@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.Date;
 
 public class TripValidatorTest {
     private final TripValidator underTest = new TripValidator();

@@ -4,17 +4,18 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/../kollektivtransport-webapp/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/backend/pom.xml" />
-        <option value="$USER_HOME$/OneDrive - Østfold University College/Høst semesteret 2025/SWE And Testing/Software Engineering og testing - Gruppe 7/GITHUB repo/SET-group-7/backend/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$USER_HOME$/OneDrive - Østfold University College/Høst semesteret 2025/SWE And Testing/Software Engineering og testing - Gruppe 7/GITHUB repo/SET-group-7/backend/pom.xml" />
+        <option value="$PROJECT_DIR$/../kollektivtransport-webapp/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_24" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="ms-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
