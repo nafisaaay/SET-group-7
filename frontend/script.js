@@ -378,11 +378,15 @@ let errorMsg = "<i class=\"fa-solid fa-circle-xmark\" style='color: #74C0FC'></i
  function showToast(msg) {
      let toast = document.createElement('div');
      toastBox.style.display = "block";
+     toastBox.scrollIntoView( {behavior: "smooth"});
+     toastBox.style.right = '1.5rem';
+
+
      toast.classList.add('toast');
      toast.innerHTML = msg;
      toastBox.appendChild(toast);
 
-     
+
      setTimeout(()=>{
      toastBox.remove();
      },6000)

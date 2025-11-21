@@ -50,12 +50,17 @@
                                 </select>
                             </section>
                             <label for="from">Fra:</label><br>
-                            <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                            <div id="from-wrapper">
+                                <div id="from-container">
+                                    <input type="text" id="from" name="from" placeholder="Hvor reiser du fra?">
+                                    <button id="useLocationButton" type="button"><i class="fa-solid fa-map-pin"></i></button>
+                                </div>
+                            </div>
                             <label for="to">Til:</label><br>
                             <input type="text" id="to" name="to" placeholder="Hvor reiser du til?">
-                            <label for="date" class="date-label">Dato:</label>
+                            <label for="date">Dato:</label>
                             <input type="date" id="date" name="date">
-                            <label for="time" class="time-label">Tid:</label>
+                            <label for="time">Tid:</label>
                             <input type="time" id="time" name="time">
                             <button type="submit" id="tripSearchButton">Finn reise</button>
                         </form>
