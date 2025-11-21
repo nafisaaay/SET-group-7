@@ -532,11 +532,44 @@ selectSight.addEventListener("change", async (e) => {
         console.error(e);
     }
 
-})
+});
+
+document.getElementById("buyTicketButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "block";
+});
+
+document.getElementById("ticketControllerButton").addEventListener('click', () => {
+    const ticketControllerSection = document.getElementById("ticket-controller");
+    ticketControllerSection.style.display = "none";
+});
 
 const locationButton = document.getElementById("useLocationButton");
 const fromInput = document.getElementById("from");
 
+if (locationButton) {
+    locationButton.addEventListener("click", getLocation);
+}
+
+async function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Nettleseren støtter ikke geolokasjon.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+}
+
+async function geoSuccess(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    console.log("Din posisjon:", lat, lon);
+
+    const stops = await getNearestStops(lat, lon);
+    if (!stops || stops.length === 0) {
+        alert("Fant ingen stopp i nærheten.");
+        return;
     }
 
     const nearest = stops[0];
@@ -549,12 +582,24 @@ const fromInput = document.getElementById("from");
     placeInfo[0].from = nearest.properties.name;
     placeInfo[0].fromStopPlaceId = nearest.properties.id;
 
-document.getElementById("buyTicketButton").addEventListener('click', () => {
-    const ticketControllerSection = document.getElementById("ticket-controller");
-    ticketControllerSection.style.display = "block";
-});
+    // fjern suggestions liste
+    removeSuggestionSelect(fromSelect);
+}
 
-document.getElementById("ticketControllerButton").addEventListener('click', () => {
-    const ticketControllerSection = document.getElementById("ticket-controller");
-    ticketControllerSection.style.display = "none";
-});
+function geoError(err) {
+    alert("Kunne ikke hente posisjon: " + err.message);
+}
+
+// Hent nærmeste stopp fra Entur
+async function getNearestStops(lat, lon) {
+    const url = `https://api.entur.io/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&boundary.circle.radius=500&size=5&layers=venue`;
+
+    const req = await fetch(url, {
+        headers: { "ET-Client-Name": "gruppe7-kollektivtransport-app" }
+    });
+
+    const data = await req.json();
+    return data.features;
+}
+
+
