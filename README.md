@@ -11,6 +11,7 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 
 - **Valg av billettype:** En dropdown for Én vei eller Tur/Retur.
 - **Valg av reisende:** En dropdown for Student, Voksen, Barn eller honnør.
+- **Nåværende posisjon:** En knapp på fra feltet hvor brukeren kan velge sin nåværende posisjon som "fra punkt"
 - **Fra / Til:** To input-felt med autoutfylling (autocomplete) koblet til Entur sitt geocoder-API.
 - **Dato og tid:** Dato- og tidsvelgere for avreisetidspunkt.
 - **Fortsett-knapp:** Sender inn søket og henter ruter fra backend.
@@ -22,27 +23,40 @@ Brukeren møtes av en enkel og moderne forside med et illustrert bakgrunnsbilde 
 
 | 🏁 Før utfylling              | Tomt skjema med placeholder-tekst “Hvor reiser du fra?” og “Hvor reiser du til?” og dropdowns for billettype og reisende. |
 |------------------------------|------------------------------------------------------------------------------------------------------|
-| ✍️ Bruker skriver inn “Oslo” | Dynamisk liste med forslag som “Oslo lufthavn, Ullensaker”, “Oslo S, Oslo”, “Oslo bussterminal, Oslo” vises under inputfeltet. *(Se bilde 1)* |
-| ⛳ Bruker fyller ut “Til”     | Autocomplete fungerer også for destinasjon, f.eks. “Remmen”, og forslag som “Remmen Høgskolen, Halden” vises. *(Se bilde 2)* |
+| ✍️ Bruker kan enten skriver inn ønkset startpunkt, eller bruke sin egen posisjon som start. | Dynamisk liste med forslag som “Oslo lufthavn, Ullensaker”, “Oslo S, Oslo”, “Oslo bussterminal, Oslo” vises under inputfeltet. Dersom brukeren ønsker å velge start punkt. Ved valg av posisjon, dukker det opp et godkjenningsfelt slik at brukerens nåværende posisjon kan brukes *(Se bilde 2)*. |
+| ⛳ Bruker fyller ut “Til”     | Autocomplete fungerer også for destinasjon, f.eks. “Remmen”, og forslag som “Remmen Høgskolen, Halden” vises. |
 | 📅 Bruker velger dato/tid     | Feltene fylles automatisk i formatet dd.mm.åååå og hh:mm. *(Se bilde 3)* |
-| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd <br>- totalpris for hele turen <br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- gangavstand  <br>- *(se bilde 3)*
-| 💰 Trykk på "gå videre til betaling" | En bilett vises med qr kode slik at billetten kan valideres, og bilde endres daglig *(se bilde 4)*
+| ✅ Trykk på “Fortsett”        | En reiserute vises med:<br>- total varighet<br>- avgang/ankomst for hvert ledd <br>- totalpris for hele turen <br>- linjenavn (f.eks. VYG:Line:RE20)<br>- transporttype (tog, buss)<br>- gangavstand  <br>- *(se bilde 4)*
+| 💰 Trykk på "gå videre til betaling" | En bilett vises med qr kode slik at billetten kan valideres, og bilde endres daglig *(se bilde 5)*
+|🔎 Bruker velger en av 5 byer | Et felt for å velge hvilken by man ønsker å utforske *(se bilde 6)*
+|🎯 Brukeren velger mellom de to første kategoriene | En liste av interessepunkter basert på brukerens valgte kategori vises på skjermen *(se bilde 7)*
 
 
 ---
 
 **Skjermbilder:**
 
+
 Start side
-<img width="1505" height="827" alt="G7-webb start" src="https://github.com/user-attachments/assets/80c44f4c-2d43-4abd-a651-83a2fe7313a5" />
+<img width="1506" height="813" alt="hovedside" src="https://github.com/user-attachments/assets/94200844-b7d5-4684-94ee-13e2432e4940" />
 
-Lagt inn søk 
-<img width="1186" height="676" alt="G7-webb sok" src="https://github.com/user-attachments/assets/0b3cf00f-a97b-4e07-98d0-2da1a256ede7" />
+Godkjenningsfelt hvis brukeren velger å bruke sin egen posisjon. 
+<img width="1512" height="817" alt="posisjon" src="https://github.com/user-attachments/assets/cc69be0a-20cf-4fdc-bb94-754eda555762" />
 
-Søkefeltet blir byttet ut med brukrens valgte rute 
-<img width="1469" height="842" alt="G7-webb rute" src="https://github.com/user-attachments/assets/84b90ee9-933d-45ba-a32b-3a5d183c1205" />
+Ferdig lagt inn søk 
+<img width="1143" height="606" alt="lagt inn rute" src="https://github.com/user-attachments/assets/d8be6759-c776-4642-8834-63737f0b0b4a" />
 
-Betaling
+Felt som viser informasjon om ruten og et tilsvarende kart
+<img width="1256" height="734" alt="ferdig rute" src="https://github.com/user-attachments/assets/3c6e7342-6cd0-4976-a768-2088f1261960" />
+
+Billett
+<img width="1324" height="796" alt="Billett" src="https://github.com/user-attachments/assets/d69c57e3-c3fc-43d7-a131-d4a2c439b17f" />
+
+Valg av by
+<img width="1360" height="668" alt="tips til attraksjoner" src="https://github.com/user-attachments/assets/39b32d26-752e-4803-aa10-0a0f230346a7" />
+
+Tips til interessepunkter basert på valgt kategori 
+<img width="1237" height="819" alt="valgt kategori" src="https://github.com/user-attachments/assets/a1574756-0d07-4b41-894b-4813187da4a4" />
 
 
 
@@ -57,4 +71,4 @@ Betaling
 - **Backend:** Java + Javalin framework  
 - **API:** Entur GraphQL Trip & Geocoder API  
 - **Byggverktøy:** Maven  
-- **Database (kommende):** MySQL  
+- **Database :** MySQL  
